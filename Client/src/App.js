@@ -3,7 +3,11 @@ import logo from './logo.svg';
 // import 'styles.scss';
 
 function App() {
-  fetch('http://10.0.75.1:443/config').then(response => response.json()).then(json => {console.log("cuck", json)})
+  fetch('http://10.0.75.1:443/config')
+    .then(response => response.json())
+    .then(json => {
+      console.log('cuck', json);
+    });
 
   return (
     <div className="App">
