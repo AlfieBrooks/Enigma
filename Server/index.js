@@ -32,17 +32,41 @@ app.post('/signup', (req, res) => {
 })
 
 app.get('/account', (req, res) => {
-  if (req.headers && req.headers.email && req.headers.password) {
-    const { email, password } = req.headers
+  if (req.headers && (req.headers.email && req.headers.password || req.headers.token)) {
+    const { email, password, token } = req.headers
     const AccountDetails = mongoose.model('enigmatest', accountDetails);
-    return AccountDetails.findOne({_id: email, password}, (err, acc) => {
-      if (err){
-        return res.status(400).json({ error: `Something went wrong ${err}`  })
+
+    if (token) {
+      return AccountDetails.findOne({ token }, (err, acc) => {
+
+        if (acc) {
+          const currentTime = Math.round(new Date().getTime() / 1000);
+          if (currentTime < acc.token.split('/').pop()){
+            return res.status(200).json({authToken: acc})
+          } else {
+            const timeStampTomorrow = currentTime + (24 * 3600);
+            acc.token = `${Math.random().toString(36).substring(2, 15)}/${timeStampTomorrow}`;
+            acc.save(() => { "saved New Token" })
+            return res.status(200).json({authToken: acc})
+          }
+        } else {
+          return res.status(400).json({ error: 'No account found' })
+        }
+      })
+    }
+
+    return AccountDetails.findOne({ _id: email, password }, (err, acc) => {
+      if (err) {
+        return res.status(400).json({ error: `Something went wrong ${err}` })
       }
       if (!acc) {
-        return res.status(401).json({ error: `Invalid Credentials ${email}, ${password}`  })
+        return res.status(401).json({ error: `Invalid Credentials ${email}, ${password}` })
       }
-      return res.status(200).end(`Login Sucessful ${acc._id}`)
+      const timeStamp = Math.round(new Date().getTime() / 1000);
+      const timeStampTomorrow = timeStamp + (24 * 3600);
+      acc.token = `${Math.random().toString(36).substring(2, 15)}/${timeStampTomorrow}`;
+      acc.save(() => { "saved Token" })
+      return res.status(200).json({authToken: acc.token})
     })
   }
   return res.status(400).json({ error: 'Invalid Headers' })

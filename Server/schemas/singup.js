@@ -6,7 +6,7 @@ export const accountDetails = mongoose.Schema({
     membership: Number,
     membershipExpiry: Number,
     admin: Boolean,
-    authToken: String,
+    token: String,
     //Maybe this should move
     availability: Date,
     dayRate: Number,
