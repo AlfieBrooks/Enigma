@@ -2,8 +2,6 @@ const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 
-const isDevelopment = process.env.NODE_ENV === 'development'
-
 module.exports = {
   entry: './src/index.js',
   output: {
@@ -74,8 +72,7 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: isDevelopment ? '[name].css' : '[name].[hash].css',
-      chunkFilename: isDevelopment ? '[id].css' : '[id].[hash].css'
+      filename: 'bundle.css',
     }),
     new HtmlWebPackPlugin({
       template: "./src/index.html",
