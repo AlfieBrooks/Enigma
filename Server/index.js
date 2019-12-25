@@ -2,6 +2,7 @@ import cors from 'cors';
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
+import { accountDetails } from './schemas/singup'
 
 const app = express();
 const port = 443
@@ -12,39 +13,51 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.get('/config', (req, res) => {
-  res.send({features:{cuck:true}});
+  res.send({ features: { cuck: true } });
 });
 
 app.post('/signup', (req, res) => {
-  if (req.body && req.body.accountName && req.body.accountPassword){
-    res.end("signup Sucessful")
+  if (req.body && req.body.email && req.body.password && req.body.membership && req.body.membershipExpiry) {
+    const { email, password, membership, membershipExpiry } = req.body
+    const AccountDetails = mongoose.model('enigmatest', accountDetails);
+    const accountObj = new AccountDetails({ _id: email, password, membership, membershipExpiry });
+    return accountObj.save((err, acc) => {
+      if (err) {
+        return res.status(409).json({ error: `Error When saving Account ${err}` })
+      }
+      return res.status(201).end(`signup Sucessful ${acc._id}`)
+    })
   }
-  res.status(400).json({ error: 'no credentials posted' })
+  return res.status(400).json({ error: 'Invalid Body' })
+})
+
+app.get('/account', (req, res) => {
+  if (req.headers && req.headers.email && req.headers.password) {
+    const { email, password } = req.headers
+    const AccountDetails = mongoose.model('enigmatest', accountDetails);
+    return AccountDetails.findOne({_id: email, password}, (err, acc) => {
+      if (err){
+        return res.status(400).json({ error: `Something went wrong ${err}`  })
+      }
+      if (!acc) {
+        return res.status(401).json({ error: `Invalid Credentials ${email}, ${password}`  })
+      }
+      return res.status(200).end(`Login Sucessful ${acc._id}`)
+    })
+  }
+  return res.status(400).json({ error: 'Invalid Headers' })
 })
 
 connect();
 
 function listen() {
-  // var BookSchema = mongoose.Schema({
-  //   name: String,
-  //   price: Number,
-  //   quantity: Number
-  // });
-  // var Book = mongoose.model('enigmatest', BookSchema);
-  // var book1 = new Book({ name: 'a fucker and his database 2', price: 10, quantity: 25 });
-  // book1.save(function (err, book) {
-  //   if (err) return console.error(err);
-  //   console.log(book.name + " saved to bookstore collection.");
-  // });
-  // Book.findById('5dfd4ec4f30c6e1eecfa5f4e', function(err, arr) {console.log(err, arr)})
-  // Book.update({_id:'5dfd4ec4f30c6e1eecfa5f4e' }, {name: 'A fucker and his dattabase Part 3'}, { multi: false }, function(err){ console.log(err)})
   app.listen(port);
   console.log('App started on port ' + port);
 }
 
 function connect() {
   mongoose.connection
-    .on('error', console.log)
+    .on('error', console.error)
     .on('disconnected', connect)
     .once('open', listen);
   return mongoose.connect('mongodb://35.246.119.118:27017/enigmatest', { keepAlive: 1, useNewUrlParser: true });
