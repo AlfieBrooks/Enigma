@@ -6,9 +6,10 @@ export const accountDetails = mongoose.Schema({
     membership: Number,
     membershipExpiry: Number,
     admin: Boolean,
+    authToken: String,
     //Maybe this should move
     availability: Date,
     dayRate: Number,
-    Location: String,
-    Radius: Number,
+    location: String,
+    radius: Number,
 })

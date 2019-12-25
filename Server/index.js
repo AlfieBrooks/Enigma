@@ -28,7 +28,7 @@ app.post('/signup', (req, res) => {
       return res.status(201).end(`signup Sucessful ${acc._id}`)
     })
   }
-  return res.status(400).json({ error: 'Invalid Posted' })
+  return res.status(400).json({ error: 'Invalid Body' })
 })
 
 app.get('/account', (req, res) => {
