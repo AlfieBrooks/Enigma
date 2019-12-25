@@ -7,8 +7,8 @@
     "test-client": "",
     "test-server": "",
     "test": "npm run test-server & npm run test-client",
-    "start-server": "cd ./Server && npm run start",
-    "start-client": "cd ./Client && npm run start",
+    "server": "cd ./Server && npm run start",
+    "client": "cd ./Client && npm run start",
     "clean": "lerna clean --yes && rm -rf node_modules",
     "lint": "eslint .",
     "postinstall": "lerna bootstrap"
