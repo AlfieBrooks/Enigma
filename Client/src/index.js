@@ -2,25 +2,25 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './sass/main.scss';
 
-import './index.css';
-import App from './App';
+import SignUp from './components/sign-up';
 
 function Routes() {
   return (
     <Router>
       <Switch>
         <Route exact path="/">
-          <App />
+          <SignUp />
         </Route>
         <Route exact path="/signup">
-          <App />
+          <SignUp />
         </Route>
         <Route exact path="/booking">
-          <App />
+          <SignUp />
         </Route>
         <Route exact path="/about">
-          <App />
+          <SignUp />
         </Route>
         <Route path="/*">
           <div>
