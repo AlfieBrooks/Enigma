@@ -1,26 +1,36 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { createStore, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
+import reducer from './redux'
+import { Provider } from 'react-redux'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './sass/main.scss';
 
-import SignUp from './components/sign-up';
+//Pages
+import { Home as HomePage } from './containers/home'
+
+//Components
+import { SignInComponent } from './components/sign-in';
+import { NavigationComponent } from './components/navigation'
 
 function Routes() {
   return (
     <Router>
+      <NavigationComponent />
       <Switch>
         <Route exact path="/">
-          <SignUp />
+          <HomePage />
         </Route>
-        <Route exact path="/signup">
-          <SignUp />
+        <Route exact path="/sign-in">
+          <SignInComponent />
         </Route>
         <Route exact path="/booking">
-          <SignUp />
+          <SignInComponent />
         </Route>
-        <Route exact path="/about">
-          <SignUp />
+        <Route exact path="/info">
+          <SignInComponent />
         </Route>
         <Route path="/*">
           <div>
@@ -32,4 +42,12 @@ function Routes() {
   );
 }
 
-ReactDOM.render(<Routes />, document.getElementById('root'));
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(reducer, /* preloadedState, */ composeEnhancers(applyMiddleware(thunk)));
+
+ReactDOM.render(
+  <Provider store={store}>
+    <Routes />
+  </Provider>,
+  document.getElementById('root')
+);
