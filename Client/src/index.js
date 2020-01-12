@@ -3,22 +3,25 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import reducer from './redux'
-import { Provider } from 'react-redux'
+import reducer from './redux';
+import { Provider } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './sass/main.scss';
 
 //Pages
-import { Home as HomePage } from './containers/home'
+import { Home as HomePage } from './containers/home';
+import { Book as BookingPage } from './containers/book';
 
 //Components
+// import { ModalFactory } from './components/modal-factory'; POC
 import { SignInComponent } from './components/sign-in';
-import { NavigationComponent } from './components/navigation'
+import { NavigationComponent } from './components/navigation';
 
 function Routes() {
   return (
     <Router>
       <NavigationComponent />
+      {/* <ModalFactory /> */}
       <Switch>
         <Route exact path="/">
           <HomePage />
@@ -27,7 +30,7 @@ function Routes() {
           <SignInComponent />
         </Route>
         <Route exact path="/booking">
-          <SignInComponent />
+          <BookingPage />
         </Route>
         <Route exact path="/info">
           <SignInComponent />
