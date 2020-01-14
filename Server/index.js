@@ -25,7 +25,7 @@ app.post('/signup', (req, res) => {
       if (err) {
         return res.status(409).json({ error: `Error When saving Account ${err}` })
       }
-      return res.status(201).end(`signup Sucessful ${acc._id}`)
+      return res.status(201).json({success: acc._id})
     })
   }
   return res.status(400).json({ error: 'Invalid Body' })
@@ -42,7 +42,7 @@ app.get('/account', (req, res) => {
       if (!acc) {
         return res.status(401).json({ error: `Invalid Credentials ${email}, ${password}`  })
       }
-      return res.status(200).end(`Login Sucessful ${acc._id}`)
+      return res.status(200).json({success: acc._id})
     })
   }
   return res.status(400).json({ error: 'Invalid Headers' })
