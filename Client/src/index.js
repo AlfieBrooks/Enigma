@@ -15,6 +15,7 @@ import { Book as BookingPage } from './containers/book';
 //Components
 // import { ModalFactory } from './components/modal-factory'; POC
 import { SignInComponent } from './components/sign-in';
+import { SignUpComponent } from './components/sign-up';
 import { NavigationComponent } from './components/navigation';
 
 function Routes() {
@@ -25,6 +26,9 @@ function Routes() {
       <Switch>
         <Route exact path="/">
           <HomePage />
+        </Route>
+        <Route exact path="/sign-up">
+          <SignUpComponent />
         </Route>
         <Route exact path="/sign-in">
           <SignInComponent />
