@@ -1,0 +1,12 @@
+#############################
+#For GCP Deployments only
+#############################
+
+runtime: nodejs12
+
+#network:
+#  forwarded_ports:
+#    - 443/tcp
+resources:
+  cpu: 1
+  memory_gb: 0.8
