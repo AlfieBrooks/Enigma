@@ -1,8 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Container, Row, Col, Form, Button, Spinner } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
-import { accountSignIn } from '../redux/account';
 
 export class SignIn extends React.Component {
   constructor(props) {
@@ -68,9 +66,3 @@ export class SignIn extends React.Component {
     );
   }
 }
-
-const mapStateToProps = state => ({
-  account: state.account,
-});
-
-export const SignInComponent = connect(mapStateToProps, { accountSignIn })(SignIn);
