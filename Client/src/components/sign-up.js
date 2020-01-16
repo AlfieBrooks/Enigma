@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
 import { Container, Row, Col, Form, Button, Tabs, Tab } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
@@ -76,5 +75,3 @@ export class SignUp extends React.Component {
     );
   }
 }
-
-export const SignUpComponent = connect()(SignUp);

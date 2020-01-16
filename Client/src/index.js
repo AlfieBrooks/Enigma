@@ -11,11 +11,11 @@ import './sass/main.scss';
 //Pages
 import { Home as HomePage } from './containers/home';
 import { Book as BookingPage } from './containers/book';
+import { SignUpPage } from './containers/sign-up';
 
 //Components
 // import { ModalFactory } from './components/modal-factory'; POC
 import { SignInComponent } from './components/sign-in';
-import { SignUpComponent } from './components/sign-up';
 import { NavigationComponent } from './components/navigation';
 
 function Routes() {
@@ -28,7 +28,7 @@ function Routes() {
           <HomePage />
         </Route>
         <Route exact path="/sign-up">
-          <SignUpComponent />
+          <SignUpPage />
         </Route>
         <Route exact path="/sign-in">
           <SignInComponent />
