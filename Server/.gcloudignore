@@ -1,0 +1,6 @@
+#Stops these things being uploaded by gcp app engine
+.git
+.gitignore
+
+# Node.js dependencies:
+node_modules/
