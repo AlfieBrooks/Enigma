@@ -66,7 +66,6 @@ export default function account(
         error: action.error,
         signInError: true,
       };
-
     default:
       return state;
   }
