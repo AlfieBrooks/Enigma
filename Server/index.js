@@ -5,7 +5,9 @@ import mongoose from 'mongoose';
 import { accountDetails } from './schemas/singup'
 
 const app = express();
-const port = 443
+//Commenting out until 443 works in gcp
+//const port = 443  
+const port = 8080
 
 app.use(cors());
 
