@@ -3,6 +3,7 @@ import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { accountSignOut } from '../redux/account';
+
 class Navigation extends React.Component {
   constructor(props) {
     super(props);

@@ -3,18 +3,18 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import reducer from './redux';
 import { Provider } from 'react-redux';
+import reducer from './redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './sass/main.scss';
 
-//Pages
+// Pages
 import { Home as HomePage } from './containers/home';
-import { Book as BookingPage } from './containers/book';
+import { BookingPage } from './containers/booking';
 import { SignInPage } from './containers/sign-in';
 import { SignUpPage } from './containers/sign-up';
 
-//Components
+// Components
 // import { ModalFactory } from './components/modal-factory'; POC
 import { NavigationComponent } from './components/navigation';
 
