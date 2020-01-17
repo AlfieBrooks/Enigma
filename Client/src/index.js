@@ -12,6 +12,7 @@ import './sass/main.scss';
 import { Home as HomePage } from './containers/home';
 import { Book as BookingPage } from './containers/book';
 import { SignInPage } from './containers/sign-in';
+import { SignUpPage } from './containers/sign-up';
 
 //Components
 // import { ModalFactory } from './components/modal-factory'; POC
@@ -25,6 +26,9 @@ function Routes() {
       <Switch>
         <Route exact path="/">
           <HomePage />
+        </Route>
+        <Route exact path="/sign-up">
+          <SignUpPage />
         </Route>
         <Route exact path="/sign-in">
           <SignInPage />
