@@ -1,9 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { Redirect, Link } from 'react-router-dom';
 
-import { accountSignIn } from '../redux/account';
 import { SpinnerPage } from './spinner';
 
 export class SignIn extends React.Component {
@@ -77,9 +75,3 @@ export class SignIn extends React.Component {
     );
   }
 }
-
-const mapStateToProps = state => ({
-  account: state.account,
-});
-
-export const SignInComponent = connect(mapStateToProps, { accountSignIn })(SignIn);
