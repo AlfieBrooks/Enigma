@@ -8,24 +8,14 @@ export class SignIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      authenticating: false,
       email: '',
       password: '',
       signedIn: false,
     };
   }
 
-  static getDerivedStateFromProps(nextProps) {
-    if (nextProps.account && (nextProps.account.signInError || nextProps.account.authenticated)) {
-      return { authenticating: false };
-    } else {
-      return null;
-    }
-  }
-
   submitHandler = () => {
     event.preventDefault();
-    this.setState({ authenticating: true });
     this.props.accountSignIn(this.state.email, this.state.password);
   };
 
@@ -70,7 +60,7 @@ export class SignIn extends React.Component {
       <Container className="sign-in__container">
         {this.props.account.error && this.renderError()}
         {this.props.account.authenticated && <Redirect to="/" />}
-        {this.state.authenticating ? <SpinnerPage /> : this.renderSignIn()}
+        {this.props.account.loading ? <SpinnerPage /> : this.renderSignIn()}
       </Container>
     );
   }

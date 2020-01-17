@@ -1,36 +1,39 @@
 //Actions
-const ACCOUNT_SIGNIN = 'ACCOUNT_SIGNIN';
-const ACCOUNT_SIGNOUT = 'ACCOUNT_SIGNOUT';
-const ACCOUNT_SIGNIN_ERROR = 'ACCOUNT_SIGNIN_ERROR';
+const ACCOUNT_SIGN_IN_STARTED = 'ACCOUNT_SIGN_IN_STARTED';
+const ACCOUNT_SIGN_IN_SUCCESS = 'ACCOUNT_SIGN_IN_SUCCESS';
+const ACCOUNT_SIGN_IN_FAILED = 'ACCOUNT_SIGN_IN_FAILED';
+const ACCOUNT_SIGN_OUT = 'ACCOUNT_SIGN_OUT';
 
 //Action Creators
-const signIn = email => ({ type: ACCOUNT_SIGNIN, email });
+const signInStarted = () => ({ type: ACCOUNT_SIGN_IN_STARTED });
+const signInSuccess = email => ({ type: ACCOUNT_SIGN_IN_SUCCESS, email });
+const signInFailed = error => ({ type: ACCOUNT_SIGN_IN_FAILED, error });
 const signOut = () => ({ type: ACCOUNT_SIGNOUT });
-const signInError = error => ({ type: ACCOUNT_SIGNIN_ERROR, error });
 
 //Thunk
 export const accountSignIn = (email, password) => {
   return dispatch => {
+    dispatch(signInStarted())
     fetch('http://localhost:443/account', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        email: email,
-        password: password,
+        email,
+        password,
       },
       credentials: 'same-origin',
     })
       .then(res => res.json())
       .then(result => {
         if (result.error) {
-          return dispatch(signInError(result.error));
+          return dispatch(signInFailed(result.error));
         } else {
-          return dispatch(signIn(email));
+          return dispatch(signInSuccess(email));
         }
       })
       .catch(e => {
         return dispatch(
-          signInError('It looks like somethings gone wrong, please try again later.')
+          signInFailed(`'${e.message}' - It looks like somethings gone wrong, please try again later.`)
         );
       });
   };
@@ -43,28 +46,42 @@ export const accountSignOut = () => {
 };
 
 // Reducer
+const initialState = {
+  loading: false,
+  email: null,
+  authenticated: false,
+  error: null,
+  signInError: false,
+}
+
 export default function account(
-  state = { email: null, authenticated: false, error: null, signInError: false },
+  state = initialState,
   action
 ) {
   switch (action.type) {
-    case ACCOUNT_SIGNIN:
+    case ACCOUNT_SIGN_IN_STARTED:
       return {
         ...state,
+        loading: true,
+      };
+    case ACCOUNT_SIGN_IN_SUCCESS:
+      return {
+        ...state,
+        loading: false,
         email: action.email,
         authenticated: true,
       };
-    case ACCOUNT_SIGNOUT:
+    case ACCOUNT_SIGN_IN_FAILED:
       return {
         ...state,
-        email: null,
-        authenticated: false,
-      };
-    case ACCOUNT_SIGNIN_ERROR:
-      return {
-        ...state,
+        loading: false,
         error: action.error,
         signInError: true,
+      };
+    case ACCOUNT_SIGN_OUT:
+      return {
+        ...state,
+        ...initialState,
       };
     default:
       return state;
