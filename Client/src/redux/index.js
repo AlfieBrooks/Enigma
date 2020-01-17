@@ -5,7 +5,7 @@ import booking from './booking';
 
 const rootReducer = combineReducers({
   account,
-  booking
+  booking,
 });
 
 export default rootReducer;

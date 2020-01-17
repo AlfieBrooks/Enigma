@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { DateRangePicker } from "react-dates";
-import "react-dates/initialize";
-import "react-dates/lib/css/_datepicker.css";
+import React, { useState } from 'react';
+import { DateRangePicker } from 'react-dates';
+import 'react-dates/initialize';
+import 'react-dates/lib/css/_datepicker.css';
 
 export function DatePicker({ saveSelectedDates }) {
   const [startDate, setStartDate] = useState(null);

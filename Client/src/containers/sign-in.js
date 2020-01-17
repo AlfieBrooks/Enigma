@@ -14,10 +14,7 @@ export class SignInContainer extends React.Component {
   render() {
     return (
       <Container className="sign-in__container">
-        <SignIn 
-          account={this.props.account}
-          accountSignIn={this.props.accountSignIn} 
-        />
+        <SignIn account={this.props.account} accountSignIn={this.props.accountSignIn} />
       </Container>
     );
   }

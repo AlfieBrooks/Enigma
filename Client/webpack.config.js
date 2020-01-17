@@ -1,12 +1,12 @@
 const path = require('path');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const HtmlWebPackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
   },
   // minifying and other thing so let's set mode to development
   mode: 'development',
@@ -21,66 +21,65 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ["@babel/preset-env", "@babel/preset-react"],
-            plugins: ["@babel/plugin-proposal-class-properties"]
-          }
-        }
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+            plugins: ['@babel/plugin-proposal-class-properties'],
+          },
+        },
       },
       {
         test: /\.(sc|c)ss$/,
         use: [
           {
-            loader: MiniCssExtractPlugin.loader
-          }, 
+            loader: MiniCssExtractPlugin.loader,
+          },
           {
             // This loader resolves url() and @imports inside CSS
-            loader: "css-loader",
-            
+            loader: 'css-loader',
           },
           {
             // Then we apply postCSS fixes like autoprefixer and minifying
-            loader: "postcss-loader"
+            loader: 'postcss-loader',
           },
           {
             // First we transform SASS to standard CSS
-            loader: "sass-loader",
+            loader: 'sass-loader',
             options: {
-              implementation: require("sass")
-            }
-          }
-        ]
+              implementation: require('sass'),
+            },
+          },
+        ],
       },
       {
         test: /\.(png|jpe?g|gif|svg)$/,
         use: [
           {
-            loader: "file-loader",
+            loader: 'file-loader',
             options: {
-              outputPath: 'images'
-            }
-          }
-        ]
+              outputPath: 'images',
+            },
+          },
+        ],
       },
       {
         test: /\.(woff|woff2|ttf|otf|eot)$/,
         use: [
           {
-            loader: "file-loader",
+            loader: 'file-loader',
             options: {
-              outputPath: 'fonts'
-            }
-          }
-        ]
-      }
-    ]
+              outputPath: 'fonts',
+            },
+          },
+        ],
+      },
+    ],
   },
   plugins: [
     new MiniCssExtractPlugin({
       filename: 'bundle.css',
     }),
     new HtmlWebPackPlugin({
-      template: "./src/index.html",
-      filename: "./index.html"
-    })
-  ]
+      template: './src/index.html',
+      filename: './index.html',
+    }),
+  ],
 };

@@ -1,19 +1,19 @@
-//Actions
+// Actions
 const ACCOUNT_SIGN_IN_STARTED = 'ACCOUNT_SIGN_IN_STARTED';
 const ACCOUNT_SIGN_IN_SUCCESS = 'ACCOUNT_SIGN_IN_SUCCESS';
 const ACCOUNT_SIGN_IN_FAILED = 'ACCOUNT_SIGN_IN_FAILED';
 const ACCOUNT_SIGN_OUT = 'ACCOUNT_SIGN_OUT';
 
-//Action Creators
+// Action Creators
 const signInStarted = () => ({ type: ACCOUNT_SIGN_IN_STARTED });
 const signInSuccess = email => ({ type: ACCOUNT_SIGN_IN_SUCCESS, email });
 const signInFailed = error => ({ type: ACCOUNT_SIGN_IN_FAILED, error });
 const signOut = () => ({ type: ACCOUNT_SIGNOUT });
 
-//Thunk
+// Thunk
 export const accountSignIn = (email, password) => {
   return dispatch => {
-    dispatch(signInStarted())
+    dispatch(signInStarted());
     fetch('http://localhost:443/account', {
       method: 'GET',
       headers: {
@@ -27,13 +27,14 @@ export const accountSignIn = (email, password) => {
       .then(result => {
         if (result.error) {
           return dispatch(signInFailed(result.error));
-        } else {
-          return dispatch(signInSuccess(email));
         }
+        return dispatch(signInSuccess(email));
       })
       .catch(e => {
         return dispatch(
-          signInFailed(`'${e.message}' - It looks like somethings gone wrong, please try again later.`)
+          signInFailed(
+            `'${e.message}' - It looks like somethings gone wrong, please try again later.`
+          )
         );
       });
   };
@@ -52,12 +53,9 @@ const initialState = {
   authenticated: false,
   error: null,
   signInError: false,
-}
+};
 
-export default function account(
-  state = initialState,
-  action
-) {
+export default function account(state = initialState, action) {
   switch (action.type) {
     case ACCOUNT_SIGN_IN_STARTED:
       return {

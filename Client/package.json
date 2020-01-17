@@ -5,7 +5,8 @@
   "scripts": {
     "start": "webpack-dev-server --mode development --open",
     "dev": "webpack --config webpack.config.js",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "lint": "eslint ."
   },
   "eslintConfig": {
     "extends": "react-app"
