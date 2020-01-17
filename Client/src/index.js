@@ -10,7 +10,7 @@ import './sass/main.scss';
 
 //Pages
 import { Home as HomePage } from './containers/home';
-import { Book as BookingPage } from './containers/book';
+import { BookingPage } from './containers/booking';
 import { SignInPage } from './containers/sign-in';
 import { SignUpPage } from './containers/sign-up';
 
