@@ -1,0 +1,22 @@
+.sign-in__container {
+  margin-top: 50px;
+  color: $white;
+}
+
+.sign-in__column {
+  padding: 10px 15px;
+  border-radius: 10px;
+  background-color: $grey;
+}
+
+.sign-in__button {
+  margin: 0 auto;
+  display: block;
+}
+
+.sign-in__sign-up-link {
+  display: block;
+  margin: 5px auto 0;
+  text-align: center;
+  font-size: 14px;
+}

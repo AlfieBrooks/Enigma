@@ -83,7 +83,6 @@ export default function account(
         ...state,
         ...initialState,
       };
-
     default:
       return state;
   }

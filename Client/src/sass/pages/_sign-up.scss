@@ -1,15 +1,39 @@
-.sign-up__container {
-  margin-top: 50px;
-  color: $white;
+//TODO: Rename sign in/up class names so we can reuse the styles
+.sign-in__column {
+  .nav-link {
+    width: 50%;
+    text-align: center;
+    color: $signly;
+    border-color: $signly;
+    border-radius: 0;
+
+    &:first-child {
+      border-top-left-radius: 0.25rem;
+    }
+
+    &:last-child {
+      border-top-right-radius: 0.25rem;
+    }
+
+    &:hover {
+      border-color: $light_grey;
+    }
+
+    &.active {
+      color: $white;
+      background-color: $signly;
+      border-color: $signly;
+    }
+  }
+
+  .tab-content {
+    margin-top: 15px;
+  }
 }
 
-.sign-up__column {
-  padding: 10px 15px;
-  border-radius: 10px;
-  background-color: $gray;
-}
-
-.sign-up__button {
-  margin: 0 auto;
+.sign-up__sign-in-link {
   display: block;
+  margin: 5px auto 0;
+  text-align: center;
+  font-size: 14px;
 }
