@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, ListGroup } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import { saveSelectedDates } from '../redux/booking';
 import { BookingSearch } from '../components/booking-search';
@@ -37,26 +38,33 @@ export class Booking extends React.Component {
 
     return (
       <Container className="book__container">
-        <h1> Book</h1>
-        <BookingSearch saveSelectedDates={this.props.saveSelectedDates} />
-        <ListGroup variant="flush">
-          {mock.map(item => (
-            <ListGroup.Item key={item.name}>
-              <BookingItem
-                name={item.name}
-                price={item.price}
-                image={item.image}
-                available={item.available}
-              />
-            </ListGroup.Item>
-          ))}
-        </ListGroup>
+        {this.props.account.authenticated ? (
+          <div>
+            <h1> Book</h1>
+            <BookingSearch saveSelectedDates={this.props.saveSelectedDates} />
+            <ListGroup variant="flush">
+              {mock.map(item => (
+                <ListGroup.Item key={item.name}>
+                  <BookingItem
+                    name={item.name}
+                    price={item.price}
+                    image={item.image}
+                    available={item.available}
+                  />
+                </ListGroup.Item>
+              ))}
+            </ListGroup>
+          </div>
+        ) : (
+          <Redirect to="/sign-in" />
+        )}
       </Container>
     );
   }
 }
 
 const mapStateToProps = state => ({
+  account: state.account,
   booking: state.booking,
 });
 

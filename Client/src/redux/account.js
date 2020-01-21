@@ -1,4 +1,4 @@
-// Actions
+//Actions
 const ACCOUNT_SIGN_IN_STARTED = 'ACCOUNT_SIGN_IN_STARTED';
 const ACCOUNT_SIGN_IN_SUCCESS = 'ACCOUNT_SIGN_IN_SUCCESS';
 const ACCOUNT_SIGN_IN_FAILED = 'ACCOUNT_SIGN_IN_FAILED';
@@ -8,7 +8,7 @@ const ACCOUNT_SIGN_OUT = 'ACCOUNT_SIGN_OUT';
 const signInStarted = () => ({ type: ACCOUNT_SIGN_IN_STARTED });
 const signInSuccess = email => ({ type: ACCOUNT_SIGN_IN_SUCCESS, email });
 const signInFailed = error => ({ type: ACCOUNT_SIGN_IN_FAILED, error });
-const signOut = () => ({ type: ACCOUNT_SIGNOUT });
+const signOut = () => ({ type: ACCOUNT_SIGN_OUT });
 
 // Thunk
 export const accountSignIn = (email, password) => {
@@ -43,6 +43,39 @@ export const accountSignIn = (email, password) => {
 export const accountSignOut = () => {
   return dispatch => {
     dispatch(signOut());
+  };
+};
+
+export const accountSignUp = (email, password) => {
+  return dispatch => {
+    fetch('http://localhost:443/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+        membershipExpiry: '1',
+        membership: '1',
+      }),
+      credentials: 'same-origin',
+    })
+      .then(res => res.json())
+      .then(result => {
+        if (result.error) {
+          return dispatch(signInFailed(result.error));
+        } else {
+          return dispatch(signInSuccess(email));
+        }
+      })
+      .catch(e => {
+        return dispatch(
+          signInFailed(
+            `'${e.message}' - It looks like somethings gone wrong, please try again later.`
+          )
+        );
+      });
   };
 };
 

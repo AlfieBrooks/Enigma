@@ -13,6 +13,7 @@ import { Home as HomePage } from './containers/home';
 import { BookingPage } from './containers/booking';
 import { SignInPage } from './containers/sign-in';
 import { SignUpPage } from './containers/sign-up';
+import { AccountPage } from './containers/account';
 
 // Components
 // import { ModalFactory } from './components/modal-factory'; POC
@@ -38,6 +39,9 @@ function Routes() {
         </Route>
         <Route exact path="/info">
           <SignInPage />
+        </Route>
+        <Route exact path="/account">
+          <AccountPage />
         </Route>
         <Route path="/*">
           <div>

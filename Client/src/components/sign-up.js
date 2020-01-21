@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Container, Row, Col, Form, Button, Tabs, Tab } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 import { SpinnerPage } from './spinner';
 
@@ -11,8 +11,8 @@ export class SignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // email: '',
-      // password: '',
+      email: '',
+      password: '',
       loading: false,
     };
   }
@@ -20,7 +20,13 @@ export class SignUp extends React.Component {
   submitHandler = () => {
     event.preventDefault();
     this.setState({ loading: true });
-    //TODO: Send data here
+    this.props.accountSignUp(this.state.email, this.state.password)
+  };
+
+
+  changeHandler = event => {
+    const { type, value } = event.target;
+    this.setState({ [type]: value });
   };
 
   renderCompanySignUp = () => (
@@ -71,6 +77,7 @@ export class SignUp extends React.Component {
     return (
       <Container className="sign-in__container">
         {this.state.loading ? <SpinnerPage /> : this.renderSignUp()}
+        {this.props.account.authenticated && <Redirect to="/" />}
       </Container>
     );
   }

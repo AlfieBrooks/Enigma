@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import { connect } from 'react-redux';
-
+import { accountSignUp } from '../redux/account';
 import { SignUp } from '../components/sign-up';
 
 export class SignUpContainer extends React.Component {
@@ -13,10 +13,16 @@ export class SignUpContainer extends React.Component {
   render() {
     return (
       <Container className="sign-up__container">
-        <SignUp />
+        <SignUp account={this.props.account} accountSignUp={this.props.accountSignUp} />
       </Container>
     );
   }
 }
 
-export const SignUpPage = connect()(SignUpContainer);
+
+const mapStateToProps = state => ({
+  account: state.account,
+});
+
+
+export const SignUpPage = connect(mapStateToProps, { accountSignUp })(SignUpContainer);
