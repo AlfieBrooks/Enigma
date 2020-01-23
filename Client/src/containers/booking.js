@@ -43,12 +43,7 @@ export class Booking extends React.Component {
         <ListGroup variant="flush">
           {mock.map(item => (
             <ListGroup.Item key={item.name}>
-              <BookingItem
-                name={item.name}
-                price={item.price}
-                image={item.image}
-                available={item.available}
-              />
+              <BookingItem name={item.name} price={item.price} image={item.image} available={item.available} />
             </ListGroup.Item>
           ))}
         </ListGroup>

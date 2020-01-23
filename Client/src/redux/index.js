@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 
-import { accountReducer } from './account';
-import { bookingReducer } from './booking';
+import { accountReducer as account } from './account';
+import { bookingReducer as booking } from './booking';
 
 export const rootReducer = combineReducers({
-  account: accountReducer,
-  booking: bookingReducer,
+  account,
+  booking,
 });

@@ -31,11 +31,7 @@ export const accountSignIn = (email, password) => {
         return dispatch(signInSuccess(email));
       })
       .catch(e => {
-        return dispatch(
-          signInFailed(
-            `'${e.message}' - It looks like somethings gone wrong, please try again later.`
-          )
-        );
+        return dispatch(signInFailed(`'${e.message}' - It looks like somethings gone wrong, please try again later.`));
       });
   };
 };

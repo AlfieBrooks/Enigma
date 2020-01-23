@@ -73,9 +73,7 @@ export class SignUp extends React.Component {
 
   render() {
     return (
-      <Container className="sign-in__container">
-        {this.state.loading ? <SpinnerPage /> : this.renderSignUp()}
-      </Container>
+      <Container className="sign-in__container">{this.state.loading ? <SpinnerPage /> : this.renderSignUp()}</Container>
     );
   }
 }
