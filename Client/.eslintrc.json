@@ -5,8 +5,10 @@
     "prettier/react"
   ],
   "plugins": [
-    "prettier"
+    "prettier",
+    "simple-import-sort"
   ],
+  "parser": "babel-eslint",
   "env": {
     "browser": true,
     "commonjs": true,
@@ -16,8 +18,24 @@
   },
   "rules": {
     "jsx-a11y/href-no-hash": ["off"],
-    "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }],
     "import/no-named-as-default": "off",
+    "import/prefer-default-export": "off",
+    "import/no-default-export": "error",
+    "import/order": "off",
+    "sort-imports": "off",
+    "simple-import-sort/sort": "error",
+    "global-require": "off",
+    "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }],
+    "react/destructuring-assignment": "off",
+    "react/require-default-props": "off",
+    "react/forbid-prop-types": "off",
+    "react/sort-prop-types": [
+      "error",
+      {
+        "sortShapeProp": true,
+        "ignoreCase": true
+      }
+    ],
     "max-len": [
       "warn",
       {

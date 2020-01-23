@@ -1,10 +1,11 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Container, ListGroup } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
-import { saveSelectedDates } from '../redux/booking';
-import { BookingSearch } from '../components/booking-search';
 import { BookingItem } from '../components/booking-item';
+import { BookingSearch } from '../components/booking-search';
+import { saveSelectedDates } from '../redux/booking';
 
 export class Booking extends React.Component {
   constructor(props) {
@@ -61,3 +62,7 @@ const mapStateToProps = state => ({
 });
 
 export const BookingPage = connect(mapStateToProps, { saveSelectedDates })(Booking);
+
+Booking.propTypes = {
+  saveSelectedDates: PropTypes.func.isRequired,
+};

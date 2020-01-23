@@ -8,7 +8,7 @@ const ACCOUNT_SIGN_OUT = 'ACCOUNT_SIGN_OUT';
 const signInStarted = () => ({ type: ACCOUNT_SIGN_IN_STARTED });
 const signInSuccess = email => ({ type: ACCOUNT_SIGN_IN_SUCCESS, email });
 const signInFailed = error => ({ type: ACCOUNT_SIGN_IN_FAILED, error });
-const signOut = () => ({ type: ACCOUNT_SIGNOUT });
+const signOut = () => ({ type: ACCOUNT_SIGN_OUT });
 
 // Thunk
 export const accountSignIn = (email, password) => {
@@ -55,7 +55,7 @@ const initialState = {
   signInError: false,
 };
 
-export default function account(state = initialState, action) {
+export function accountReducer(state = initialState, action) {
   switch (action.type) {
     case ACCOUNT_SIGN_IN_STARTED:
       return {

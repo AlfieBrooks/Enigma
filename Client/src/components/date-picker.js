@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
-import { DateRangePicker } from 'react-dates';
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { DateRangePicker } from 'react-dates';
+
 export function DatePicker({ saveSelectedDates }) {
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [startValue, setStartDate] = useState(null);
+  const [endValue, setEndDate] = useState(null);
   const [focusedInput, setFocusedInput] = useState(null);
 
   const handleDatesChange = ({ startDate, endDate }) => {
@@ -19,13 +21,17 @@ export function DatePicker({ saveSelectedDates }) {
 
   return (
     <DateRangePicker
-      startDate={startDate}
+      startDate={startValue}
       startDateId="bookingStartDate"
-      endDate={endDate}
+      endDate={endValue}
       endDateId="bookingEndDate"
       onDatesChange={handleDatesChange}
       focusedInput={focusedInput}
-      onFocusChange={focusedInput => setFocusedInput(focusedInput)}
+      onFocusChange={input => setFocusedInput(input)}
     />
   );
 }
+
+DatePicker.propTypes = {
+  saveSelectedDates: PropTypes.func,
+};
