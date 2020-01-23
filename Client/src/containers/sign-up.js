@@ -19,10 +19,8 @@ export class SignUpContainer extends React.Component {
   }
 }
 
-
 const mapStateToProps = state => ({
   account: state.account,
 });
-
 
 export const SignUpPage = connect(mapStateToProps, { accountSignUp })(SignUpContainer);

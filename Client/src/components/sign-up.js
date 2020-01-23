@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Row, Col, Form, Button, Tabs, Tab } from 'react-bootstrap';
+import { Alert, Container, Row, Col, Form, Button, Tabs, Tab,  } from 'react-bootstrap';
 import { Redirect, Link } from 'react-router-dom';
 
 import { SpinnerPage } from './spinner';
@@ -13,7 +13,6 @@ export class SignUp extends React.Component {
     this.state = {
       email: '',
       password: '',
-      loading: false,
     };
   }
 
@@ -73,11 +72,19 @@ export class SignUp extends React.Component {
     </Row>
   );
 
+  renderError = () => (
+    <Alert variant="danger" dismissible>
+      <Alert.Heading>Oops!</Alert.Heading>
+      <span>{ this.props.account.error }</span>
+    </Alert>
+  );
+
   render() {
     return (
       <Container className="sign-in__container">
-        {this.state.loading ? <SpinnerPage /> : this.renderSignUp()}
+        {this.props.account.error && this.renderError()}
         {this.props.account.authenticated && <Redirect to="/" />}
+        {this.props.account.loading ? <SpinnerPage /> : this.renderSignUp()}
       </Container>
     );
   }
