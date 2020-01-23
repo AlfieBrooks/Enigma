@@ -52,9 +52,13 @@ export const accountSignOut = () => {
   };
 };
 
-export const accountSignUp = (email, password) => {
+export const accountSignUp = ({ accountType, email, password }) => {
   return dispatch => {
     dispatch(signUpStarted());
+
+    if (!email || !password) {
+      return dispatch(signUpFailed('Please fill out all fields'));
+    }
     fetch('http://localhost:443/signup', {
       method: 'POST',
       headers: {
@@ -73,8 +77,8 @@ export const accountSignUp = (email, password) => {
         if (result.error) {
           return dispatch(signUpFailed(result.error));
         } else {
-          accountSignIn(email, password);
-          return dispatch(signUpSuccess(email));
+          dispatch(signUpSuccess(email));
+          return dispatch(accountSignIn(email, password));
         }
       })
       .catch(e => {
@@ -109,6 +113,7 @@ export default function account(state = initialState, action) {
         ...state,
         loading: false,
         email: action.email,
+        error: null,
         authenticated: true,
       };
     case ACCOUNT_SIGN_IN_FAILED:
@@ -127,6 +132,7 @@ export default function account(state = initialState, action) {
       return {
         ...state,
         loading: false,
+        error: null,
         email: action.email,
       };
     case ACCOUNT_SIGN_UP_FAILED:
