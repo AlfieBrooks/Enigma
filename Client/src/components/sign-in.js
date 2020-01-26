@@ -1,6 +1,7 @@
+import PropTypes from 'prop-types';
 import React from 'react';
-import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
-import { Redirect, Link } from 'react-router-dom';
+import { Alert, Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { Link, Redirect } from 'react-router-dom';
 
 import { SpinnerPage } from './spinner';
 
@@ -10,11 +11,10 @@ export class SignIn extends React.Component {
     this.state = {
       email: '',
       password: '',
-      signedIn: false,
     };
   }
 
-  submitHandler = () => {
+  submitHandler = event => {
     event.preventDefault();
     this.props.accountSignIn(this.state.email, this.state.password);
   };
@@ -42,7 +42,9 @@ export class SignIn extends React.Component {
           <Button variant="primary" type="submit" className="sign-in__button">
             Sign In
           </Button>
-          <Link to="/sign-up" className="sign-in__sign-up-link">Or Sign Up</Link>
+          <Link to="/sign-up" className="sign-in__sign-up-link">
+            Or Sign Up
+          </Link>
         </Form>
       </Col>
     </Row>
@@ -51,7 +53,7 @@ export class SignIn extends React.Component {
   renderError = () => (
     <Alert variant="danger" dismissible>
       <Alert.Heading>Oops!</Alert.Heading>
-      <span>{ this.props.account.error }</span>
+      <span>{this.props.account.error}</span>
     </Alert>
   );
 
@@ -65,3 +67,12 @@ export class SignIn extends React.Component {
     );
   }
 }
+
+SignIn.propTypes = {
+  account: PropTypes.shape({
+    authenticated: PropTypes.bool,
+    error: PropTypes.string,
+    loading: PropTypes.bool,
+  }),
+  accountSignIn: PropTypes.func.isRequired,
+};

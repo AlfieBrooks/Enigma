@@ -1,7 +1,9 @@
+import PropTypes from 'prop-types';
 import React from 'react';
-import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
+import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+
 import { accountSignOut } from '../redux/account';
 
 class Navigation extends React.Component {
@@ -65,3 +67,11 @@ const mapStateToProps = state => ({
 });
 
 export const NavigationComponent = connect(mapStateToProps, { accountSignOut })(Navigation);
+
+Navigation.propTypes = {
+  account: PropTypes.shape({
+    authenticated: PropTypes.bool,
+    email: PropTypes.string,
+  }),
+  accountSignOut: PropTypes.func,
+};

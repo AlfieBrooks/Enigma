@@ -16,7 +16,7 @@ const initialState = {
   endDate: null,
 };
 
-export default function account(state = initialState, action) {
+export function bookingReducer(state = initialState, action) {
   switch (action.type) {
     case SAVE_SELECTED_DATES:
       return {

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import { connect } from 'react-redux';
@@ -25,3 +26,8 @@ const mapStateToProps = state => ({
 });
 
 export const SignInPage = connect(mapStateToProps, { accountSignIn })(SignInContainer);
+
+SignInContainer.propTypes = {
+  account: PropTypes.object,
+  accountSignIn: PropTypes.func.isRequired,
+};

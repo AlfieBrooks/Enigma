@@ -1,10 +1,11 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Container, ListGroup } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
-import { saveSelectedDates } from '../redux/booking';
-import { BookingSearch } from '../components/booking-search';
 import { BookingItem } from '../components/booking-item';
+import { BookingSearch } from '../components/booking-search';
+import { saveSelectedDates } from '../redux/booking';
 
 export class Booking extends React.Component {
   constructor(props) {
@@ -42,12 +43,7 @@ export class Booking extends React.Component {
         <ListGroup variant="flush">
           {mock.map(item => (
             <ListGroup.Item key={item.name}>
-              <BookingItem
-                name={item.name}
-                price={item.price}
-                image={item.image}
-                available={item.available}
-              />
+              <BookingItem name={item.name} price={item.price} image={item.image} available={item.available} />
             </ListGroup.Item>
           ))}
         </ListGroup>
@@ -61,3 +57,7 @@ const mapStateToProps = state => ({
 });
 
 export const BookingPage = connect(mapStateToProps, { saveSelectedDates })(Booking);
+
+Booking.propTypes = {
+  saveSelectedDates: PropTypes.func.isRequired,
+};

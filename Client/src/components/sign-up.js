@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Container, Row, Col, Form, Button, Tabs, Tab } from 'react-bootstrap';
+import React from 'react';
+import { Button, Col, Container, Form, Row, Tab, Tabs } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import { SpinnerPage } from './spinner';
@@ -17,10 +17,10 @@ export class SignUp extends React.Component {
     };
   }
 
-  submitHandler = () => {
+  submitHandler = event => {
     event.preventDefault();
     this.setState({ loading: true });
-    //TODO: Send data here
+    // TODO: Send data here
   };
 
   renderCompanySignUp = () => (
@@ -40,7 +40,9 @@ export class SignUp extends React.Component {
         <Button variant="primary" type="submit" className="sign-in__button">
           Sign Up
         </Button>
-        <Link to="/sign-in" className="sign-up__sign-in-link">Already got an account? Sign In</Link>
+        <Link to="/sign-in" className="sign-up__sign-in-link">
+          Already got an account? Sign In
+        </Link>
       </Form>
     </>
   );
@@ -48,7 +50,9 @@ export class SignUp extends React.Component {
   renderInterpreterSignUp = () => (
     <>
       <h3>Sign up - Interpreter</h3>
-      <Link to="/sign-in" className="sign-up__sign-in-link">Already got an account? Sign In</Link>
+      <Link to="/sign-in" className="sign-up__sign-in-link">
+        Already got an account? Sign In
+      </Link>
     </>
   );
 
@@ -57,10 +61,10 @@ export class SignUp extends React.Component {
       <Col md="9" className="sign-in__column">
         <Tabs defaultActiveKey={ACCOUNT_TYPE_COMPANY} id="uncontrolled-tab-example">
           <Tab eventKey={ACCOUNT_TYPE_COMPANY} title={ACCOUNT_TYPE_COMPANY}>
-            { this.renderCompanySignUp() }
+            {this.renderCompanySignUp()}
           </Tab>
           <Tab eventKey={ACCOUNT_TYPE_INTERPRETER} title={ACCOUNT_TYPE_INTERPRETER}>
-            { this.renderInterpreterSignUp() }
+            {this.renderInterpreterSignUp()}
           </Tab>
         </Tabs>
       </Col>
@@ -69,9 +73,7 @@ export class SignUp extends React.Component {
 
   render() {
     return (
-      <Container className="sign-in__container">
-        {this.state.loading ? <SpinnerPage /> : this.renderSignUp()}
-      </Container>
+      <Container className="sign-in__container">{this.state.loading ? <SpinnerPage /> : this.renderSignUp()}</Container>
     );
   }
 }
