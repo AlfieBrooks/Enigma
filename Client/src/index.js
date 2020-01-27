@@ -8,16 +8,14 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { applyMiddleware, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
 
-import { rootReducer } from './redux';
-// Components
 // import { ModalFactory } from './components/modal-factory'; POC
 import { NavigationComponent } from './components/navigation';
+import { AccountPage } from './containers/account';
 import { BookingPage } from './containers/booking';
-// Pages
 import { Home as HomePage } from './containers/home';
 import { SignInPage } from './containers/sign-in';
 import { SignUpPage } from './containers/sign-up';
-import { AccountPage } from './containers/account';
+import { rootReducer } from './redux';
 
 function Routes() {
   return (

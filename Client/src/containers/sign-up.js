@@ -1,8 +1,10 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { accountSignUp } from '../redux/account';
+
 import { SignUp } from '../components/sign-up';
+import { accountSignUp } from '../redux/account';
 
 export class SignUpContainer extends React.Component {
   constructor(props) {
@@ -24,3 +26,13 @@ const mapStateToProps = state => ({
 });
 
 export const SignUpPage = connect(mapStateToProps, { accountSignUp })(SignUpContainer);
+
+SignUpContainer.propTypes = {
+  account: PropTypes.shape({
+    authenticated: PropTypes.bool,
+    email: PropTypes.string,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+  }),
+  accountSignUp: PropTypes.func,
+};

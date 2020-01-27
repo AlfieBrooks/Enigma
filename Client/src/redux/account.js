@@ -1,4 +1,4 @@
-//Actions
+// Actions
 const ACCOUNT_SIGN_IN_STARTED = 'ACCOUNT_SIGN_IN_STARTED';
 const ACCOUNT_SIGN_IN_SUCCESS = 'ACCOUNT_SIGN_IN_SUCCESS';
 const ACCOUNT_SIGN_IN_FAILED = 'ACCOUNT_SIGN_IN_FAILED';
@@ -48,21 +48,26 @@ export const accountSignOut = () => {
   };
 };
 
-export const accountSignUp = ({ accountType, email, password }) => {
+export const accountSignUp = ({ accountType, email, password, confirmPassword }) => {
   return dispatch => {
     dispatch(signUpStarted());
 
-    if (!email || !password) {
+    if (!email || !password || !confirmPassword) {
       return dispatch(signUpFailed('Please fill out all fields'));
     }
+
+    if(password !== confirmPassword) {
+      return dispatch(signUpFailed('Passwords do not match'));
+    }
+
     fetch('http://localhost:443/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        email: email,
-        password: password,
+        email,
+        password,
         membershipExpiry: '1',
         membership: '1',
       }),
@@ -72,17 +77,12 @@ export const accountSignUp = ({ accountType, email, password }) => {
       .then(result => {
         if (result.error) {
           return dispatch(signUpFailed(result.error));
-        } else {
-          dispatch(signUpSuccess(email));
-          return dispatch(accountSignIn(email, password));
         }
+        dispatch(signUpSuccess(email));
+        return dispatch(accountSignIn(email, password));
       })
       .catch(e => {
-        return dispatch(
-          signUpFailed(
-            `'${e.message}' - It looks like somethings gone wrong, please try again later.`
-          )
-        );
+        return dispatch(signUpFailed(`'${e.message}' - It looks like somethings gone wrong, please try again later.`));
       });
   };
 };

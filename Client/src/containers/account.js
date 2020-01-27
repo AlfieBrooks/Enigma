@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import { connect } from 'react-redux';
@@ -12,9 +13,14 @@ export class AccountContainer extends React.Component {
   }
 
   render() {
+    const { firstName, lastName, email } = this.props.account;
     return (
       <Container className="sign-in__container">
-        {this.props.account.authenticated ? <Account account={this.props.account} /> : <Redirect to="/sign-in" />}
+        {this.props.account.authenticated ? (
+          <Account firstName={firstName} lastName={lastName} email={email} />
+        ) : (
+          <Redirect to="/sign-in" />
+        )}
       </Container>
     );
   }
@@ -25,3 +31,12 @@ const mapStateToProps = state => ({
 });
 
 export const AccountPage = connect(mapStateToProps)(AccountContainer);
+
+AccountContainer.propTypes = {
+  account: PropTypes.shape({
+    authenticated: PropTypes.bool,
+    email: PropTypes.string,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+  }),
+};

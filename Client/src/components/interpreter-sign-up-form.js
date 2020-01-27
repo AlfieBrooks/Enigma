@@ -1,25 +1,36 @@
+import PropTypes from 'prop-types';
 import React from 'react';
-import { Col, Form, Button, InputGroup } from 'react-bootstrap';
+import { Button, Col, Form, InputGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import { useInput } from '../utils/input-hook';
 import { ACCOUNT_TYPES } from '../utils/account-type-constants';
+import { useInput } from '../utils/input-hook';
 
 export function InterpreterSignUp({ submitHandler }) {
-  const { bind: bindFirstName } = useInput();
-  const { bind: bindLastName } = useInput();
-  const { bind: bindEmail } = useInput();
-  const { bind: bindPassword } = useInput();
-  const { bind: bindConfirmPassword } = useInput();
-  const { bind: bindPostcode } = useInput();
-  const { bind: bindHourlyRate } = useInput(0);
+  const { value: firstName, bind: bindFirstName } = useInput();
+  const { value: lastName, bind: bindLastName } = useInput();
+  const { value: email, bind: bindEmail } = useInput();
+  const { value: password, bind: bindPassword } = useInput();
+  const { value: confirmPassword, bind: bindConfirmPassword } = useInput();
+  const { value: postcode, bind: bindPostcode } = useInput();
+  const { value: hourlyRate, bind: bindHourlyRate } = useInput(0);
   const { value: maxDistance, bind: bindMaxDistance } = useInput(0);
 
   const handleSubmit = e => {
-  console.log('Log: InterpreterSignUp -> e', e);
     e.preventDefault();
-    submitHandler(ACCOUNT_TYPES.ACCOUNT_TYPE_INTERPRETER);
-  }
+    const userDetails = {
+      firstName,
+      lastName,
+      email,
+      password,
+      confirmPassword,
+      postcode,
+      hourlyRate,
+      maxDistance
+    }
+
+    submitHandler(ACCOUNT_TYPES.ACCOUNT_TYPE_INTERPRETER, userDetails);
+  };
 
   return (
     <>
@@ -49,7 +60,12 @@ export function InterpreterSignUp({ submitHandler }) {
 
         <Form.Group controlId="formConfirmPassword">
           <Form.Label>Confirm password</Form.Label>
-          <Form.Control name="confirmPassword" type="password" placeholder="Confirm password" {...bindConfirmPassword} />
+          <Form.Control
+            name="confirmPassword"
+            type="password"
+            placeholder="Confirm password"
+            {...bindConfirmPassword}
+          />
         </Form.Group>
 
         <Form.Row>
@@ -76,7 +92,8 @@ export function InterpreterSignUp({ submitHandler }) {
               type="range"
               className="sign-in__slider"
               name="maxDistance"
-              min="0" max="100"
+              min="0"
+              max="100"
               step="1"
               value={maxDistance}
               {...bindMaxDistance}
@@ -85,9 +102,17 @@ export function InterpreterSignUp({ submitHandler }) {
           </div>
         </Form.Group>
 
-        <Button variant="primary" type="submit" className="sign-in__button">Sign Up</Button>
-        <Link to="/sign-in" className="sign-up__sign-in-link">Already got an account? Sign In</Link>
+        <Button variant="primary" type="submit" className="sign-in__button">
+          Sign Up
+        </Button>
+        <Link to="/sign-in" className="sign-up__sign-in-link">
+          Already got an account? Sign In
+        </Link>
       </Form>
     </>
   );
 }
+
+InterpreterSignUp.propTypes = {
+  submitHandler: PropTypes.func.isRequired,
+};

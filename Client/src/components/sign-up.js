@@ -1,11 +1,12 @@
+import PropTypes from 'prop-types';
 import React from 'react';
-import { Alert, Container, Row, Col, Tabs, Tab } from 'react-bootstrap';
+import { Alert, Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 
-import { SpinnerPage } from './spinner';
+import { ACCOUNT_TYPES } from '../utils/account-type-constants';
 import { CompanySignUp } from './company-sign-up-form';
 import { InterpreterSignUp } from './interpreter-sign-up-form';
-import { ACCOUNT_TYPES } from '../utils/account-type-constants';
+import { SpinnerPage } from './spinner';
 
 export class SignUp extends React.Component {
   constructor(props) {
@@ -13,13 +14,8 @@ export class SignUp extends React.Component {
     this.state = {};
   }
 
-  submitHandler = accountType => {
-    const userAccount = {
-      accountType,
-      email: this.state.email,
-      password: this.state.password,
-    }
-    // this.props.accountSignUp(userAccount);
+  submitHandler = (accountType, userDetails) => {
+    this.props.accountSignUp(userDetails);
   };
 
   renderSignUp = () => (
@@ -40,7 +36,7 @@ export class SignUp extends React.Component {
   renderError = () => (
     <Alert variant="danger" dismissible>
       <Alert.Heading>Oops!</Alert.Heading>
-      <span>{ this.props.account.error }</span>
+      <span>{this.props.account.error}</span>
     </Alert>
   );
 
@@ -54,3 +50,12 @@ export class SignUp extends React.Component {
     );
   }
 }
+
+SignUp.propTypes = {
+  account: PropTypes.shape({
+    authenticated: PropTypes.bool,
+    error: PropTypes.string,
+    loading: PropTypes.bool,
+  }),
+  accountSignUp: PropTypes.func.isRequired,
+};
