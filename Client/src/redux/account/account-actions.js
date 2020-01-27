@@ -1,3 +1,13 @@
+import {
+  ACCOUNT_SIGN_IN_FAILED,
+  ACCOUNT_SIGN_IN_STARTED,
+  ACCOUNT_SIGN_IN_SUCCESS,
+  ACCOUNT_SIGN_OUT,
+  ACCOUNT_SIGN_UP_FAILED,
+  ACCOUNT_SIGN_UP_STARTED,
+  ACCOUNT_SIGN_UP_SUCCESS,
+} from './account-action-constants';
+
 // Action Creators
 const signInStarted = () => ({ type: ACCOUNT_SIGN_IN_STARTED });
 const signInSuccess = email => ({ type: ACCOUNT_SIGN_IN_SUCCESS, email });
@@ -47,7 +57,7 @@ export const accountCompanySignUp = ({ accountType, companyName, email, password
       return dispatch(signUpFailed('Please fill out all fields'));
     }
 
-    if(password !== confirmPassword) {
+    if (password !== confirmPassword) {
       return dispatch(signUpFailed('Passwords do not match'));
     }
 
@@ -78,15 +88,38 @@ export const accountCompanySignUp = ({ accountType, companyName, email, password
   };
 };
 
-export const accountInterpreterSignUp = ({ accountType, firstName, lastName, email, password, confirmPassword, postcode, hourlyRate, maxDistance }) => {
+export const accountInterpreterSignUp = ({
+  accountType,
+  firstName,
+  lastName,
+  email,
+  password,
+  confirmPassword,
+  postcode,
+  hourlyRate,
+  maxDistance,
+  membershipId,
+  membershipExpiry,
+}) => {
   return dispatch => {
     dispatch(signUpStarted());
 
-    if (!firstName || !lastName || !email || !password || !confirmPassword || !postcode || !hourlyRate || !maxDistance) {
+    if (
+      !firstName ||
+      !lastName ||
+      !email ||
+      !password ||
+      !confirmPassword ||
+      !postcode ||
+      !hourlyRate ||
+      !maxDistance ||
+      !membershipId ||
+      !membershipExpiry
+    ) {
       return dispatch(signUpFailed('Please fill out all fields'));
     }
 
-    if(password !== confirmPassword) {
+    if (password !== confirmPassword) {
       return dispatch(signUpFailed('Passwords do not match'));
     }
 
@@ -104,8 +137,8 @@ export const accountInterpreterSignUp = ({ accountType, firstName, lastName, ema
         postcode,
         hourlyRate,
         maxDistance,
-        membershipExpiry: '1',
-        membership: '1',
+        membershipId,
+        membershipExpiry,
       }),
       credentials: 'same-origin',
     })

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { DateRangePicker } from 'react-dates';
 
-export function DatePicker({ saveSelectedDates }) {
+export function DateRangeSelector({ saveSelectedDates }) {
   const [startValue, setStartDate] = useState(null);
   const [endValue, setEndDate] = useState(null);
   const [focusedInput, setFocusedInput] = useState(null);
@@ -28,10 +28,11 @@ export function DatePicker({ saveSelectedDates }) {
       onDatesChange={handleDatesChange}
       focusedInput={focusedInput}
       onFocusChange={input => setFocusedInput(input)}
+      displayFormat="DD/MM/YYYY"
     />
   );
 }
 
-DatePicker.propTypes = {
+DateRangeSelector.propTypes = {
   saveSelectedDates: PropTypes.func,
 };

@@ -1,6 +1,10 @@
+import 'react-dates/initialize';
+import 'react-dates/lib/css/_datepicker.css';
+
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Col, Form, InputGroup } from 'react-bootstrap';
+import { SingleDatePicker } from 'react-dates';
 import { Link } from 'react-router-dom';
 
 import { ACCOUNT_TYPES } from '../utils/account-type-constants';
@@ -15,10 +19,14 @@ export function InterpreterSignUp({ submitHandler }) {
   const { value: postcode, bind: bindPostcode } = useInput();
   const { value: hourlyRate, bind: bindHourlyRate } = useInput(0);
   const { value: maxDistance, bind: bindMaxDistance } = useInput(0);
+  const { value: membershipId, bind: bindMembershipId } = useInput();
+  const [membershipExpiry, setMembershipExpiry] = useState();
+  const [focused, setFocused] = useState(false);
 
   const handleSubmit = e => {
     e.preventDefault();
     const userDetails = {
+      accountType: ACCOUNT_TYPES.ACCOUNT_TYPE_INTERPRETER,
       firstName,
       lastName,
       email,
@@ -26,10 +34,12 @@ export function InterpreterSignUp({ submitHandler }) {
       confirmPassword,
       postcode,
       hourlyRate,
-      maxDistance
-    }
+      maxDistance,
+      membershipId,
+      membershipExpiry,
+    };
 
-    submitHandler(ACCOUNT_TYPES.ACCOUNT_TYPE_INTERPRETER, userDetails);
+    submitHandler(userDetails);
   };
 
   return (
@@ -101,6 +111,28 @@ export function InterpreterSignUp({ submitHandler }) {
             <span className="sign-in__slider-text">{`${maxDistance} Miles`}</span>
           </div>
         </Form.Group>
+
+        <Form.Row>
+          <Form.Group as={Col} controlId="forMembershipId">
+            <Form.Label>Membership ID</Form.Label>
+            <Form.Control name="membershipId" placeholder="Membership ID" {...bindMembershipId} />
+          </Form.Group>
+          <Form.Group as={Col} controlId="forMembershipExpiry">
+            <Form.Label>Membership expiry date</Form.Label>
+            <SingleDatePicker
+              date={membershipExpiry}
+              id="membershipExpiry"
+              onDateChange={date => setMembershipExpiry(date)}
+              focused={focused}
+              onFocusChange={({ focused }) => setFocused(focused)}
+              noBorder
+              block
+              openDirection="up"
+              numberOfMonths={1}
+              displayFormat="DD/MM/YYYY"
+            />
+          </Form.Group>
+        </Form.Row>
 
         <Button variant="primary" type="submit" className="sign-in__button">
           Sign Up

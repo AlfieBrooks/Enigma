@@ -7,7 +7,7 @@ import { ACCOUNT_TYPES } from '../utils/account-type-constants';
 import { useInput } from '../utils/input-hook';
 
 export function CompanySignUp({ submitHandler }) {
-  const { value: companyName,bind: bindCompanyName } = useInput();
+  const { value: companyName, bind: bindCompanyName } = useInput();
   const { value: email, bind: bindEmail } = useInput();
   const { value: password, bind: bindPassword } = useInput();
   const { value: confirmPassword, bind: bindConfirmPassword } = useInput();
@@ -15,13 +15,14 @@ export function CompanySignUp({ submitHandler }) {
   const handleSubmit = e => {
     e.preventDefault();
     const userDetails = {
+      accountType: ACCOUNT_TYPES.ACCOUNT_TYPE_COMPANY,
       companyName,
       email,
       password,
       confirmPassword,
     };
 
-    submitHandler(ACCOUNT_TYPES.ACCOUNT_TYPE_COMPANY, userDetails);
+    submitHandler(userDetails);
   };
 
   return (

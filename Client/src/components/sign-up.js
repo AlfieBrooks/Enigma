@@ -14,8 +14,10 @@ export class SignUp extends React.Component {
     this.state = {};
   }
 
-  submitHandler = (accountType, userDetails) => {
-    accountType === ACCOUNT_TYPES.ACCOUNT_TYPE_COMPANY ? this.props.accountCompanySignUp(userDetails) : this.props.accountInterpreterSignUp(userDetails);
+  submitHandler = userDetails => {
+    userDetails.accountType === ACCOUNT_TYPES.ACCOUNT_TYPE_COMPANY
+      ? this.props.accountCompanySignUp(userDetails)
+      : this.props.accountInterpreterSignUp(userDetails);
   };
 
   renderSignUp = () => (

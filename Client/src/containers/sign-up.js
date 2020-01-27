@@ -4,7 +4,7 @@ import { Container } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 import { SignUp } from '../components/sign-up';
-import { accountSignUp } from '../redux/account/account-actions';
+import { accountCompanySignUp, accountInterpreterSignUp } from '../redux/account/account-actions';
 
 export class SignUpContainer extends React.Component {
   constructor(props) {
@@ -15,7 +15,11 @@ export class SignUpContainer extends React.Component {
   render() {
     return (
       <Container className="sign-up__container">
-        <SignUp account={this.props.account} accountSignUp={this.props.accountSignUp} />
+        <SignUp
+          account={this.props.account}
+          accountCompanySignUp={this.props.accountCompanySignUp}
+          accountInterpreterSignUp={this.props.accountInterpreterSignUp}
+        />
       </Container>
     );
   }
@@ -25,7 +29,7 @@ const mapStateToProps = state => ({
   account: state.account,
 });
 
-export const SignUpPage = connect(mapStateToProps, { accountSignUp })(SignUpContainer);
+export const SignUpPage = connect(mapStateToProps, { accountCompanySignUp, accountInterpreterSignUp })(SignUpContainer);
 
 SignUpContainer.propTypes = {
   account: PropTypes.shape({
@@ -34,5 +38,6 @@ SignUpContainer.propTypes = {
     firstName: PropTypes.string,
     lastName: PropTypes.string,
   }),
-  accountSignUp: PropTypes.func,
+  accountCompanySignUp: PropTypes.func,
+  accountInterpreterSignUp: PropTypes.func,
 };
