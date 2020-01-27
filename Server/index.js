@@ -17,7 +17,7 @@ app.get('/config', (req, res) => {
 });
 
 app.post('/signup', (req, res) => {
-  if (req.body?.email && req.body?.password && req.body?.membership && req.body?.membershipExpiry) {
+  if (req.body && req.body.email && req.body.password && req.body.membership && req.body.membershipExpiry) {
     const { email, password, membership, membershipExpiry } = req.body
     const AccountDetails = mongoose.model('enigmatest', accountDetails);
     const accountObj = new AccountDetails({ _id: email, password, membership, membershipExpiry });
@@ -32,7 +32,7 @@ app.post('/signup', (req, res) => {
 })
 
 app.get('/account', (req, res) => {
-  if (req.headers?.email && req.headers?.password) {
+  if (req.headers && req.headers.email && req.headers.password) {
     const { email, password } = req.headers
     const AccountDetails = mongoose.model('enigmatest', accountDetails);
     return AccountDetails.findOne({_id: email, password}, (err, acc) => {
