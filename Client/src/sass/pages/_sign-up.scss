@@ -56,11 +56,12 @@
 .sign-in__slider-container {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .sign-in__slider {
   margin-right: 10px;
-  width: 77%;
+  width: 85%;
   -webkit-appearance: none;
   height: 15px;
   border-radius: 5px;
@@ -94,6 +95,7 @@
 }
 
 .sign-in__slider-text {
+  width: 15%;
   text-align: center;
   color: $white;
 }
