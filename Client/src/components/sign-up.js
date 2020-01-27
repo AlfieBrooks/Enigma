@@ -15,7 +15,7 @@ export class SignUp extends React.Component {
   }
 
   submitHandler = (accountType, userDetails) => {
-    this.props.accountSignUp(userDetails);
+    accountType === ACCOUNT_TYPES.ACCOUNT_TYPE_COMPANY ? this.props.accountCompanySignUp(userDetails) : this.props.accountInterpreterSignUp(userDetails);
   };
 
   renderSignUp = () => (
@@ -57,5 +57,6 @@ SignUp.propTypes = {
     error: PropTypes.string,
     loading: PropTypes.bool,
   }),
-  accountSignUp: PropTypes.func.isRequired,
+  accountCompanySignUp: PropTypes.func.isRequired,
+  accountInterpreterSignUp: PropTypes.func.isRequired,
 };

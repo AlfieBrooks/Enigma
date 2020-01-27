@@ -39,11 +39,11 @@ export const accountSignOut = () => {
   };
 };
 
-export const accountSignUp = ({ accountType, email, password, confirmPassword }) => {
+export const accountCompanySignUp = ({ accountType, companyName, email, password, confirmPassword }) => {
   return dispatch => {
     dispatch(signUpStarted());
 
-    if (!email || !password || !confirmPassword) {
+    if (!companyName || !email || !password || !confirmPassword) {
       return dispatch(signUpFailed('Please fill out all fields'));
     }
 
@@ -57,8 +57,53 @@ export const accountSignUp = ({ accountType, email, password, confirmPassword })
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+        accountType,
+        companyName,
         email,
         password,
+      }),
+      credentials: 'same-origin',
+    })
+      .then(res => res.json())
+      .then(result => {
+        if (result.error) {
+          return dispatch(signUpFailed(result.error));
+        }
+        dispatch(signUpSuccess(email));
+        return dispatch(accountSignIn(email, password));
+      })
+      .catch(e => {
+        return dispatch(signUpFailed(`'${e.message}' - It looks like somethings gone wrong, please try again later.`));
+      });
+  };
+};
+
+export const accountInterpreterSignUp = ({ accountType, firstName, lastName, email, password, confirmPassword, postcode, hourlyRate, maxDistance }) => {
+  return dispatch => {
+    dispatch(signUpStarted());
+
+    if (!firstName || !lastName || !email || !password || !confirmPassword || !postcode || !hourlyRate || !maxDistance) {
+      return dispatch(signUpFailed('Please fill out all fields'));
+    }
+
+    if(password !== confirmPassword) {
+      return dispatch(signUpFailed('Passwords do not match'));
+    }
+
+    fetch('http://localhost:443/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        accountType,
+        firstName,
+        lastName,
+        email,
+        password,
+        postcode,
+        hourlyRate,
+        maxDistance,
         membershipExpiry: '1',
         membership: '1',
       }),
