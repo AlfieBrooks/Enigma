@@ -14,8 +14,6 @@ export class SignUp extends React.Component {
   }
 
   submitHandler = accountType => {
-  console.log('Log: SignUp -> accountType', accountType);
-
     const userAccount = {
       accountType,
       email: this.state.email,

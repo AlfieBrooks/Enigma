@@ -1,23 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
-import { Provider } from 'react-redux';
-import reducer from './redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './sass/main.scss';
 
-// Pages
-import { Home as HomePage } from './containers/home';
-import { BookingPage } from './containers/booking';
-import { SignInPage } from './containers/sign-in';
-import { SignUpPage } from './containers/sign-up';
-import { AccountPage } from './containers/account';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { applyMiddleware, compose, createStore } from 'redux';
+import thunk from 'redux-thunk';
 
+import { rootReducer } from './redux';
 // Components
 // import { ModalFactory } from './components/modal-factory'; POC
 import { NavigationComponent } from './components/navigation';
+import { BookingPage } from './containers/booking';
+// Pages
+import { Home as HomePage } from './containers/home';
+import { SignInPage } from './containers/sign-in';
+import { SignUpPage } from './containers/sign-up';
+import { AccountPage } from './containers/account';
 
 function Routes() {
   return (
@@ -54,7 +54,7 @@ function Routes() {
 }
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(reducer, /* preloadedState, */ composeEnhancers(applyMiddleware(thunk)));
+const store = createStore(rootReducer, /* preloadedState, */ composeEnhancers(applyMiddleware(thunk)));
 
 ReactDOM.render(
   <Provider store={store}>

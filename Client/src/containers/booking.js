@@ -1,11 +1,12 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Container, ListGroup } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
-import { saveSelectedDates } from '../redux/booking';
-import { BookingSearch } from '../components/booking-search';
 import { BookingItem } from '../components/booking-item';
+import { BookingSearch } from '../components/booking-search';
+import { saveSelectedDates } from '../redux/booking';
 
 export class Booking extends React.Component {
   constructor(props) {
@@ -38,26 +39,15 @@ export class Booking extends React.Component {
 
     return (
       <Container className="book__container">
-        {this.props.account.authenticated ? (
-          <div>
-            <h1> Book</h1>
-            <BookingSearch saveSelectedDates={this.props.saveSelectedDates} />
-            <ListGroup variant="flush">
-              {mock.map(item => (
-                <ListGroup.Item key={item.name}>
-                  <BookingItem
-                    name={item.name}
-                    price={item.price}
-                    image={item.image}
-                    available={item.available}
-                  />
-                </ListGroup.Item>
-              ))}
-            </ListGroup>
-          </div>
-        ) : (
-          <Redirect to="/sign-in" />
-        )}
+        <h1> Book</h1>
+        <BookingSearch saveSelectedDates={this.props.saveSelectedDates} />
+        <ListGroup variant="flush">
+          {mock.map(item => (
+            <ListGroup.Item key={item.name}>
+              <BookingItem name={item.name} price={item.price} image={item.image} available={item.available} />
+            </ListGroup.Item>
+          ))}
+        </ListGroup>
       </Container>
     );
   }
@@ -69,3 +59,7 @@ const mapStateToProps = state => ({
 });
 
 export const BookingPage = connect(mapStateToProps, { saveSelectedDates })(Booking);
+
+Booking.propTypes = {
+  saveSelectedDates: PropTypes.func.isRequired,
+};

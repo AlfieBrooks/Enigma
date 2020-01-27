@@ -37,11 +37,7 @@ export const accountSignIn = (email, password) => {
         return dispatch(signInSuccess(email));
       })
       .catch(e => {
-        return dispatch(
-          signInFailed(
-            `'${e.message}' - It looks like somethings gone wrong, please try again later.`
-          )
-        );
+        return dispatch(signInFailed(`'${e.message}' - It looks like somethings gone wrong, please try again later.`));
       });
   };
 };
@@ -101,7 +97,7 @@ const initialState = {
   signUpError: false,
 };
 
-export default function account(state = initialState, action) {
+export function accountReducer(state = initialState, action) {
   switch (action.type) {
     case ACCOUNT_SIGN_IN_STARTED:
       return {
