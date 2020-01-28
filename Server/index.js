@@ -22,27 +22,33 @@ app.post('/sign-up', async (req, res) => {
 
   try {
     if (req.headers.account_type === 'Company') {
-      console.log(req.headers);
       user = await CompanyUsers.create(req.headers);
     } else {
       user = await InterpreterUsers.create(req.headers);
     };
-    return res.status(200).json({ user });
+    res.status(200).json({ user });
   } catch(err) {
-    return res.status(409).json({ error: `Error trying to sign up ${err}` });
+    res.status(409).json({ error: `Error trying to sign up ${err}` });
   }
 });
 
-// TODO: Make sign in check for either CompanyUsers or InterpreterUsers collections
 app.get('/sign-in', async (req, res) => {
   const { email, password } = req.headers;
   try {
-    let user = await Account.findOne({ email, password });
-    console.log('Log: here', email, password);
-    console.log('Log: user', user);
-    return res.status(200).json({ user });
+    let companyUsers = await CompanyUsers.findOne({ email, password });
+
+    if(!companyUsers) {
+      let interpreterUsers = await InterpreterUsers.findOne({ email, password });
+
+      if(!interpreterUsers) {
+        res.status(409).json({ error: `Error trying to sign in - Account not found` });
+      }
+      res.send(interpreterUsers);
+    } else {
+      res.send(companyUsers);
+    }
   } catch(err) {
-    return res.status(409).json({ error: `Error trying to sign in ${err}` });
+    res.status(409).json({ error: `Error trying to sign in ${err}` });
   }
 });
 
@@ -51,7 +57,7 @@ app.get('/api/company-users', async (req, res) => {
     let users = await CompanyUsers.find();
     res.send(users);
   } catch(err) {
-    return res.status(409).json({ error: `Error trying to sign in ${err}` });
+    res.status(409).json({ error: `Error trying to sign in ${err}` });
   }
 });
 
@@ -60,16 +66,16 @@ app.get('/api/interpreter-users', async (req, res) => {
     let users = await InterpreterUsers.find();
     res.send(users);
   } catch(err) {
-    return res.status(409).json({ error: `Error trying to sign in ${err}` });
+    res.status(409).json({ error: `Error trying to sign in ${err}` });
   }
 });
 
 app.post('/booking-request', async (req, res) => {
   try {
     const booking = await Bookings.create(req.body);
-    return res.status(200).json(booking);
+    res.status(200).json(booking);
   } catch(err) {
-    return res.status(409).json({ error: `Error trying to save your booking ${err}` });
+    res.status(409).json({ error: `Error trying to save your booking ${err}` });
   }
 });
 
@@ -79,9 +85,8 @@ app.get('/availability', async (req, res) => {
     const bookedInterpreters = await Bookings.find({ startdate: { $gte: startdate}, enddate: { $lte: enddate } }).distinct('interpreterId');
 
     const availableInterpreters = await InterpreterUsers.find({ _id: { $nin: bookedInterpreters } });
-    return availableInterpreters;
   } catch(err) {
-    return res.status(409).json({ error: `Error getting available interpreters ${err}` });
+    res.status(409).json({ error: `Error getting available interpreters ${err}` });
   }
 });
 

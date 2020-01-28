@@ -41,11 +41,11 @@ export const interpreterAccountSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  firstName: {
+  first_name: {
     type: String,
     required: true
   },
-  lastName: {
+  last_name: {
     type: String,
     required: true
   },
@@ -53,20 +53,20 @@ export const interpreterAccountSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  hourlyRate: {
+  hourly_rate: {
     type: Number,
     required: true
   },
-  maxDistance: {
+  max_distance: {
     type: Number,
     required: true
   },
-  membershipId: {
+  membership_id: {
     type: Number,
     required: true
   },
-  membershipExpiry:  {
-    type: Number,
+  membership_expiry:  {
+    type: String,
     required: true
   },
   bookings: [{
