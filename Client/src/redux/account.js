@@ -14,7 +14,7 @@ const signOut = () => ({ type: ACCOUNT_SIGN_OUT });
 export const accountSignIn = (email, password) => {
   return dispatch => {
     dispatch(signInStarted());
-    fetch('http://localhost:443/account', {
+    fetch('http://localhost:443/sign-in', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

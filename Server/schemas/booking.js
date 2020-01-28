@@ -1,10 +1,25 @@
 import mongoose from "mongoose";
 
-export const bookingDetails = mongoose.Schema({
-  startDate: Date,
-  endDate: Date,
-  companyName: String,
-  postcode: String,
+export const bookingSchema = new mongoose.Schema({
+  startDate: {
+    type: Date,
+    required: true
+  },
+  endDate: {
+    type: Date,
+    required: true
+  },
+  companyName: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Account'
+  },
+  postcode: {
+    type: String,
+    required: true
+  },
   requestId: String,
-  interpreterId: String,
+  interpreterId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Account'
+  },
 });
