@@ -2,3 +2,23 @@
     margin-top: 50px;
     color: $white;
 }
+
+.home__title {
+  padding: 20% 0 5%;
+  text-align: center;
+  font-size: 54px;
+  font-weight: 200;
+}
+
+.home__jumbotron {
+  background-color: $grey;
+}
+
+.home__subtitle {
+  text-align: center;
+}
+
+.home__button {
+  text-align: center;
+  margin: 0;
+}
