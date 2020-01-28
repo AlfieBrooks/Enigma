@@ -1,6 +1,10 @@
 .sign-in__container {
   margin-top: 50px;
-  color: $white;
+
+  h3,
+  label {
+    color: $white;
+  }
 }
 
 .sign-in__column {

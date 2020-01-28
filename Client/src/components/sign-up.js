@@ -1,79 +1,64 @@
+import PropTypes from 'prop-types';
 import React from 'react';
-import { Button, Col, Container, Form, Row, Tab, Tabs } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Alert, Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
+import { Redirect } from 'react-router-dom';
 
+import { ACCOUNT_TYPES } from '../utils/account-type-constants';
+import { CompanySignUp } from './company-sign-up-form';
+import { InterpreterSignUp } from './interpreter-sign-up-form';
 import { SpinnerPage } from './spinner';
-
-const ACCOUNT_TYPE_COMPANY = 'Company';
-const ACCOUNT_TYPE_INTERPRETER = 'Interpreter';
 
 export class SignUp extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      // email: '',
-      // password: '',
-      loading: false,
-    };
+    this.state = {};
   }
 
-  submitHandler = event => {
-    event.preventDefault();
-    this.setState({ loading: true });
-    // TODO: Send data here
+  submitHandler = userDetails => {
+    userDetails.accountType === ACCOUNT_TYPES.ACCOUNT_TYPE_COMPANY
+      ? this.props.accountCompanySignUp(userDetails)
+      : this.props.accountInterpreterSignUp(userDetails);
   };
-
-  renderCompanySignUp = () => (
-    <>
-      <h3>Sign up - Company</h3>
-      <Form onSubmit={this.submitHandler}>
-        <Form.Group controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" onChange={this.changeHandler} />
-        </Form.Group>
-
-        <Form.Group controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" onChange={this.changeHandler} />
-        </Form.Group>
-
-        <Button variant="primary" type="submit" className="sign-in__button">
-          Sign Up
-        </Button>
-        <Link to="/sign-in" className="sign-up__sign-in-link">
-          Already got an account? Sign In
-        </Link>
-      </Form>
-    </>
-  );
-
-  renderInterpreterSignUp = () => (
-    <>
-      <h3>Sign up - Interpreter</h3>
-      <Link to="/sign-in" className="sign-up__sign-in-link">
-        Already got an account? Sign In
-      </Link>
-    </>
-  );
 
   renderSignUp = () => (
     <Row className="justify-content-md-center">
       <Col md="9" className="sign-in__column">
-        <Tabs defaultActiveKey={ACCOUNT_TYPE_COMPANY} id="uncontrolled-tab-example">
-          <Tab eventKey={ACCOUNT_TYPE_COMPANY} title={ACCOUNT_TYPE_COMPANY}>
-            {this.renderCompanySignUp()}
+        <Tabs defaultActiveKey={ACCOUNT_TYPES.ACCOUNT_TYPE_COMPANY} id="uncontrolled-tab-example">
+          <Tab eventKey={ACCOUNT_TYPES.ACCOUNT_TYPE_COMPANY} title={ACCOUNT_TYPES.ACCOUNT_TYPE_COMPANY}>
+            <CompanySignUp submitHandler={this.submitHandler} />
           </Tab>
-          <Tab eventKey={ACCOUNT_TYPE_INTERPRETER} title={ACCOUNT_TYPE_INTERPRETER}>
-            {this.renderInterpreterSignUp()}
+          <Tab eventKey={ACCOUNT_TYPES.ACCOUNT_TYPE_INTERPRETER} title={ACCOUNT_TYPES.ACCOUNT_TYPE_INTERPRETER}>
+            <InterpreterSignUp submitHandler={this.submitHandler} />
           </Tab>
         </Tabs>
       </Col>
     </Row>
   );
 
+  renderError = () => (
+    <Alert variant="danger" dismissible>
+      <Alert.Heading>Oops!</Alert.Heading>
+      <span>{this.props.account.error}</span>
+    </Alert>
+  );
+
   render() {
     return (
-      <Container className="sign-in__container">{this.state.loading ? <SpinnerPage /> : this.renderSignUp()}</Container>
+      <Container className="sign-in__container">
+        {this.props.account.error && this.renderError()}
+        {this.props.account.authenticated && <Redirect to="/" />}
+        {this.props.account.loading ? <SpinnerPage /> : this.renderSignUp()}
+      </Container>
     );
   }
 }
+
+SignUp.propTypes = {
+  account: PropTypes.shape({
+    authenticated: PropTypes.bool,
+    error: PropTypes.string,
+    loading: PropTypes.bool,
+  }),
+  accountCompanySignUp: PropTypes.func.isRequired,
+  accountInterpreterSignUp: PropTypes.func.isRequired,
+};

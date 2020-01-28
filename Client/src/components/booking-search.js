@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { DatePicker } from './date-picker';
+import { DateRangeSelector } from './date-range-selector';
 
-export const BookingSearch = ({ saveSelectedDates }) => <DatePicker saveSelectedDates={saveSelectedDates} />;
+export const BookingSearch = ({ saveSelectedDates }) => <DateRangeSelector saveSelectedDates={saveSelectedDates} />;
 
 BookingSearch.propTypes = {
   saveSelectedDates: PropTypes.func,

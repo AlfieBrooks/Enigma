@@ -8,7 +8,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
   },
-  // minifying and other thing so let's set mode to development
+  devtool: 'inline-source-map',
   mode: 'development',
   devServer: {
     historyApiFallback: true,

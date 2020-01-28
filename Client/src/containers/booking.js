@@ -53,6 +53,7 @@ export class Booking extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  account: state.account,
   booking: state.booking,
 });
 

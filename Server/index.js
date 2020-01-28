@@ -2,7 +2,7 @@ import cors from 'cors';
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
-import { companyAccountSchema, interpreterAccountSchema } from './schemas/singup';
+import { companyAccountSchema, interpreterAccountSchema } from './schemas/signup';
 import { bookingSchema } from './schemas/booking';
 
 const app = express();

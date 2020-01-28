@@ -4,7 +4,7 @@ import { Container } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 import { SignIn } from '../components/sign-in';
-import { accountSignIn } from '../redux/account';
+import { accountSignIn } from '../redux/account/account-actions';
 
 export class SignInContainer extends React.Component {
   constructor(props) {
