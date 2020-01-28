@@ -21,7 +21,7 @@ const signOut = () => ({ type: ACCOUNT_SIGN_OUT });
 export const accountSignIn = (email, password) => {
   return dispatch => {
     dispatch(signInStarted());
-    fetch('http://localhost:443/account', {
+    fetch('http://localhost:443/sign-in', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -67,8 +67,8 @@ export const accountCompanySignUp = ({ accountType, companyName, email, password
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        accountType,
-        companyName,
+        account_type: accountType,
+        company_name: companyName,
         email,
         password,
       }),
@@ -123,22 +123,22 @@ export const accountInterpreterSignUp = ({
       return dispatch(signUpFailed('Passwords do not match'));
     }
 
-    fetch('http://localhost:443/signup', {
+    fetch('http://localhost:443/sign-up', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        accountType,
-        firstName,
-        lastName,
+        account_type: accountType,
+        first_name: firstName,
+        last_name: lastName,
         email,
         password,
         postcode,
-        hourlyRate,
-        maxDistance,
-        membershipId,
-        membershipExpiry,
+        hourly_rate: hourlyRate,
+        max_distance: maxDistance,
+        membership_id: membershipId,
+        membership_expiry: membershipExpiry,
       }),
       credentials: 'same-origin',
     })

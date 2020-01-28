@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Container, ListGroup } from 'react-bootstrap';
+import { Button, Container, ListGroup } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 import { BookingItem } from '../components/booking-item';
 import { BookingSearch } from '../components/booking-search';
-import { saveSelectedDates } from '../redux/booking';
+import { saveSelectedDates, getAvailableInterpreters } from '../redux/booking/booking-actions';
 
 export class Booking extends React.Component {
   constructor(props) {
@@ -13,37 +13,21 @@ export class Booking extends React.Component {
     this.state = {};
   }
 
-  render() {
-    // TODO: Get from database when setup
-    const mock = [
-      {
-        name: 'Dave',
-        price: '£100',
-        image: 'Image',
-        available: true,
-      },
-      {
-        name: 'Jim',
-        price: '£140',
-        image: 'Image1',
-        available: true,
-      },
-      {
-        name: 'Alfus',
-        price: '£1103',
-        image: 'Image2',
-        available: false,
-      },
-    ];
+  submitHandler = () => {
+    const { startDate, endDate } = this.props.booking;
+    this.props.getAvailableInterpreters(startDate, endDate);
+  };
 
+  render() {
     return (
       <Container className="book__container">
         <h1> Book</h1>
         <BookingSearch saveSelectedDates={this.props.saveSelectedDates} />
+        <Button onClick={this.submitHandler}>Search</Button>
         <ListGroup variant="flush">
-          {mock.map(item => (
-            <ListGroup.Item key={item.name}>
-              <BookingItem name={item.name} price={item.price} image={item.image} available={item.available} />
+          {this.props.booking.availableInterpreters.map(item => (
+            <ListGroup.Item key={item.first_name}>
+              <BookingItem first_name={item.first_name} last_name={item.last_name} hourly_rate={item.hourly_rate} />
             </ListGroup.Item>
           ))}
         </ListGroup>
@@ -57,8 +41,9 @@ const mapStateToProps = state => ({
   booking: state.booking,
 });
 
-export const BookingPage = connect(mapStateToProps, { saveSelectedDates })(Booking);
+export const BookingPage = connect(mapStateToProps, { saveSelectedDates, getAvailableInterpreters })(Booking);
 
 Booking.propTypes = {
   saveSelectedDates: PropTypes.func.isRequired,
+  getAvailableInterpreters: PropTypes.func.isRequired,
 };

@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-//TODO Change from cammel case
 export const companyAccountSchema = new mongoose.Schema({
   account_type: {
     type: String,

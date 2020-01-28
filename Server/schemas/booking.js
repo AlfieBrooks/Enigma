@@ -1,25 +1,24 @@
 import mongoose from "mongoose";
 
 export const bookingSchema = new mongoose.Schema({
-  startDate: {
+  start_date: {
     type: Date,
     required: true
   },
-  endDate: {
+  end_date: {
     type: Date,
     required: true
   },
-  companyName: {
+  company_name: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Account'
+    ref: 'company_users'
   },
   postcode: {
     type: String,
     required: true
   },
-  requestId: String,
-  interpreterId: {
+  interpreter_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Account'
+    ref: 'interpreter_users'
   },
 });

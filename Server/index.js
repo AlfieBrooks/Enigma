@@ -2,7 +2,7 @@ import cors from 'cors';
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
-import { companyAccountSchema, interpreterAccountSchema } from './schemas/signup';
+import { companyAccountSchema, interpreterAccountSchema } from './schemas/accounts';
 import { bookingSchema } from './schemas/booking';
 
 const app = express();
@@ -13,7 +13,6 @@ const InterpreterUsers = mongoose.model('interpreter_users', interpreterAccountS
 const Bookings = mongoose.model('bookings', bookingSchema);
 
 app.use(cors());
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -21,10 +20,10 @@ app.post('/sign-up', async (req, res) => {
   let user;
 
   try {
-    if (req.headers.account_type === 'Company') {
-      user = await CompanyUsers.create(req.headers);
+    if (req.body.account_type === 'Company') {
+      user = await CompanyUsers.create(req.body);
     } else {
-      user = await InterpreterUsers.create(req.headers);
+      user = await InterpreterUsers.create(req.body);
     };
     res.status(200).json({ user });
   } catch(err) {
@@ -80,11 +79,12 @@ app.post('/booking-request', async (req, res) => {
 });
 
 app.get('/availability', async (req, res) => {
-  const { startdate, enddate, postcode } = req.headers;
+  const { start_date, end_date, postcode } = req.headers;
   try {
-    const bookedInterpreters = await Bookings.find({ startdate: { $gte: startdate}, enddate: { $lte: enddate } }).distinct('interpreterId');
+    let bookedInterpreters = await Bookings.find({ start_date: { $gte: start_date}, end_date: { $lte: end_date } }).distinct('interpreterId');
+    let availableInterpreters = await InterpreterUsers.find({ _id: { $nin: bookedInterpreters } });
 
-    const availableInterpreters = await InterpreterUsers.find({ _id: { $nin: bookedInterpreters } });
+    res.send(availableInterpreters);
   } catch(err) {
     res.status(409).json({ error: `Error getting available interpreters ${err}` });
   }
@@ -98,6 +98,7 @@ function listen() {
 }
 
 function connect() {
+  mongoose.set('useCreateIndex', true);
   mongoose.connection
     .on('error', console.error)
     .on('disconnected', connect)
