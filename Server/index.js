@@ -2,7 +2,7 @@ import cors from 'cors';
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
-import { accountDetails } from './schemas/singup'
+import { accountDetails } from './schemas/signup'
 
 const app = express();
 const port = 443
@@ -37,10 +37,10 @@ app.get('/account', (req, res) => {
     const AccountDetails = mongoose.model('enigmatest', accountDetails);
     return AccountDetails.findOne({_id: email, password}, (err, acc) => {
       if (err){
-        return res.status(400).json({ error: `Something went wrong ${err}`  })
+        return res.status(400).json({ error: `Something went wrong ${err}` })
       }
       if (!acc) {
-        return res.status(401).json({ error: `Invalid Credentials ${email}, ${password}`  })
+        return res.status(401).json({ error: `Invalid Credentials ${email}, ${password}` })
       }
       return res.status(200).json({success: acc._id})
     })

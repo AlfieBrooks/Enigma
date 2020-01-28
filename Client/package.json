@@ -6,7 +6,8 @@
     "start": "webpack-dev-server --mode development --open",
     "dev": "webpack --config webpack.config.js",
     "build": "webpack --mode production",
-    "lint": "eslint ."
+    "lint": "eslint src",
+    "lint-fix": "eslint src --fix"
   },
   "eslintConfig": {
     "extends": "react-app"
