@@ -2,19 +2,28 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Button, Card } from 'react-bootstrap';
 
-export const BookingItem = ({ first_name, last_name, hourly_rate }) => (
-  <Card>
-    <Card.Body>
-      <Card.Title>{`${first_name} ${last_name}`}</Card.Title>
-      <Card.Subtitle className="mb-2 text-muted">{`£${hourly_rate}`}</Card.Subtitle>
-      <Card.Text>Info goes here.</Card.Text>
-      <Button variant="primary">Book</Button>
-    </Card.Body>
-  </Card>
-);
+export const BookingItem = ({ firstName, lastName, hourlyRate, interpreterId, makeBooking }) => {
+  const submitHandler = event => {
+    event.preventDefault();
+    makeBooking(hourlyRate, firstName, lastName, interpreterId);
+  };
+
+  return (
+    <Card>
+      <Card.Body>
+        <Card.Title>{`${firstName} ${lastName}`}</Card.Title>
+        <Card.Subtitle className="mb-2 text-muted">{`£${hourlyRate}`}</Card.Subtitle>
+        <Card.Text>Info goes here.</Card.Text>
+        <Button variant="primary" onClick={submitHandler}>Book</Button>
+      </Card.Body>
+    </Card>
+  )
+};
 
 BookingItem.propTypes = {
-  available: PropTypes.bool,
-  name: PropTypes.string,
-  price: PropTypes.string,
+  makeBooking: PropTypes.func.isRequired,
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
+  hourlyRate: PropTypes.string,
+  interpreterId: PropTypes.string,
 };

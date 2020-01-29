@@ -9,16 +9,24 @@ export const bookingSchema = new mongoose.Schema({
     type: Date,
     required: true
   },
-  company_name: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'company_users'
+  total_price: {
+    type: String,
+    required: true
   },
-  postcode: {
+  company_name: {
+    type: String,
+    required: true
+  },
+  company_id: {
+    type: String,
+    required: true
+  },
+  interpreter_full_name: {
     type: String,
     required: true
   },
   interpreter_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'interpreter_users'
+    type: String,
+    required: true
   },
 });

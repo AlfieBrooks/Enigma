@@ -27,7 +27,7 @@ app.post('/sign-up', async (req, res) => {
     };
     res.status(200).json({ user });
   } catch(err) {
-    res.status(409).json({ error: `Error trying to sign up ${err}` });
+    res.status(409).json({ error: `Error trying to sign up - ${err}` });
   }
 });
 
@@ -47,7 +47,7 @@ app.get('/sign-in', async (req, res) => {
       res.send(companyUsers);
     }
   } catch(err) {
-    res.status(409).json({ error: `Error trying to sign in ${err}` });
+    res.status(409).json({ error: `Error trying to sign in - ${err}` });
   }
 });
 
@@ -56,7 +56,7 @@ app.get('/api/company-users', async (req, res) => {
     let users = await CompanyUsers.find();
     res.send(users);
   } catch(err) {
-    res.status(409).json({ error: `Error trying to sign in ${err}` });
+    res.status(409).json({ error: `Error getting company users - ${err}` });
   }
 });
 
@@ -65,7 +65,7 @@ app.get('/api/interpreter-users', async (req, res) => {
     let users = await InterpreterUsers.find();
     res.send(users);
   } catch(err) {
-    res.status(409).json({ error: `Error trying to sign in ${err}` });
+    res.status(409).json({ error: `Error getting interpreter users - ${err}` });
   }
 });
 
@@ -74,19 +74,19 @@ app.post('/booking-request', async (req, res) => {
     const booking = await Bookings.create(req.body);
     res.status(200).json(booking);
   } catch(err) {
-    res.status(409).json({ error: `Error trying to save your booking ${err}` });
+    res.status(409).json({ error: `Error trying to save your booking - ${err}` });
   }
 });
 
 app.get('/availability', async (req, res) => {
   const { start_date, end_date, postcode } = req.headers;
   try {
-    let bookedInterpreters = await Bookings.find({ start_date: { $gte: start_date}, end_date: { $lte: end_date } }).distinct('interpreterId');
+    let bookedInterpreters = await Bookings.find({ start_date: { $gte: start_date}, end_date: { $lte: end_date } }).distinct('interpreter_id');
     let availableInterpreters = await InterpreterUsers.find({ _id: { $nin: bookedInterpreters } });
 
     res.send(availableInterpreters);
   } catch(err) {
-    res.status(409).json({ error: `Error getting available interpreters ${err}` });
+    res.status(409).json({ error: `Error getting available interpreters - ${err}` });
   }
 });
 

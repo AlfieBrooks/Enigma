@@ -10,10 +10,10 @@ import {
 
 // Action Creators
 const signInStarted = () => ({ type: ACCOUNT_SIGN_IN_STARTED });
-const signInSuccess = email => ({ type: ACCOUNT_SIGN_IN_SUCCESS, email });
+const signInSuccess = details => ({ type: ACCOUNT_SIGN_IN_SUCCESS, details });
 const signInFailed = error => ({ type: ACCOUNT_SIGN_IN_FAILED, error });
 const signUpStarted = () => ({ type: ACCOUNT_SIGN_UP_STARTED });
-const signUpSuccess = email => ({ type: ACCOUNT_SIGN_UP_SUCCESS, email });
+const signUpSuccess = () => ({ type: ACCOUNT_SIGN_UP_SUCCESS });
 const signUpFailed = error => ({ type: ACCOUNT_SIGN_UP_FAILED, error });
 const signOut = () => ({ type: ACCOUNT_SIGN_OUT });
 
@@ -35,7 +35,7 @@ export const accountSignIn = (email, password) => {
         if (result.error) {
           return dispatch(signInFailed(result.error));
         }
-        return dispatch(signInSuccess(email));
+        return dispatch(signInSuccess(result));
       })
       .catch(e => {
         return dispatch(signInFailed(`'${e.message}' - It looks like somethings gone wrong, please try again later.`));
@@ -61,7 +61,7 @@ export const accountCompanySignUp = ({ accountType, companyName, email, password
       return dispatch(signUpFailed('Passwords do not match'));
     }
 
-    fetch('http://localhost:443/signup', {
+    fetch('http://localhost:443/sign-up', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -79,7 +79,7 @@ export const accountCompanySignUp = ({ accountType, companyName, email, password
         if (result.error) {
           return dispatch(signUpFailed(result.error));
         }
-        dispatch(signUpSuccess(email));
+        dispatch(signUpSuccess());
         return dispatch(accountSignIn(email, password));
       })
       .catch(e => {

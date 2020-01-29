@@ -3,12 +3,16 @@ import {
   FETCH_AVAILABLE_INTERPRETERS_STARTED,
   FETCH_AVAILABLE_INTERPRETERS_SUCCESS,
   FETCH_AVAILABLE_INTERPRETERS_FAILED,
+  BOOKING_REQUEST_STARTED,
+  BOOKING_REQUEST_SUCCESS,
+  BOOKING_REQUEST_FAILED,
 } from './booking-action-constants';
 
 const initialState = {
   loading: false,
   error: null,
   availableInterpreters: [],
+  booking: [],
   startDate: null,
   endDate: null,
 };
@@ -34,6 +38,24 @@ export function bookingReducer(state = initialState, action) {
         loading: false,
       };
     case FETCH_AVAILABLE_INTERPRETERS_FAILED:
+      return {
+        ...state,
+        error: action.error,
+        loading: false,
+      };
+    case BOOKING_REQUEST_STARTED:
+      return {
+        ...state,
+        loading: true,
+      };
+    case BOOKING_REQUEST_SUCCESS:
+      return {
+        ...state,
+        booking: action.booking,
+        error: null,
+        loading: false,
+      };
+    case BOOKING_REQUEST_FAILED:
       return {
         ...state,
         error: action.error,

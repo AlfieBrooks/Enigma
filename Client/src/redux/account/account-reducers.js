@@ -10,7 +10,7 @@ import {
 
 const initialState = {
   loading: false,
-  email: null,
+  details: [],
   authenticated: false,
   error: null,
   signInError: false,
@@ -28,7 +28,7 @@ export function accountReducer(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        email: action.email,
+        details: action.details,
         error: null,
         authenticated: true,
       };
@@ -49,7 +49,6 @@ export function accountReducer(state = initialState, action) {
         ...state,
         loading: false,
         error: null,
-        email: action.email,
       };
     case ACCOUNT_SIGN_UP_FAILED:
       return {
