@@ -1,3 +1,5 @@
+import { NODE_SERVER_URI } from '../../utils/config';
+
 import {
   BOOKING_REQUEST_FAILED,
   BOOKING_REQUEST_STARTED,
@@ -32,7 +34,7 @@ export const saveSelectedDates = (startDate, endDate) => dispatch =>
 export const getAvailableInterpreters = (startDate, endDate) => {
   return dispatch => {
     dispatch(fetchAvailableInterpretersStarted());
-    fetch('http://localhost:443/availability', {
+    fetch(`${NODE_SERVER_URI}/booking/availability`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -69,7 +71,7 @@ export const bookingRequest = ({
 }) => {
   return dispatch => {
     dispatch(bookingRequestStarted());
-    fetch('http://localhost:443/booking-request', {
+    fetch(`${NODE_SERVER_URI}/booking/request-booking`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

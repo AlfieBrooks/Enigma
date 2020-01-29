@@ -1,3 +1,5 @@
+import { NODE_SERVER_URI } from '../../utils/config';
+
 import {
   ACCOUNT_SIGN_IN_FAILED,
   ACCOUNT_SIGN_IN_STARTED,
@@ -21,7 +23,7 @@ const signOut = () => ({ type: ACCOUNT_SIGN_OUT });
 export const accountSignIn = (email, password) => {
   return dispatch => {
     dispatch(signInStarted());
-    fetch('http://localhost:443/sign-in', {
+    fetch(`${NODE_SERVER_URI}/account/sign-in`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -61,7 +63,7 @@ export const accountCompanySignUp = ({ accountType, companyName, email, password
       return dispatch(signUpFailed('Passwords do not match'));
     }
 
-    fetch('http://localhost:443/sign-up', {
+    fetch(`${NODE_SERVER_URI}/account/sign-up`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -123,7 +125,7 @@ export const accountInterpreterSignUp = ({
       return dispatch(signUpFailed('Passwords do not match'));
     }
 
-    fetch('http://localhost:443/sign-up', {
+    fetch(`${NODE_SERVER_URI}/account/sign-up`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
