@@ -10,7 +10,7 @@ import {
 
 const initialState = {
   loading: false,
-  details: [],
+  details: {},
   authenticated: false,
   error: null,
   signInError: false,

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Button, Container, ListGroup } from 'react-bootstrap';
+import { Alert, Button, Container, ListGroup } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 import { BookingItem } from '../components/booking-item';
@@ -27,9 +27,17 @@ export class Booking extends React.Component {
     this.props.bookingRequest(startDate, endDate, totalPrice, companyName, companyId, interpreterFullName, interpreterId);
   }
 
+  renderError = () => (
+    <Alert variant="danger" dismissible>
+      <Alert.Heading>Oops!</Alert.Heading>
+      <span>{this.props.booking.error}</span>
+    </Alert>
+  );
+
   render() {
     return (
       <Container className="book__container">
+        {this.props.booking.error && this.renderError()}
         <h1>Book</h1>
         <BookingSearch saveSelectedDates={this.props.saveSelectedDates} />
         <Button onClick={this.submitHandler}>Search</Button>
