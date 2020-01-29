@@ -43,7 +43,7 @@ class Navigation extends React.Component {
             </Nav>
             <Nav>
               {this.props.account.authenticated ? (
-                <NavDropdown title={this.props.account.email} id="collasible-nav-dropdown">
+                <NavDropdown title={this.props.account.details.email} id="collasible-nav-dropdown">
                   <NavDropdown.Item as={Link} to="/account">
                     Account Details
                   </NavDropdown.Item>
@@ -71,7 +71,9 @@ export const NavigationComponent = connect(mapStateToProps, { accountSignOut })(
 Navigation.propTypes = {
   account: PropTypes.shape({
     authenticated: PropTypes.bool,
-    email: PropTypes.string,
+    details: PropTypes.shape({
+      email: PropTypes.string,
+    }),
   }),
   accountSignOut: PropTypes.func,
 };

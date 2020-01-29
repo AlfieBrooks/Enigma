@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Container, ListGroup } from 'react-bootstrap';
+import { Alert, Button, Container, ListGroup } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 import { BookingItem } from '../components/booking-item';
 import { BookingSearch } from '../components/booking-search';
-import { saveSelectedDates } from '../redux/booking';
+import { bookingRequest, getAvailableInterpreters, saveSelectedDates } from '../redux/booking/booking-actions';
 
 export class Booking extends React.Component {
   constructor(props) {
@@ -13,37 +13,53 @@ export class Booking extends React.Component {
     this.state = {};
   }
 
-  render() {
-    // TODO: Get from database when setup
-    const mock = [
-      {
-        name: 'Dave',
-        price: '£100',
-        image: 'Image',
-        available: true,
-      },
-      {
-        name: 'Jim',
-        price: '£140',
-        image: 'Image1',
-        available: true,
-      },
-      {
-        name: 'Alfus',
-        price: '£1103',
-        image: 'Image2',
-        available: false,
-      },
-    ];
+  submitHandler = () => {
+    const { startDate, endDate } = this.props.booking;
+    this.props.getAvailableInterpreters(startDate, endDate);
+  };
 
+  makeBooking = ({ hourlyRate, interpreterFirstName, interpreterLastName, interpreterId }) => {
+    const { _id: companyId, company_name: companyName } = this.props.account.details;
+    const { startDate, endDate } = this.props.booking;
+    const interpreterFullName = `${interpreterFirstName} ${interpreterLastName}`;
+    const totalPrice = hourlyRate * 4;
+    const bookingDetails = {
+      startDate,
+      endDate,
+      totalPrice,
+      companyName,
+      companyId,
+      interpreterFullName,
+      interpreterId,
+    };
+
+    this.props.bookingRequest(bookingDetails);
+  };
+
+  renderError = () => (
+    <Alert variant="danger" dismissible>
+      <Alert.Heading>Oops!</Alert.Heading>
+      <span>{this.props.booking.error}</span>
+    </Alert>
+  );
+
+  render() {
     return (
       <Container className="book__container">
-        <h1> Book</h1>
+        {this.props.booking.error && this.renderError()}
+        <h1>Book</h1>
         <BookingSearch saveSelectedDates={this.props.saveSelectedDates} />
+        <Button onClick={this.submitHandler}>Search</Button>
         <ListGroup variant="flush">
-          {mock.map(item => (
-            <ListGroup.Item key={item.name}>
-              <BookingItem name={item.name} price={item.price} image={item.image} available={item.available} />
+          {this.props.booking.availableInterpreters.map(item => (
+            <ListGroup.Item key={item._id}>
+              <BookingItem
+                firstName={item.first_name}
+                lastName={item.last_name}
+                hourlyRate={item.hourly_rate}
+                interpreterId={item._id}
+                makeBooking={this.makeBooking}
+              />
             </ListGroup.Item>
           ))}
         </ListGroup>
@@ -57,8 +73,14 @@ const mapStateToProps = state => ({
   booking: state.booking,
 });
 
-export const BookingPage = connect(mapStateToProps, { saveSelectedDates })(Booking);
+export const BookingPage = connect(mapStateToProps, {
+  saveSelectedDates,
+  getAvailableInterpreters,
+  bookingRequest,
+})(Booking);
 
 Booking.propTypes = {
+  bookingRequest: PropTypes.func.isRequired,
+  getAvailableInterpreters: PropTypes.func.isRequired,
   saveSelectedDates: PropTypes.func.isRequired,
 };

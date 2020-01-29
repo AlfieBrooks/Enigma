@@ -2,51 +2,93 @@ import cors from 'cors';
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
-import { accountDetails } from './schemas/signup'
+import { companyAccountSchema, interpreterAccountSchema } from './schemas/accounts';
+import { bookingSchema } from './schemas/booking';
 
 const app = express();
-const port = 443
+const port = 443;
+
+const CompanyUsers = mongoose.model('company_users', companyAccountSchema);
+const InterpreterUsers = mongoose.model('interpreter_users', interpreterAccountSchema);
+const Bookings = mongoose.model('bookings', bookingSchema);
 
 app.use(cors());
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.get('/config', (req, res) => {
-  res.send({ features: { cuck: true } });
+app.post('/sign-up', async (req, res) => {
+  let user;
+
+  try {
+    if (req.body.account_type === 'Company') {
+      user = await CompanyUsers.create(req.body);
+    } else {
+      user = await InterpreterUsers.create(req.body);
+    };
+    res.status(200).json({ user });
+  } catch(err) {
+    res.status(409).json({ error: `Error trying to sign up - ${err}` });
+  }
 });
 
-app.post('/signup', (req, res) => {
-  if (req.body && req.body.email && req.body.password && req.body.membership && req.body.membershipExpiry) {
-    const { email, password, membership, membershipExpiry } = req.body
-    const AccountDetails = mongoose.model('enigmatest', accountDetails);
-    const accountObj = new AccountDetails({ _id: email, password, membership, membershipExpiry });
-    return accountObj.save((err, acc) => {
-      if (err) {
-        return res.status(409).json({ error: `Error When saving Account ${err}` })
-      }
-      return res.status(201).json({success: acc._id})
-    })
-  }
-  return res.status(400).json({ error: 'Invalid Body' })
-})
+app.get('/sign-in', async (req, res) => {
+  const { email, password } = req.headers;
+  try {
+    let companyUsers = await CompanyUsers.findOne({ email, password });
 
-app.get('/account', (req, res) => {
-  if (req.headers && req.headers.email && req.headers.password) {
-    const { email, password } = req.headers
-    const AccountDetails = mongoose.model('enigmatest', accountDetails);
-    return AccountDetails.findOne({_id: email, password}, (err, acc) => {
-      if (err){
-        return res.status(400).json({ error: `Something went wrong ${err}` })
+    if(!companyUsers) {
+      let interpreterUsers = await InterpreterUsers.findOne({ email, password });
+
+      if(!interpreterUsers) {
+        res.status(409).json({ error: `Error trying to sign in - Account not found` });
       }
-      if (!acc) {
-        return res.status(401).json({ error: `Invalid Credentials ${email}, ${password}` })
-      }
-      return res.status(200).json({success: acc._id})
-    })
+      res.send(interpreterUsers);
+    } else {
+      res.send(companyUsers);
+    }
+  } catch(err) {
+    res.status(409).json({ error: `Error trying to sign in - ${err}` });
   }
-  return res.status(400).json({ error: 'Invalid Headers' })
-})
+});
+
+app.get('/api/company-users', async (req, res) => {
+  try {
+    let users = await CompanyUsers.find();
+    res.send(users);
+  } catch(err) {
+    res.status(409).json({ error: `Error getting company users - ${err}` });
+  }
+});
+
+app.get('/api/interpreter-users', async (req, res) => {
+  try {
+    let users = await InterpreterUsers.find();
+    res.send(users);
+  } catch(err) {
+    res.status(409).json({ error: `Error getting interpreter users - ${err}` });
+  }
+});
+
+app.post('/booking-request', async (req, res) => {
+  try {
+    const booking = await Bookings.create(req.body);
+    res.status(200).json(booking);
+  } catch(err) {
+    res.status(409).json({ error: `Error trying to save your booking - ${err}` });
+  }
+});
+
+app.get('/availability', async (req, res) => {
+  const { start_date, end_date, postcode } = req.headers;
+  try {
+    let bookedInterpreters = await Bookings.find({ start_date: { $gte: start_date}, end_date: { $lte: end_date } }).distinct('interpreter_id');
+    let availableInterpreters = await InterpreterUsers.find({ _id: { $nin: bookedInterpreters } });
+
+    res.send(availableInterpreters);
+  } catch(err) {
+    res.status(409).json({ error: `Error getting available interpreters - ${err}` });
+  }
+});
 
 connect();
 
@@ -56,9 +98,13 @@ function listen() {
 }
 
 function connect() {
+  mongoose.set('useCreateIndex', true);
   mongoose.connection
     .on('error', console.error)
     .on('disconnected', connect)
     .once('open', listen);
-  return mongoose.connect('mongodb://35.246.119.118:27017/enigmatest', { keepAlive: 1, useNewUrlParser: true });
+  return mongoose.connect('mongodb://35.246.119.118:27017/Enigma', {
+    keepAlive: 1,
+    useNewUrlParser: true
+  });
 }
