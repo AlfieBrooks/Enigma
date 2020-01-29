@@ -18,21 +18,22 @@ export class Booking extends React.Component {
     this.props.getAvailableInterpreters(startDate, endDate);
   };
 
-  makeBooking = (hourlyRate, interpreterFirstName, interpreterLastName, interpreterId) => {
+  makeBooking = ({ hourlyRate, interpreterFirstName, interpreterLastName, interpreterId }) => {
     const { _id: companyId, company_name: companyName } = this.props.account.details;
     const { startDate, endDate } = this.props.booking;
     const interpreterFullName = `${interpreterFirstName} ${interpreterLastName}`;
     const totalPrice = hourlyRate * 4;
-
-    this.props.bookingRequest(
+    const bookingDetails = {
       startDate,
       endDate,
       totalPrice,
       companyName,
       companyId,
       interpreterFullName,
-      interpreterId
-    );
+      interpreterId,
+    };
+
+    this.props.bookingRequest(bookingDetails);
   };
 
   renderError = () => (

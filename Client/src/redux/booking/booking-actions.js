@@ -58,15 +58,15 @@ export const getAvailableInterpreters = (startDate, endDate) => {
   };
 };
 
-export const bookingRequest = (
+export const bookingRequest = ({
   startDate,
   endDate,
   totalPrice,
   companyName,
   companyId,
   interpreterFullName,
-  interpreterId
-) => {
+  interpreterId,
+}) => {
   return dispatch => {
     dispatch(bookingRequestStarted());
     fetch('http://localhost:443/booking-request', {

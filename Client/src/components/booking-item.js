@@ -5,7 +5,13 @@ import { Button, Card } from 'react-bootstrap';
 export const BookingItem = ({ firstName, lastName, hourlyRate, interpreterId, makeBooking }) => {
   const submitHandler = event => {
     event.preventDefault();
-    makeBooking(hourlyRate, firstName, lastName, interpreterId);
+    const userDetails = {
+      firstName,
+      lastName,
+      hourlyRate,
+      interpreterId,
+    };
+    makeBooking(userDetails);
   };
 
   return (
