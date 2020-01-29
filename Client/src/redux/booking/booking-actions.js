@@ -1,16 +1,19 @@
 import {
-  SAVE_SELECTED_DATES,
-  FETCH_AVAILABLE_INTERPRETERS_STARTED,
-  FETCH_AVAILABLE_INTERPRETERS_SUCCESS,
-  FETCH_AVAILABLE_INTERPRETERS_FAILED,
+  BOOKING_REQUEST_FAILED,
   BOOKING_REQUEST_STARTED,
   BOOKING_REQUEST_SUCCESS,
-  BOOKING_REQUEST_FAILED,
+  FETCH_AVAILABLE_INTERPRETERS_FAILED,
+  FETCH_AVAILABLE_INTERPRETERS_STARTED,
+  FETCH_AVAILABLE_INTERPRETERS_SUCCESS,
+  SAVE_SELECTED_DATES,
 } from './booking-action-constants';
 
 // Action Creators
 const fetchAvailableInterpretersStarted = () => ({ type: FETCH_AVAILABLE_INTERPRETERS_STARTED });
-const fetchAvailableInterpretersSuccess = availableInterpreters => ({ type: FETCH_AVAILABLE_INTERPRETERS_SUCCESS, availableInterpreters });
+const fetchAvailableInterpretersSuccess = availableInterpreters => ({
+  type: FETCH_AVAILABLE_INTERPRETERS_SUCCESS,
+  availableInterpreters,
+});
 const fetchAvailableInterpretersFailed = error => ({ type: FETCH_AVAILABLE_INTERPRETERS_FAILED, error });
 const bookingRequestStarted = () => ({ type: BOOKING_REQUEST_STARTED });
 const bookingRequestSuccess = booking => ({ type: BOOKING_REQUEST_SUCCESS, booking });
@@ -46,12 +49,24 @@ export const getAvailableInterpreters = (startDate, endDate) => {
         return dispatch(fetchAvailableInterpretersSuccess(result));
       })
       .catch(e => {
-        return dispatch(fetchAvailableInterpretersFailed(`'${e.message}' - It looks like somethings gone wrong, please try again later.`));
+        return dispatch(
+          fetchAvailableInterpretersFailed(
+            `'${e.message}' - It looks like somethings gone wrong, please try again later.`
+          )
+        );
       });
   };
 };
 
-export const bookingRequest = (startDate, endDate, totalPrice, companyName, companyId, interpreterFullName, interpreterId) => {
+export const bookingRequest = (
+  startDate,
+  endDate,
+  totalPrice,
+  companyName,
+  companyId,
+  interpreterFullName,
+  interpreterId
+) => {
   return dispatch => {
     dispatch(bookingRequestStarted());
     fetch('http://localhost:443/booking-request', {
@@ -78,7 +93,9 @@ export const bookingRequest = (startDate, endDate, totalPrice, companyName, comp
         return dispatch(bookingRequestSuccess(result));
       })
       .catch(e => {
-        return dispatch(bookingRequestFailed(`'${e.message}' - It looks like somethings gone wrong, please try again later.`));
+        return dispatch(
+          bookingRequestFailed(`'${e.message}' - It looks like somethings gone wrong, please try again later.`)
+        );
       });
   };
 };

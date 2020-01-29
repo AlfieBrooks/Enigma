@@ -14,16 +14,18 @@ export const BookingItem = ({ firstName, lastName, hourlyRate, interpreterId, ma
         <Card.Title>{`${firstName} ${lastName}`}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">{`£${hourlyRate}`}</Card.Subtitle>
         <Card.Text>Info goes here.</Card.Text>
-        <Button variant="primary" onClick={submitHandler}>Book</Button>
+        <Button variant="primary" onClick={submitHandler}>
+          Book
+        </Button>
       </Card.Body>
     </Card>
-  )
+  );
 };
 
 BookingItem.propTypes = {
-  makeBooking: PropTypes.func.isRequired,
   firstName: PropTypes.string,
-  lastName: PropTypes.string,
   hourlyRate: PropTypes.string,
   interpreterId: PropTypes.string,
+  lastName: PropTypes.string,
+  makeBooking: PropTypes.func.isRequired,
 };

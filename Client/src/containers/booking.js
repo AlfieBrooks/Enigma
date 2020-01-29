@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { BookingItem } from '../components/booking-item';
 import { BookingSearch } from '../components/booking-search';
-import { saveSelectedDates, getAvailableInterpreters, bookingRequest } from '../redux/booking/booking-actions';
+import { bookingRequest, getAvailableInterpreters, saveSelectedDates } from '../redux/booking/booking-actions';
 
 export class Booking extends React.Component {
   constructor(props) {
@@ -24,8 +24,16 @@ export class Booking extends React.Component {
     const interpreterFullName = `${interpreterFirstName} ${interpreterLastName}`;
     const totalPrice = hourlyRate * 4;
 
-    this.props.bookingRequest(startDate, endDate, totalPrice, companyName, companyId, interpreterFullName, interpreterId);
-  }
+    this.props.bookingRequest(
+      startDate,
+      endDate,
+      totalPrice,
+      companyName,
+      companyId,
+      interpreterFullName,
+      interpreterId
+    );
+  };
 
   renderError = () => (
     <Alert variant="danger" dismissible>
@@ -72,6 +80,6 @@ export const BookingPage = connect(mapStateToProps, {
 
 Booking.propTypes = {
   bookingRequest: PropTypes.func.isRequired,
-  saveSelectedDates: PropTypes.func.isRequired,
   getAvailableInterpreters: PropTypes.func.isRequired,
+  saveSelectedDates: PropTypes.func.isRequired,
 };
