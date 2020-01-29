@@ -13,7 +13,7 @@ router.post('/request-booking', async (req, res) => {
     const booking = await Bookings.create(req.body);
     res.status(200).json(booking);
   } catch(err) {
-    res.status(409).json({ error: `Error trying to save your booking - ${err}` });
+    res.status(400).json({ error: `Error trying to save your booking - ${err}` });
   }
 });
 
@@ -25,7 +25,7 @@ router.get('/availability', async (req, res) => {
 
     res.send(availableInterpreters);
   } catch(err) {
-    res.status(409).json({ error: `Error getting available interpreters - ${err}` });
+    res.status(400).json({ error: `Error getting available interpreters - ${err}` });
   }
 });
 
