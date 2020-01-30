@@ -18,10 +18,10 @@ export class Booking extends React.Component {
     this.props.getAvailableInterpreters(startDate, endDate);
   };
 
-  makeBooking = ({ hourlyRate, interpreterFirstName, interpreterLastName, interpreterId }) => {
+  makeBooking = ({ hourlyRate, firstName, lastName, interpreterId }) => {
     const { _id: companyId, company_name: companyName } = this.props.account.details;
     const { startDate, endDate } = this.props.booking;
-    const interpreterFullName = `${interpreterFirstName} ${interpreterLastName}`;
+    const interpreterFullName = `${firstName} ${lastName}`;
     const totalPrice = hourlyRate * 4;
     const bookingDetails = {
       startDate,
