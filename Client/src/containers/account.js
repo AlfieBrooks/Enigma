@@ -16,11 +16,7 @@ export class AccountContainer extends React.Component {
     const { firstName, lastName, email } = this.props.account;
     return (
       <Container className="sign-in__container">
-        {this.props.account.authenticated ? (
-          <Account firstName={firstName} lastName={lastName} email={email} />
-        ) : (
-          <Redirect to="/sign-in" />
-        )}
+        <Account firstName={firstName} lastName={lastName} email={email} />
       </Container>
     );
   }

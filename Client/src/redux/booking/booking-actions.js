@@ -8,7 +8,9 @@ import {
   FETCH_AVAILABLE_INTERPRETERS_STARTED,
   FETCH_AVAILABLE_INTERPRETERS_SUCCESS,
   SAVE_SELECTED_DATES,
+  CLEAR_BOOKING_ERROR
 } from './booking-action-constants';
+
 
 // Action Creators
 const fetchAvailableInterpretersStarted = () => ({ type: FETCH_AVAILABLE_INTERPRETERS_STARTED });
@@ -20,6 +22,7 @@ const fetchAvailableInterpretersFailed = error => ({ type: FETCH_AVAILABLE_INTER
 const bookingRequestStarted = () => ({ type: BOOKING_REQUEST_STARTED });
 const bookingRequestSuccess = booking => ({ type: BOOKING_REQUEST_SUCCESS, booking });
 const bookingRequestFailed = error => ({ type: BOOKING_REQUEST_FAILED, error });
+const clearError = () => ({ type: CLEAR_BOOKING_ERROR})
 
 // Thunk
 export const saveSelectedDates = (startDate, endDate) => dispatch =>
@@ -101,3 +104,9 @@ export const bookingRequest = ({
       });
   };
 };
+
+export const clearBookingError = () => {
+  return dispatch => {
+    dispatch(clearError())
+  }
+}

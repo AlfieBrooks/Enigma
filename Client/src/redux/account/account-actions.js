@@ -8,6 +8,7 @@ import {
   ACCOUNT_SIGN_UP_FAILED,
   ACCOUNT_SIGN_UP_STARTED,
   ACCOUNT_SIGN_UP_SUCCESS,
+  CLEAR_ACCOUNT_ERROR,
 } from './account-action-constants';
 
 // Action Creators
@@ -18,6 +19,7 @@ const signUpStarted = () => ({ type: ACCOUNT_SIGN_UP_STARTED });
 const signUpSuccess = () => ({ type: ACCOUNT_SIGN_UP_SUCCESS });
 const signUpFailed = error => ({ type: ACCOUNT_SIGN_UP_FAILED, error });
 const signOut = () => ({ type: ACCOUNT_SIGN_OUT });
+const clearError = () => ({ type: CLEAR_ACCOUNT_ERROR });
 
 // Thunk
 export const accountSignIn = (email, password) => {
@@ -157,3 +159,9 @@ export const accountInterpreterSignUp = ({
       });
   };
 };
+
+export const clearAccountError = () => {
+  return dispatch => {
+    dispatch(clearError());
+  }
+}

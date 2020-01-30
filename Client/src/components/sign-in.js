@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Alert, Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { Link, Redirect } from 'react-router-dom';
 
 import { SpinnerPage } from './spinner';
@@ -10,7 +10,7 @@ export class SignIn extends React.Component {
     super(props);
     this.state = {
       email: '',
-      password: '',
+      password: ''
     };
   }
 
@@ -50,17 +50,9 @@ export class SignIn extends React.Component {
     </Row>
   );
 
-  renderError = () => (
-    <Alert variant="danger" dismissible>
-      <Alert.Heading>Oops!</Alert.Heading>
-      <span>{this.props.account.error}</span>
-    </Alert>
-  );
-
   render() {
     return (
       <Container className="sign-in__container">
-        {this.props.account.error && this.renderError()}
         {this.props.account.authenticated && <Redirect to="/" />}
         {this.props.account.loading ? <SpinnerPage /> : this.renderSignIn()}
       </Container>

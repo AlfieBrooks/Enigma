@@ -1,16 +1,19 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Alert, Button, Container, ListGroup } from 'react-bootstrap';
+import { Alert, Button, Container, ListGroup, Toast } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 import { BookingItem } from '../components/booking-item';
 import { BookingSearch } from '../components/booking-search';
-import { bookingRequest, getAvailableInterpreters, saveSelectedDates } from '../redux/booking/booking-actions';
+import { bookingRequest, getAvailableInterpreters, saveSelectedDates, clearBookingError } from '../redux/booking/booking-actions';
+import { ErrorToast } from '../components/error-toast';
 
 export class Booking extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      showError: false
+    };
   }
 
   submitHandler = () => {
@@ -36,17 +39,14 @@ export class Booking extends React.Component {
     this.props.bookingRequest(bookingDetails);
   };
 
-  renderError = () => (
-    <Alert variant="danger" dismissible>
-      <Alert.Heading>Oops!</Alert.Heading>
-      <span>{this.props.booking.error}</span>
-    </Alert>
-  );
+
+  onToastClose = () => {
+    this.props.clearBookingError();
+  }
 
   render() {
     return (
       <Container className="book__container">
-        {this.props.booking.error && this.renderError()}
         <h1>Book</h1>
         <BookingSearch saveSelectedDates={this.props.saveSelectedDates} />
         <Button onClick={this.submitHandler}>Search</Button>
@@ -63,6 +63,11 @@ export class Booking extends React.Component {
             </ListGroup.Item>
           ))}
         </ListGroup>
+        <ErrorToast 
+          showError={this.props.booking.error}
+          errorMessage={this.props.booking.error} 
+          onToastClose={this.onToastClose}
+          />
       </Container>
     );
   }
@@ -77,10 +82,13 @@ export const BookingPage = connect(mapStateToProps, {
   saveSelectedDates,
   getAvailableInterpreters,
   bookingRequest,
+  clearBookingError
 })(Booking);
 
 Booking.propTypes = {
   bookingRequest: PropTypes.func.isRequired,
   getAvailableInterpreters: PropTypes.func.isRequired,
   saveSelectedDates: PropTypes.func.isRequired,
+  clearBookingError: PropTypes.func.isRequired,
+
 };

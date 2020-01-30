@@ -6,6 +6,7 @@ import {
   ACCOUNT_SIGN_UP_FAILED,
   ACCOUNT_SIGN_UP_STARTED,
   ACCOUNT_SIGN_UP_SUCCESS,
+  CLEAR_ACCOUNT_ERROR,
 } from './account-action-constants';
 
 const initialState = {
@@ -13,8 +14,6 @@ const initialState = {
   details: {},
   authenticated: false,
   error: null,
-  signInError: false,
-  signUpError: false,
 };
 
 export function accountReducer(state = initialState, action) {
@@ -37,7 +36,6 @@ export function accountReducer(state = initialState, action) {
         ...state,
         loading: false,
         error: action.error,
-        signInError: true,
       };
     case ACCOUNT_SIGN_UP_STARTED:
       return {
@@ -55,13 +53,17 @@ export function accountReducer(state = initialState, action) {
         ...state,
         loading: false,
         error: action.error,
-        signUpError: true,
       };
     case ACCOUNT_SIGN_OUT:
       return {
         ...state,
         ...initialState,
       };
+    case CLEAR_ACCOUNT_ERROR:
+      return {
+        ...state,
+        error: null,
+      }
     default:
       return state;
   }

@@ -39,12 +39,12 @@ function Routes() {
         <AuthRouter exact path="/booking">
           <BookingPage />
         </AuthRouter>
-        <Route exact path="/info">
-          <SignInPage />
-        </Route>
         <AuthRouter exact path="/account">
           <AccountPage />
         </AuthRouter>
+        <Route exact path="/info">
+          <HomePage />
+        </Route>
         <Route path="/*">
           <div>
             <p>404 - Something went wrong :(</p>
