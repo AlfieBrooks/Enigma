@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Alert, Button, Container, ListGroup, Toast } from 'react-bootstrap';
+import { Button, Container, ListGroup, Toast } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import { BookingItem } from '../components/booking-item';
 import { BookingSearch } from '../components/booking-search';
@@ -21,8 +22,8 @@ export class Booking extends React.Component {
   };
 
   makeBooking = ({ hourlyRate, firstName, lastName, interpreterId }) => {
-    const { _id: companyId, company_name: companyName } = this.props.account.details;
-    const { startDate, endDate } = this.props.booking;
+    const { _id: companyId, company_name: companyName } = this.props.accountDetails;
+    const { startDate, endDate } = this.props;
     const interpreterFullName = `${firstName} ${lastName}`;
     const totalPrice = hourlyRate * 4;
     const bookingDetails = {
@@ -39,7 +40,19 @@ export class Booking extends React.Component {
   };
 
   getBookingSuccessMessage = () => {
-    
+    if (this.props.booking) {
+      const { 
+        start_date: startDate,
+        end_date: endDate,
+        total_price: totalPrice,
+        interpreter_full_name: interpreterName
+      } = this.props.booking;
+      const formattedStartDate = moment(startDate).format('DD/MM');
+      const formattedEndDate = moment(endDate).format('DD/MM');
+
+      return this.props.booking ?`You just booked ${interpreterName} from ${formattedStartDate} till ${formattedEndDate}. Total Price: £${totalPrice}`;
+    }
+    return '';
   }
 
   render() {
