@@ -13,7 +13,8 @@ export const companyAccountSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true
+    required: true,
+    select: false
   },
   company_name: {
     type: String,
@@ -38,7 +39,8 @@ export const interpreterAccountSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true
+    required: true,
+    select: false
   },
   first_name: {
     type: String,
