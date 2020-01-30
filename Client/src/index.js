@@ -4,11 +4,10 @@ import './sass/main.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { applyMiddleware, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
 
-// import { ModalFactory } from './components/modal-factory'; POC
 import { NavigationComponent } from './components/navigation';
 import { AccountPage } from './containers/account';
 import { BookingPage } from './containers/booking';
@@ -17,11 +16,16 @@ import { SignInPage } from './containers/sign-in';
 import { SignUpPage } from './containers/sign-up';
 import { rootReducer } from './redux';
 
+function AuthRouter(props) {
+  return (
+    <Route {...props}>{store.getState().account.authenticated ? props.children : <Redirect to="/sign-in" />}</Route>
+  );
+}
+
 function Routes() {
   return (
     <Router>
       <NavigationComponent />
-      {/* <ModalFactory /> */}
       <Switch>
         <Route exact path="/">
           <HomePage />
@@ -32,15 +36,15 @@ function Routes() {
         <Route exact path="/sign-in">
           <SignInPage />
         </Route>
-        <Route exact path="/booking">
+        <AuthRouter exact path="/booking">
           <BookingPage />
-        </Route>
+        </AuthRouter>
         <Route exact path="/info">
           <SignInPage />
         </Route>
-        <Route exact path="/account">
+        <AuthRouter exact path="/account">
           <AccountPage />
-        </Route>
+        </AuthRouter>
         <Route path="/*">
           <div>
             <p>404 - Something went wrong :(</p>

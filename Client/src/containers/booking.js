@@ -32,11 +32,10 @@ export class Booking extends React.Component {
     return totalPrice;
   }
 
-  makeBooking = ({ hourlyRate, interpreterFirstName, interpreterLastName, interpreterId }) => {
+  makeBooking = ({ hourlyRate, firstName, lastName, interpreterId }) => {
     const { _id: companyId, company_name: companyName } = this.props.account.details;
     const { startDate, endDate } = this.props.booking;
-    const interpreterFullName = `${interpreterFirstName} ${interpreterLastName}`;
-
+    const interpreterFullName = `${firstName} ${lastName}`;
     const totalPrice = this.getTotalPrice(hourlyRate);
     const bookingDetails = {
       startDate,
