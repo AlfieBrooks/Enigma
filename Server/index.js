@@ -28,6 +28,7 @@ function listen() {
 }
 
 function connect() {
+  mongoose.set('useFindAndModify', false);
   mongoose.set('useCreateIndex', true);
   mongoose.connection
     .on('error', console.error)
