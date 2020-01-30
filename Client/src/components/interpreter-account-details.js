@@ -1,9 +1,9 @@
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
 
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
-import moment from 'moment';
 import { Button, Col, Form, InputGroup } from 'react-bootstrap';
 import { SingleDatePicker } from 'react-dates';
 
@@ -19,7 +19,7 @@ export function InterpreterAccountDetails({
   hourlyRate,
   maxDistance,
   membershipId,
-  membershipExpiry
+  membershipExpiry,
 }) {
   const { value: updatedFirstName, bind: bindFirstName } = useInput(firstName);
   const { value: updatedLastName, bind: bindLastName } = useInput(lastName);
@@ -132,5 +132,13 @@ export function InterpreterAccountDetails({
 }
 
 InterpreterAccountDetails.propTypes = {
+  email: PropTypes.string,
+  firstName: PropTypes.string,
+  hourlyRate: PropTypes.number,
+  lastName: PropTypes.string,
+  maxDistance: PropTypes.string,
+  membershipExpiry: PropTypes.string,
+  membershipId: PropTypes.string,
+  postcode: PropTypes.string,
   submitHandler: PropTypes.func.isRequired,
 };

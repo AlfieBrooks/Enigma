@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Alert, Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
+import { Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 
 import { ACCOUNT_TYPES } from '../utils/account-type-constants';
@@ -35,17 +35,9 @@ export class SignUp extends React.Component {
     </Row>
   );
 
-  renderError = () => (
-    <Alert variant="danger" dismissible>
-      <Alert.Heading>Oops!</Alert.Heading>
-      <span>{this.props.account.error}</span>
-    </Alert>
-  );
-
   render() {
     return (
       <Container className="sign-in__container">
-        {this.props.account.error && this.renderError()}
         {this.props.account.authenticated && <Redirect to="/" />}
         {this.props.account.loading ? <SpinnerPage /> : this.renderSignUp()}
       </Container>

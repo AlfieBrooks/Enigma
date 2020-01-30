@@ -3,8 +3,9 @@ import React from 'react';
 import { Container } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
+import { ErrorToast } from '../components/error-toast';
 import { SignUp } from '../components/sign-up';
-import { accountCompanySignUp, accountInterpreterSignUp } from '../redux/account/account-actions';
+import { accountCompanySignUp, accountInterpreterSignUp, clearAccountError } from '../redux/account/account-actions';
 
 export class SignUpContainer extends React.Component {
   constructor(props) {
@@ -20,6 +21,11 @@ export class SignUpContainer extends React.Component {
           accountCompanySignUp={this.props.accountCompanySignUp}
           accountInterpreterSignUp={this.props.accountInterpreterSignUp}
         />
+        <ErrorToast
+          showToast={Boolean(this.props.account.error)}
+          errorMessage={this.props.account.error}
+          onToastClose={this.props.clearAccountError}
+        />
       </Container>
     );
   }
@@ -29,15 +35,19 @@ const mapStateToProps = state => ({
   account: state.account,
 });
 
-export const SignUpPage = connect(mapStateToProps, { accountCompanySignUp, accountInterpreterSignUp })(SignUpContainer);
+export const SignUpPage = connect(mapStateToProps, {
+  accountCompanySignUp,
+  accountInterpreterSignUp,
+  clearAccountError,
+})(SignUpContainer);
 
 SignUpContainer.propTypes = {
   account: PropTypes.shape({
     authenticated: PropTypes.bool,
     email: PropTypes.string,
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
+    error: PropTypes.string,
   }),
   accountCompanySignUp: PropTypes.func,
   accountInterpreterSignUp: PropTypes.func,
+  clearAccountError: PropTypes.func,
 };

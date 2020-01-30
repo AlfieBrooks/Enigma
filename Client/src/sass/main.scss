@@ -2,8 +2,11 @@
 
 @import 'base/base';
 
+@import 'components/toast';
+
+@import 'layout/navigation';
+
 @import 'pages/sign-in';
 @import 'pages/sign-up';
-@import 'pages/navigation';
 @import 'pages/home';
 @import 'pages/book';

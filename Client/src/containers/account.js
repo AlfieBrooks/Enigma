@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 
 import { CompanyAccountDetails } from '../components/company-account-details';
 import { InterpreterAccountDetails } from '../components/interpreter-account-details';
-import { ACCOUNT_TYPES } from '../utils/account-type-constants';
 import { updateCompanyAccount, updateInterpreterAccount } from '../redux/account/account-actions';
+import { ACCOUNT_TYPES } from '../utils/account-type-constants';
 
 export class AccountContainer extends React.Component {
   constructor(props) {
@@ -26,14 +26,8 @@ export class AccountContainer extends React.Component {
   renderCompanyAccountDetails = () => {
     const { email, company_name } = this.props.account.details;
 
-    return (
-      <CompanyAccountDetails
-        submitHandler={this.submitHandler}
-        email={email}
-        companyName={company_name}
-      />
-    );
-  }
+    return <CompanyAccountDetails submitHandler={this.submitHandler} email={email} companyName={company_name} />;
+  };
 
   renderInterpreterAccountDetails = () => {
     const {
@@ -60,14 +54,14 @@ export class AccountContainer extends React.Component {
         membershipExpiry={membership_expiry}
       />
     );
-  }
+  };
 
   render() {
     return (
       <Container className="sign-in__container">
-        {this.props.account.details.account_type === ACCOUNT_TYPES.ACCOUNT_TYPE_COMPANY ?
-          this.renderCompanyAccountDetails() : this.renderInterpreterAccountDetails()
-        }
+        {this.props.account.details.account_type === ACCOUNT_TYPES.ACCOUNT_TYPE_COMPANY
+          ? this.renderCompanyAccountDetails()
+          : this.renderInterpreterAccountDetails()}
       </Container>
     );
   }
@@ -79,14 +73,14 @@ const mapStateToProps = state => ({
 
 export const AccountPage = connect(mapStateToProps, {
   updateCompanyAccount,
-  updateInterpreterAccount
+  updateInterpreterAccount,
 })(AccountContainer);
 
 AccountContainer.propTypes = {
   account: PropTypes.shape({
     authenticated: PropTypes.bool,
     details: PropTypes.shape({
-        email: PropTypes.string,
+      email: PropTypes.string,
     }),
   }),
   updateCompanyAccount: PropTypes.func.isRequired,
