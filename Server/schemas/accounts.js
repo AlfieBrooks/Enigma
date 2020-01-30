@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 export const companyAccountSchema = new mongoose.Schema({
   account_type: {
