@@ -1,5 +1,4 @@
 import { NODE_SERVER_URI } from '../../utils/config';
-
 import {
   ACCOUNT_SIGN_IN_FAILED,
   ACCOUNT_SIGN_IN_STARTED,
@@ -25,7 +24,7 @@ const signUpStarted = () => ({ type: ACCOUNT_SIGN_UP_STARTED });
 const signUpSuccess = () => ({ type: ACCOUNT_SIGN_UP_SUCCESS });
 const updateAccountFailed = error => ({ type: UPDATE_ACCOUNT_FAILED, error });
 const updateAccountStarted = () => ({ type: UPDATE_ACCOUNT_STARTED });
-const updateAccountSuccess = details => ({ type: UPDATE_ACCOUNT_SUCCESS, details});
+const updateAccountSuccess = details => ({ type: UPDATE_ACCOUNT_SUCCESS, details });
 
 // Thunk
 export const accountSignIn = (email, password) => {
@@ -62,8 +61,8 @@ export const accountSignOut = () => {
 export const clearAccountError = () => {
   return dispatch => {
     dispatch(clearError());
-  }
-}
+  };
+};
 
 export const accountCompanySignUp = ({ accountType, companyName, email, password, confirmPassword }) => {
   return dispatch => {
@@ -184,7 +183,7 @@ export const updateCompanyAccount = ({ _id, accountType, updatedCompanyName }) =
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        _id
+        _id,
       },
       body: JSON.stringify({
         account_type: accountType,
@@ -200,10 +199,12 @@ export const updateCompanyAccount = ({ _id, accountType, updatedCompanyName }) =
         return dispatch(updateAccountSuccess(result.user));
       })
       .catch(e => {
-        return dispatch(updateAccountFailed(`'${e.message}' - It looks like somethings gone wrong, please try again later.`));
+        return dispatch(
+          updateAccountFailed(`'${e.message}' - It looks like somethings gone wrong, please try again later.`)
+        );
       });
   };
-}
+};
 
 export const updateInterpreterAccount = ({
   _id,
@@ -257,7 +258,9 @@ export const updateInterpreterAccount = ({
         return dispatch(updateAccountSuccess(result.user));
       })
       .catch(e => {
-        return dispatch(updateAccountFailed(`'${e.message}' - It looks like somethings gone wrong, please try again later.`));
+        return dispatch(
+          updateAccountFailed(`'${e.message}' - It looks like somethings gone wrong, please try again later.`)
+        );
       });
   };
 };

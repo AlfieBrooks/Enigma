@@ -2,12 +2,12 @@ import {
   BOOKING_REQUEST_FAILED,
   BOOKING_REQUEST_STARTED,
   BOOKING_REQUEST_SUCCESS,
+  CLEAR_BOOKING_ERROR,
+  CLEAR_BOOKING_SUCCESS,
   FETCH_AVAILABLE_INTERPRETERS_FAILED,
   FETCH_AVAILABLE_INTERPRETERS_STARTED,
   FETCH_AVAILABLE_INTERPRETERS_SUCCESS,
   SAVE_SELECTED_DATES,
-  CLEAR_BOOKING_ERROR,
-  CLEAR_BOOKING_SUCCESS,
 } from './booking-action-constants';
 
 const initialState = {
@@ -17,7 +17,7 @@ const initialState = {
   booking: null,
   startDate: null,
   endDate: null,
-  success: false
+  success: false,
 };
 
 export function bookingReducer(state = initialState, action) {
@@ -68,12 +68,12 @@ export function bookingReducer(state = initialState, action) {
       return {
         ...state,
         error: null,
-      }
+      };
     case CLEAR_BOOKING_SUCCESS:
       return {
         ...state,
         booking: null,
-      }
+      };
     default:
       return state;
   }

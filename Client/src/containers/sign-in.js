@@ -3,9 +3,9 @@ import React from 'react';
 import { Container } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
+import { ErrorToast } from '../components/error-toast';
 import { SignIn } from '../components/sign-in';
 import { accountSignIn, clearAccountError } from '../redux/account/account-actions';
-import { ErrorToast } from '../components/error-toast'
 
 export class SignInContainer extends React.Component {
   constructor(props) {
@@ -17,9 +17,9 @@ export class SignInContainer extends React.Component {
     return (
       <Container className="sign-in__container">
         <SignIn account={this.props.account} accountSignIn={this.props.accountSignIn} />
-        <ErrorToast 
+        <ErrorToast
           showToast={Boolean(this.props.account.error)}
-          errorMessage={this.props.account.error} 
+          errorMessage={this.props.account.error}
           onToastClose={this.props.clearAccountError}
         />
       </Container>
@@ -36,5 +36,5 @@ export const SignInPage = connect(mapStateToProps, { accountSignIn, clearAccount
 SignInContainer.propTypes = {
   account: PropTypes.object,
   accountSignIn: PropTypes.func.isRequired,
-  clearAccountError: PropTypes.func.isRequired
+  clearAccountError: PropTypes.func.isRequired,
 };

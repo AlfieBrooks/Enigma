@@ -1,14 +1,20 @@
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
-import moment from 'moment';
-import { Button, Container, ListGroup, } from 'react-bootstrap';
+import { Button, Container, ListGroup } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 import { BookingItem } from '../components/booking-item';
 import { BookingSearch } from '../components/booking-search';
-import { bookingRequest, getAvailableInterpreters, saveSelectedDates, clearBookingError, clearBookingSuccess } from '../redux/booking/booking-actions';
 import { ErrorToast } from '../components/error-toast';
 import { SuccessToast } from '../components/success-toast';
+import {
+  bookingRequest,
+  clearBookingError,
+  clearBookingSuccess,
+  getAvailableInterpreters,
+  saveSelectedDates,
+} from '../redux/booking/booking-actions';
 
 export class Booking extends React.Component {
   constructor(props) {
@@ -32,7 +38,7 @@ export class Booking extends React.Component {
     const totalPrice = dayRate * numberOfDays;
 
     return totalPrice;
-  }
+  };
 
   makeBooking = ({ hourlyRate, firstName, lastName, interpreterId }) => {
     const { _id: companyId, company_name: companyName } = this.props.accountDetails;
@@ -54,11 +60,11 @@ export class Booking extends React.Component {
 
   getBookingSuccessMessage = () => {
     if (this.props.booking) {
-      const { 
+      const {
         start_date: startDate,
         end_date: endDate,
         total_price: totalPrice,
-        interpreter_full_name: interpreterName
+        interpreter_full_name: interpreterName,
       } = this.props.booking;
       const formattedStartDate = moment(startDate).format('Do MMMM');
       const formattedEndDate = moment(endDate).format('Do MMMM');
@@ -66,7 +72,7 @@ export class Booking extends React.Component {
       return `You just booked ${interpreterName} from ${formattedStartDate} till ${formattedEndDate}. Total Price: £${totalPrice}`;
     }
     return '';
-  }
+  };
 
   render() {
     return (
@@ -87,12 +93,12 @@ export class Booking extends React.Component {
             </ListGroup.Item>
           ))}
         </ListGroup>
-        <ErrorToast 
+        <ErrorToast
           showToast={Boolean(this.props.bookingError)}
-          errorMessage={this.props.bookingError} 
+          errorMessage={this.props.bookingError}
           onToastClose={this.props.clearBookingError}
         />
-        <SuccessToast 
+        <SuccessToast
           showToast={Boolean(this.props.booking)}
           successMessage={this.getBookingSuccessMessage()}
           onToastClose={this.props.clearBookingSuccess}
@@ -102,7 +108,7 @@ export class Booking extends React.Component {
   }
 }
 
-const mapStateToProps = ({ account, booking}) => ({
+const mapStateToProps = ({ account, booking }) => ({
   accountDetails: account.details,
   availableInterpreters: booking.availableInterpreters,
   booking: booking.booking,
@@ -116,7 +122,7 @@ export const BookingPage = connect(mapStateToProps, {
   getAvailableInterpreters,
   bookingRequest,
   clearBookingError,
-  clearBookingSuccess
+  clearBookingSuccess,
 })(Booking);
 
 Booking.propTypes = {
@@ -127,8 +133,8 @@ Booking.propTypes = {
   bookingRequest: PropTypes.func.isRequired,
   clearBookingError: PropTypes.func.isRequired,
   clearBookingSuccess: PropTypes.func.isRequired,
+  endDate: PropTypes.object,
   getAvailableInterpreters: PropTypes.func.isRequired,
   saveSelectedDates: PropTypes.func.isRequired,
-  endDate: PropTypes.object,
   startDate: PropTypes.object,
 };

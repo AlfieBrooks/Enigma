@@ -1,15 +1,14 @@
 import { NODE_SERVER_URI } from '../../utils/config';
-
 import {
   BOOKING_REQUEST_FAILED,
   BOOKING_REQUEST_STARTED,
   BOOKING_REQUEST_SUCCESS,
+  CLEAR_BOOKING_ERROR,
+  CLEAR_BOOKING_SUCCESS,
   FETCH_AVAILABLE_INTERPRETERS_FAILED,
   FETCH_AVAILABLE_INTERPRETERS_STARTED,
   FETCH_AVAILABLE_INTERPRETERS_SUCCESS,
   SAVE_SELECTED_DATES,
-  CLEAR_BOOKING_ERROR,
-  CLEAR_BOOKING_SUCCESS,
 } from './booking-action-constants';
 
 // Action Creators
@@ -22,8 +21,8 @@ const fetchAvailableInterpretersFailed = error => ({ type: FETCH_AVAILABLE_INTER
 const bookingRequestStarted = () => ({ type: BOOKING_REQUEST_STARTED });
 const bookingRequestSuccess = booking => ({ type: BOOKING_REQUEST_SUCCESS, booking });
 const bookingRequestFailed = error => ({ type: BOOKING_REQUEST_FAILED, error });
-const clearError = () => ({ type: CLEAR_BOOKING_ERROR })
-const clearSuccess = () => ({ type: CLEAR_BOOKING_SUCCESS })
+const clearError = () => ({ type: CLEAR_BOOKING_ERROR });
+const clearSuccess = () => ({ type: CLEAR_BOOKING_SUCCESS });
 
 // Thunk
 export const saveSelectedDates = (startDate, endDate) => dispatch =>
@@ -108,12 +107,12 @@ export const bookingRequest = ({
 
 export const clearBookingError = () => {
   return dispatch => {
-    dispatch(clearError())
-  }
-}
+    dispatch(clearError());
+  };
+};
 
 export const clearBookingSuccess = () => {
   return dispatch => {
-    dispatch(clearSuccess())
-  }
-}
+    dispatch(clearSuccess());
+  };
+};
