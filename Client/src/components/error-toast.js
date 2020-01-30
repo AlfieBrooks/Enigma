@@ -3,9 +3,9 @@ import React from 'react'
 import { Toast } from 'react-bootstrap';
 
 export const ErrorToast = ({ showToast, errorMessage, onToastClose }) => (
-  <Toast show={showToast} onClose={() => onToastClose()} delay={3000}>
+  <Toast show={showToast} onClose={() => onToastClose()} autohide delay={5000} animation={false}>
     <Toast.Header>
-      <strong class="mr-auto" >Oops..</strong>
+      <strong className="mr-auto" >Oops..</strong>
     </Toast.Header>
     <Toast.Body>
       Sorry an error has occured: {errorMessage}

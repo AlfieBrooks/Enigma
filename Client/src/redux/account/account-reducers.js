@@ -11,7 +11,7 @@ import {
 
 const initialState = {
   loading: false,
-  details: {},
+  details: null,
   authenticated: false,
   error: null,
 };

@@ -9,6 +9,7 @@ import {
   FETCH_AVAILABLE_INTERPRETERS_SUCCESS,
   SAVE_SELECTED_DATES,
   CLEAR_BOOKING_ERROR,
+  CLEAR_BOOKING_SUCCESS,
 } from './booking-action-constants';
 
 // Action Creators
@@ -22,6 +23,7 @@ const bookingRequestStarted = () => ({ type: BOOKING_REQUEST_STARTED });
 const bookingRequestSuccess = booking => ({ type: BOOKING_REQUEST_SUCCESS, booking });
 const bookingRequestFailed = error => ({ type: BOOKING_REQUEST_FAILED, error });
 const clearError = () => ({ type: CLEAR_BOOKING_ERROR })
+const clearSuccess = () => ({ type: CLEAR_BOOKING_SUCCESS })
 
 // Thunk
 export const saveSelectedDates = (startDate, endDate) => dispatch =>
@@ -107,5 +109,11 @@ export const bookingRequest = ({
 export const clearBookingError = () => {
   return dispatch => {
     dispatch(clearError())
+  }
+}
+
+export const clearBookingSuccess = () => {
+  return dispatch => {
+    dispatch(clearSuccess())
   }
 }

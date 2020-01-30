@@ -10,26 +10,18 @@ import { ErrorToast } from '../components/error-toast'
 export class SignInContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      showError: false
-    };
-  }
-
-  onToastClose = () => {
-    this.props.clearAccountError();
+    this.state = {};
   }
 
   render() {
     return (
       <Container className="sign-in__container">
         <SignIn account={this.props.account} accountSignIn={this.props.accountSignIn} />
-        {/* { this.props.account.error &&  */}
-          <ErrorToast 
-            showError={Boolean(this.props.account.error)}
-            errorMessage={this.props.account.error} 
-            onToastClose={this.onToastClose}
-          />
-        {/* } */}
+        <ErrorToast 
+          showToast={Boolean(this.props.account.error)}
+          errorMessage={this.props.account.error} 
+          onToastClose={this.props.clearAccountError}
+        />
       </Container>
     );
   }

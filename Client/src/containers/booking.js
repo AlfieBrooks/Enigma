@@ -6,7 +6,7 @@ import moment from 'moment';
 
 import { BookingItem } from '../components/booking-item';
 import { BookingSearch } from '../components/booking-search';
-import { bookingRequest, getAvailableInterpreters, saveSelectedDates, clearBookingError } from '../redux/booking/booking-actions';
+import { bookingRequest, getAvailableInterpreters, saveSelectedDates, clearBookingError, clearBookingSuccess } from '../redux/booking/booking-actions';
 import { ErrorToast } from '../components/error-toast';
 import { SuccessToast } from '../components/success-toast';
 
@@ -47,10 +47,10 @@ export class Booking extends React.Component {
         total_price: totalPrice,
         interpreter_full_name: interpreterName
       } = this.props.booking;
-      const formattedStartDate = moment(startDate).format('DD/MM');
-      const formattedEndDate = moment(endDate).format('DD/MM');
+      const formattedStartDate = moment(startDate).format('Do MMMM');
+      const formattedEndDate = moment(endDate).format('Do MMMM');
 
-      return this.props.booking ?`You just booked ${interpreterName} from ${formattedStartDate} till ${formattedEndDate}. Total Price: £${totalPrice}`;
+      return `You just booked ${interpreterName} from ${formattedStartDate} till ${formattedEndDate}. Total Price: £${totalPrice}`;
     }
     return '';
   }
@@ -77,12 +77,12 @@ export class Booking extends React.Component {
         <ErrorToast 
           showToast={Boolean(this.props.bookingError)}
           errorMessage={this.props.bookingError} 
-          onToastClose={this.props.clearBookingError()}
+          onToastClose={this.props.clearBookingError}
         />
         <SuccessToast 
           showToast={Boolean(this.props.booking)}
           successMessage={this.getBookingSuccessMessage()}
-          onToastClose={'yolo'}
+          onToastClose={this.props.clearBookingSuccess}
         />
       </Container>
     );
@@ -103,6 +103,7 @@ export const BookingPage = connect(mapStateToProps, {
   getAvailableInterpreters,
   bookingRequest,
   clearBookingError,
+  clearBookingSuccess
 })(Booking);
 
 Booking.propTypes = {
@@ -112,6 +113,7 @@ Booking.propTypes = {
   bookingError: PropTypes.string,
   bookingRequest: PropTypes.func.isRequired,
   clearBookingError: PropTypes.func.isRequired,
+  clearBookingSuccess: PropTypes.func.isRequired,
   getAvailableInterpreters: PropTypes.func.isRequired,
   saveSelectedDates: PropTypes.func.isRequired,
   endDate: PropTypes.object,

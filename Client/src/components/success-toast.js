@@ -3,9 +3,9 @@ import React from 'react'
 import { Toast } from 'react-bootstrap';
 
 export const SuccessToast = ({ showToast, successMessage, onToastClose }) => (
-  <Toast show={showToast} onClose={() => onToastClose()} delay={3000}>
+  <Toast show={showToast} onClose={() => onToastClose()} animation={false}>
     <Toast.Header>
-      <strong class="mr-auto" >Yay! Success</strong>
+      <strong className="mr-auto" >Yay! Success!</strong>
     </Toast.Header>
     <Toast.Body>
       It worked! - {successMessage}
