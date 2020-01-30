@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Button, Form } from 'react-bootstrap';
 
+import { ACCOUNT_TYPES } from '../utils/account-type-constants';
 import { useInput } from '../utils/input-hook';
 
 export function CompanyAccountDetails({ submitHandler, companyName, email }) {
@@ -10,6 +11,7 @@ export function CompanyAccountDetails({ submitHandler, companyName, email }) {
   const handleSubmit = e => {
     e.preventDefault();
     const userDetails = {
+      accountType: ACCOUNT_TYPES.ACCOUNT_TYPE_COMPANY,
       updatedCompanyName,
     };
 

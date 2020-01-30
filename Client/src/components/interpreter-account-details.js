@@ -7,6 +7,7 @@ import moment from 'moment';
 import { Button, Col, Form, InputGroup } from 'react-bootstrap';
 import { SingleDatePicker } from 'react-dates';
 
+import { ACCOUNT_TYPES } from '../utils/account-type-constants';
 import { useInput } from '../utils/input-hook';
 
 export function InterpreterAccountDetails({
@@ -32,6 +33,7 @@ export function InterpreterAccountDetails({
   const handleSubmit = e => {
     e.preventDefault();
     const userDetails = {
+      accountType: ACCOUNT_TYPES.ACCOUNT_TYPE_INTERPRETER,
       updatedFirstName,
       updatedLastName,
       updatedPostcode,

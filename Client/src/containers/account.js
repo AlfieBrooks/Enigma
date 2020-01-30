@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { CompanyAccountDetails } from '../components/company-account-details';
 import { InterpreterAccountDetails } from '../components/interpreter-account-details';
 import { ACCOUNT_TYPES } from '../utils/account-type-constants';
+import { updateCompanyAccount, updateInterpreterAccount } from '../redux/account/account-actions';
 
 export class AccountContainer extends React.Component {
   constructor(props) {
@@ -14,16 +15,20 @@ export class AccountContainer extends React.Component {
   }
 
   submitHandler = userDetails => {
+    const { _id } = this.props.account.details;
+    const modifiedUserDetails = { ...userDetails, _id };
+
     this.props.account.details.account_type === ACCOUNT_TYPES.ACCOUNT_TYPE_COMPANY
-      ? this.props.updateCompanyAccount(userDetails)
-      : this.props.updateInterpreterAccount(userDetails);
+      ? this.props.updateCompanyAccount(modifiedUserDetails)
+      : this.props.updateInterpreterAccount(modifiedUserDetails);
   };
 
   renderCompanyAccountDetails = () => {
     const { email, company_name } = this.props.account.details;
 
     return (
-      <CompanyAccountDetails 
+      <CompanyAccountDetails
+        submitHandler={this.submitHandler}
         email={email}
         companyName={company_name}
       />
@@ -31,7 +36,7 @@ export class AccountContainer extends React.Component {
   }
 
   renderInterpreterAccountDetails = () => {
-    const { 
+    const {
       email,
       first_name,
       last_name,
@@ -44,6 +49,7 @@ export class AccountContainer extends React.Component {
 
     return (
       <InterpreterAccountDetails
+        submitHandler={this.submitHandler}
         email={email}
         firstName={first_name}
         lastName={last_name}
@@ -71,13 +77,18 @@ const mapStateToProps = state => ({
   account: state.account,
 });
 
-export const AccountPage = connect(mapStateToProps)(AccountContainer);
+export const AccountPage = connect(mapStateToProps, {
+  updateCompanyAccount,
+  updateInterpreterAccount
+})(AccountContainer);
 
 AccountContainer.propTypes = {
   account: PropTypes.shape({
     authenticated: PropTypes.bool,
-    email: PropTypes.string,
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
+    details: PropTypes.shape({
+        email: PropTypes.string,
+    }),
   }),
+  updateCompanyAccount: PropTypes.func.isRequired,
+  updateInterpreterAccount: PropTypes.func.isRequired,
 };
