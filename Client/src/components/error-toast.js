@@ -5,7 +5,7 @@ import { Toast } from 'react-bootstrap';
 export const ErrorToast = ({ showError, errorMessage, onToastClose }) => (
   <Toast show={showError} onClose={() => onToastClose()} delay={3000}>
     <Toast.Header>
-      <strong>Oops.. Error Occured!</strong>
+      <strong class="mr-auto" >Oops..</strong>
     </Toast.Header>
     <Toast.Body>
       Sorry an error has occured : {errorMessage}
