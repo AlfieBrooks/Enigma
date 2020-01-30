@@ -9,17 +9,23 @@ import {
   ACCOUNT_SIGN_UP_STARTED,
   ACCOUNT_SIGN_UP_SUCCESS,
   CLEAR_ACCOUNT_ERROR,
+  UPDATE_ACCOUNT_FAILED,
+  UPDATE_ACCOUNT_STARTED,
+  UPDATE_ACCOUNT_SUCCESS,
 } from './account-action-constants';
 
 // Action Creators
+const clearError = () => ({ type: CLEAR_ACCOUNT_ERROR });
+const signInFailed = error => ({ type: ACCOUNT_SIGN_IN_FAILED, error });
 const signInStarted = () => ({ type: ACCOUNT_SIGN_IN_STARTED });
 const signInSuccess = details => ({ type: ACCOUNT_SIGN_IN_SUCCESS, details });
-const signInFailed = error => ({ type: ACCOUNT_SIGN_IN_FAILED, error });
+const signOut = () => ({ type: ACCOUNT_SIGN_OUT });
+const signUpFailed = error => ({ type: ACCOUNT_SIGN_UP_FAILED, error });
 const signUpStarted = () => ({ type: ACCOUNT_SIGN_UP_STARTED });
 const signUpSuccess = () => ({ type: ACCOUNT_SIGN_UP_SUCCESS });
-const signUpFailed = error => ({ type: ACCOUNT_SIGN_UP_FAILED, error });
-const signOut = () => ({ type: ACCOUNT_SIGN_OUT });
-const clearError = () => ({ type: CLEAR_ACCOUNT_ERROR });
+const updateAccountFailed = error => ({ type: UPDATE_ACCOUNT_FAILED, error });
+const updateAccountStarted = () => ({ type: UPDATE_ACCOUNT_STARTED });
+const updateAccountSuccess = details => ({ type: UPDATE_ACCOUNT_SUCCESS, details});
 
 // Thunk
 export const accountSignIn = (email, password) => {
@@ -52,6 +58,12 @@ export const accountSignOut = () => {
     dispatch(signOut());
   };
 };
+
+export const clearAccountError = () => {
+  return dispatch => {
+    dispatch(clearError());
+  }
+}
 
 export const accountCompanySignUp = ({ accountType, companyName, email, password, confirmPassword }) => {
   return dispatch => {
@@ -160,8 +172,92 @@ export const accountInterpreterSignUp = ({
   };
 };
 
-export const clearAccountError = () => {
+export const updateCompanyAccount = ({ _id, accountType, updatedCompanyName }) => {
   return dispatch => {
-    dispatch(clearError());
-  }
+    dispatch(updateAccountStarted());
+
+    if (!updatedCompanyName) {
+      return dispatch(updateAccountFailed('Please fill out all fields'));
+    }
+
+    fetch(`${NODE_SERVER_URI}/account/update-details`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        _id
+      },
+      body: JSON.stringify({
+        account_type: accountType,
+        company_name: updatedCompanyName,
+      }),
+      credentials: 'same-origin',
+    })
+      .then(res => res.json())
+      .then(result => {
+        if (result.error) {
+          return dispatch(updateAccountFailed(result.error));
+        }
+        return dispatch(updateAccountSuccess(result.user));
+      })
+      .catch(e => {
+        return dispatch(updateAccountFailed(`'${e.message}' - It looks like somethings gone wrong, please try again later.`));
+      });
+  };
 }
+
+export const updateInterpreterAccount = ({
+  _id,
+  accountType,
+  updatedFirstName,
+  updatedLastName,
+  updatedPostcode,
+  updatedHourlyRate,
+  updatedMaxDistance,
+  updatedMembershipId,
+  updatedMembershipExpiry,
+}) => {
+  return dispatch => {
+    dispatch(updateAccountStarted());
+
+    if (
+      !updatedFirstName ||
+      !updatedLastName ||
+      !updatedPostcode ||
+      !updatedHourlyRate ||
+      !updatedMaxDistance ||
+      !updatedMembershipId ||
+      !updatedMembershipExpiry
+    ) {
+      return dispatch(updateAccountFailed('Please fill out all fields'));
+    }
+
+    fetch(`${NODE_SERVER_URI}/account/update-details`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        _id,
+      },
+      body: JSON.stringify({
+        account_type: accountType,
+        first_name: updatedFirstName,
+        last_name: updatedLastName,
+        postcode: updatedPostcode,
+        hourly_rate: updatedHourlyRate,
+        max_distance: updatedMaxDistance,
+        membership_id: updatedMembershipId,
+        membership_expiry: updatedMembershipExpiry,
+      }),
+      credentials: 'same-origin',
+    })
+      .then(res => res.json())
+      .then(result => {
+        if (result.error) {
+          return dispatch(updateAccountFailed(result.error));
+        }
+        return dispatch(updateAccountSuccess(result.user));
+      })
+      .catch(e => {
+        return dispatch(updateAccountFailed(`'${e.message}' - It looks like somethings gone wrong, please try again later.`));
+      });
+  };
+};

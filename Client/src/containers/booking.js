@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Button, Container, ListGroup, Toast } from 'react-bootstrap';
-import { connect } from 'react-redux';
 import moment from 'moment';
+import { Button, Container, ListGroup, } from 'react-bootstrap';
+import { connect } from 'react-redux';
 
 import { BookingItem } from '../components/booking-item';
 import { BookingSearch } from '../components/booking-search';
@@ -21,11 +21,24 @@ export class Booking extends React.Component {
     this.props.getAvailableInterpreters(startDate, endDate);
   };
 
+  getTotalPrice = hourlyRate => {
+    const HOURS_PER_DAY = 2;
+
+    const { startDate, endDate } = this.props.booking;
+    const start = moment(startDate);
+    const end = moment(endDate);
+    const numberOfDays = Math.abs(start.diff(end, 'days')) + 1;
+    const dayRate = hourlyRate * HOURS_PER_DAY;
+    const totalPrice = dayRate * numberOfDays;
+
+    return totalPrice;
+  }
+
   makeBooking = ({ hourlyRate, firstName, lastName, interpreterId }) => {
     const { _id: companyId, company_name: companyName } = this.props.accountDetails;
     const { startDate, endDate } = this.props;
     const interpreterFullName = `${firstName} ${lastName}`;
-    const totalPrice = hourlyRate * 4;
+    const totalPrice = this.getTotalPrice(hourlyRate);
     const bookingDetails = {
       startDate,
       endDate,
