@@ -17,7 +17,7 @@ router.post('/sign-up', async (req, res) => {
     } else {
       user = await InterpreterUsers.create(req.body);
     };
-    res.status(200).json({ user });
+    res.send(user);
   } catch(err) {
     res.status(400).json({ error: `Error trying to sign up - ${err}` });
   }
@@ -54,7 +54,7 @@ router.post('/update-details', async (req, res) => {
     } else {
       user = await InterpreterUsers.findByIdAndUpdate(_id, { $set: req.body }, { new: true });
     };
-    res.status(200).json({ user });
+    res.send(user);
   } catch(err) {
     res.status(400).json({ error: `Error trying to update account details - ${err}` });
   }
