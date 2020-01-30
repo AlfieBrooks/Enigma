@@ -30,7 +30,7 @@ export const BookingItem = ({ firstName, lastName, hourlyRate, interpreterId, ma
 
 BookingItem.propTypes = {
   firstName: PropTypes.string,
-  hourlyRate: PropTypes.string,
+  hourlyRate: PropTypes.number,
   interpreterId: PropTypes.string,
   lastName: PropTypes.string,
   makeBooking: PropTypes.func.isRequired,

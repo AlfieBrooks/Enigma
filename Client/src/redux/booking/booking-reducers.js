@@ -6,16 +6,17 @@ import {
   FETCH_AVAILABLE_INTERPRETERS_STARTED,
   FETCH_AVAILABLE_INTERPRETERS_SUCCESS,
   SAVE_SELECTED_DATES,
-  CLEAR_BOOKING_ERROR
+  CLEAR_BOOKING_ERROR,
 } from './booking-action-constants';
 
 const initialState = {
   loading: false,
   error: null,
   availableInterpreters: [],
-  booking: [],
+  booking: {},
   startDate: null,
   endDate: null,
+  success: false
 };
 
 export function bookingReducer(state = initialState, action) {
@@ -65,7 +66,7 @@ export function bookingReducer(state = initialState, action) {
     case CLEAR_BOOKING_ERROR:
       return {
         ...state,
-        error: null
+        error: null,
       }
     default:
       return state;

@@ -7,23 +7,22 @@ import { BookingItem } from '../components/booking-item';
 import { BookingSearch } from '../components/booking-search';
 import { bookingRequest, getAvailableInterpreters, saveSelectedDates, clearBookingError } from '../redux/booking/booking-actions';
 import { ErrorToast } from '../components/error-toast';
+import { SuccessToast } from '../components/success-toast';
 
 export class Booking extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      showError: false
-    };
+    this.state = {};
   }
 
   submitHandler = () => {
-    const { startDate, endDate } = this.props.booking;
+    const { startDate, endDate } = this.props;
     this.props.getAvailableInterpreters(startDate, endDate);
   };
 
   makeBooking = ({ hourlyRate, interpreterFirstName, interpreterLastName, interpreterId }) => {
-    const { _id: companyId, company_name: companyName } = this.props.account.details;
-    const { startDate, endDate } = this.props.booking;
+    const { _id: companyId, company_name: companyName } = this.props.accountDetails;
+    const { startDate, endDate } = this.props;
     const interpreterFullName = `${interpreterFirstName} ${interpreterLastName}`;
     const totalPrice = hourlyRate * 4;
     const bookingDetails = {
@@ -39,9 +38,8 @@ export class Booking extends React.Component {
     this.props.bookingRequest(bookingDetails);
   };
 
-
-  onToastClose = () => {
-    this.props.clearBookingError();
+  getBookingSuccessMessage = () => {
+    
   }
 
   render() {
@@ -51,7 +49,7 @@ export class Booking extends React.Component {
         <BookingSearch saveSelectedDates={this.props.saveSelectedDates} />
         <Button onClick={this.submitHandler}>Search</Button>
         <ListGroup variant="flush">
-          {this.props.booking.availableInterpreters.map(item => (
+          {this.props.availableInterpreters.map(item => (
             <ListGroup.Item key={item._id}>
               <BookingItem
                 firstName={item.first_name}
@@ -64,31 +62,45 @@ export class Booking extends React.Component {
           ))}
         </ListGroup>
         <ErrorToast 
-          showError={this.props.booking.error}
-          errorMessage={this.props.booking.error} 
-          onToastClose={this.onToastClose}
-          />
+          showToast={Boolean(this.props.bookingError)}
+          errorMessage={this.props.bookingError} 
+          onToastClose={this.props.clearBookingError()}
+        />
+        <SuccessToast 
+          showToast={Boolean(this.props.booking)}
+          successMessage={this.getBookingSuccessMessage()}
+          onToastClose={'yolo'}
+        />
       </Container>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  account: state.account,
-  booking: state.booking,
+const mapStateToProps = ({ account, booking}) => ({
+  accountDetails: account.details,
+  availableInterpreters: booking.availableInterpreters,
+  booking: booking.booking,
+  bookingError: booking.error,
+  endDate: booking.endDate,
+  startDate: booking.startDate,
 });
 
 export const BookingPage = connect(mapStateToProps, {
   saveSelectedDates,
   getAvailableInterpreters,
   bookingRequest,
-  clearBookingError
+  clearBookingError,
 })(Booking);
 
 Booking.propTypes = {
+  accountDetails: PropTypes.object,
+  availableInterpreters: PropTypes.array,
+  booking: PropTypes.object,
+  bookingError: PropTypes.string,
   bookingRequest: PropTypes.func.isRequired,
+  clearBookingError: PropTypes.func.isRequired,
   getAvailableInterpreters: PropTypes.func.isRequired,
   saveSelectedDates: PropTypes.func.isRequired,
-  clearBookingError: PropTypes.func.isRequired,
-
+  endDate: PropTypes.object,
+  startDate: PropTypes.object,
 };
