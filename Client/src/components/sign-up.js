@@ -38,7 +38,7 @@ export class SignUp extends React.Component {
   render() {
     return (
       <Container className="sign-in__container">
-        {this.props.account.authenticated && <Redirect to="/" />}
+        {this.props.account.isAuthenticated && <Redirect to="/" />}
         {this.props.account.loading ? <SpinnerPage /> : this.renderSignUp()}
       </Container>
     );
@@ -47,7 +47,7 @@ export class SignUp extends React.Component {
 
 SignUp.propTypes = {
   account: PropTypes.shape({
-    authenticated: PropTypes.bool,
+    isAuthenticated: PropTypes.bool,
     error: PropTypes.string,
     loading: PropTypes.bool,
   }),

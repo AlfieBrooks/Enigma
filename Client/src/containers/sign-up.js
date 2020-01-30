@@ -43,7 +43,7 @@ export const SignUpPage = connect(mapStateToProps, {
 
 SignUpContainer.propTypes = {
   account: PropTypes.shape({
-    authenticated: PropTypes.bool,
+    isAuthenticated: PropTypes.bool,
     email: PropTypes.string,
     error: PropTypes.string,
   }),
