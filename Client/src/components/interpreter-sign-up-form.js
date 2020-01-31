@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 
 import { ACCOUNT_TYPES } from '../utils/account-type-constants';
 import { useInput } from '../utils/input-hook';
+import md5 from 'md5';
 
 export function InterpreterSignUp({ submitHandler }) {
   const { value: firstName, bind: bindFirstName } = useInput();
@@ -30,8 +31,8 @@ export function InterpreterSignUp({ submitHandler }) {
       firstName,
       lastName,
       email,
-      password,
-      confirmPassword,
+      password: md5(password),
+      confirmPassword: md5(password),
       postcode,
       hourlyRate,
       maxDistance,
@@ -90,7 +91,7 @@ export function InterpreterSignUp({ submitHandler }) {
               <InputGroup.Prepend>
                 <InputGroup.Text id="basic-addon1">£</InputGroup.Text>
               </InputGroup.Prepend>
-              <Form.Control name="hourlyRate" type="number" placeholder="Hourly rate" {...bindHourlyRate} />
+              <Form.Control name="hourlyRate" type="number" placeholder="Hourly rate" max="10000" {...bindHourlyRate} />
             </InputGroup>
           </Form.Group>
         </Form.Row>
