@@ -13,7 +13,7 @@ import {
 const initialState = {
   loading: false,
   error: null,
-  availableInterpreters: [],
+  availableInterpreters: null,
   booking: null,
   startDate: null,
   endDate: null,
