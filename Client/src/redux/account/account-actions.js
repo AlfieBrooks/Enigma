@@ -8,6 +8,7 @@ import {
   ACCOUNT_SIGN_UP_STARTED,
   ACCOUNT_SIGN_UP_SUCCESS,
   CLEAR_ACCOUNT_ERROR,
+  CLEAR_ACCOUNT_HAS_UPDATED,
   UPDATE_ACCOUNT_FAILED,
   UPDATE_ACCOUNT_STARTED,
   UPDATE_ACCOUNT_SUCCESS,
@@ -25,6 +26,7 @@ const signUpSuccess = () => ({ type: ACCOUNT_SIGN_UP_SUCCESS });
 const updateAccountFailed = error => ({ type: UPDATE_ACCOUNT_FAILED, error });
 const updateAccountStarted = () => ({ type: UPDATE_ACCOUNT_STARTED });
 const updateAccountSuccess = details => ({ type: UPDATE_ACCOUNT_SUCCESS, details });
+const clearHasUpdated = () => ({ type: CLEAR_ACCOUNT_HAS_UPDATED });
 
 // Thunk
 export const accountSignIn = (email, password) => {
@@ -61,6 +63,12 @@ export const accountSignOut = () => {
 export const clearAccountError = () => {
   return dispatch => {
     dispatch(clearError());
+  };
+};
+
+export const clearAccountHasUpdated = () => {
+  return dispatch => {
+    dispatch(clearHasUpdated());
   };
 };
 
@@ -196,7 +204,7 @@ export const updateCompanyAccount = ({ _id, accountType, updatedCompanyName }) =
         if (result.error) {
           return dispatch(updateAccountFailed(result.error));
         }
-        return dispatch(updateAccountSuccess(result.user));
+        return dispatch(updateAccountSuccess(result));
       })
       .catch(e => {
         return dispatch(
@@ -255,7 +263,7 @@ export const updateInterpreterAccount = ({
         if (result.error) {
           return dispatch(updateAccountFailed(result.error));
         }
-        return dispatch(updateAccountSuccess(result.user));
+        return dispatch(updateAccountSuccess(result));
       })
       .catch(e => {
         return dispatch(

@@ -16,6 +16,7 @@ export const BookingItem = ({ firstName, lastName, hourlyRate, interpreterId, ma
 
   return (
     <Card>
+      <Card.Img variant="top" src="https://dummyimage.com/296x166/fff/aaa" />
       <Card.Body>
         <Card.Title>{`${firstName} ${lastName}`}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">{`£${hourlyRate}`}</Card.Subtitle>

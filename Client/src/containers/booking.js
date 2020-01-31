@@ -1,15 +1,17 @@
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Button, Container, ListGroup } from 'react-bootstrap';
+import { Container, ListGroup } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 import { BookingItem } from '../components/booking-item';
 import { BookingSearch } from '../components/booking-search';
 import { ErrorToast } from '../components/error-toast';
+import { SpinnerPage } from '../components/spinner';
 import { SuccessToast } from '../components/success-toast';
 import {
   bookingRequest,
+  clearAvailableInterpreters,
   clearBookingError,
   clearBookingSuccess,
   getAvailableInterpreters,
@@ -22,6 +24,13 @@ export class Booking extends React.Component {
     this.state = {};
   }
 
+  componentWillUnmount() {
+    if (this.props.availableInterpreters) {
+      this.props.clearAvailableInterpreters();
+      this.props.clearBookingSuccess();
+    }
+  }
+
   submitHandler = () => {
     const { startDate, endDate } = this.props;
     this.props.getAvailableInterpreters(startDate, endDate);
@@ -30,7 +39,7 @@ export class Booking extends React.Component {
   getTotalPrice = hourlyRate => {
     const HOURS_PER_DAY = 2;
 
-    const { startDate, endDate } = this.props.booking;
+    const { startDate, endDate } = this.props;
     const start = moment(startDate);
     const end = moment(endDate);
     const numberOfDays = Math.abs(start.diff(end, 'days')) + 1;
@@ -74,25 +83,44 @@ export class Booking extends React.Component {
     return '';
   };
 
+  renderAvilableInterpreters = () => {
+    if (this.props.loading) {
+      return <SpinnerPage />;
+    }
+
+    const { availableInterpreters } = this.props;
+    if (!Array.isArray(availableInterpreters)) {
+      return <h4 className="book__info-text">Enter the dates to start your search</h4>;
+    }
+
+    if (!availableInterpreters.length) {
+      const { startDate, endDate } = this.props;
+      const formattedStartDate = moment(startDate).format('Do MMM');
+      const formattedEndDate = moment(endDate).format('Do MMM');
+      return (
+        <h4 className="book__info-text">{`Sorry, No interpreters are available on ${formattedStartDate} - ${formattedEndDate}`}</h4>
+      );
+    }
+
+    return this.props.availableInterpreters.map(item => (
+      <ListGroup.Item key={item._id}>
+        <BookingItem
+          firstName={item.first_name}
+          lastName={item.last_name}
+          hourlyRate={item.hourly_rate}
+          interpreterId={item._id}
+          makeBooking={this.makeBooking}
+        />
+      </ListGroup.Item>
+    ));
+  };
+
   render() {
     return (
       <Container className="book__container">
-        <h1>Book</h1>
-        <BookingSearch saveSelectedDates={this.props.saveSelectedDates} />
-        <Button onClick={this.submitHandler}>Search</Button>
-        <ListGroup variant="flush">
-          {this.props.availableInterpreters.map(item => (
-            <ListGroup.Item key={item._id}>
-              <BookingItem
-                firstName={item.first_name}
-                lastName={item.last_name}
-                hourlyRate={item.hourly_rate}
-                interpreterId={item._id}
-                makeBooking={this.makeBooking}
-              />
-            </ListGroup.Item>
-          ))}
-        </ListGroup>
+        <h1 className="book__title">Book</h1>
+        <BookingSearch saveSelectedDates={this.props.saveSelectedDates} submitHandler={this.submitHandler} />
+        <ListGroup variant="flush">{this.renderAvilableInterpreters()}</ListGroup>
         <ErrorToast
           showToast={Boolean(this.props.bookingError)}
           errorMessage={this.props.bookingError}
@@ -115,12 +143,14 @@ const mapStateToProps = ({ account, booking }) => ({
   bookingError: booking.error,
   endDate: booking.endDate,
   startDate: booking.startDate,
+  loading: booking.loading,
 });
 
 export const BookingPage = connect(mapStateToProps, {
   saveSelectedDates,
   getAvailableInterpreters,
   bookingRequest,
+  clearAvailableInterpreters,
   clearBookingError,
   clearBookingSuccess,
 })(Booking);
@@ -131,10 +161,12 @@ Booking.propTypes = {
   booking: PropTypes.object,
   bookingError: PropTypes.string,
   bookingRequest: PropTypes.func.isRequired,
+  clearAvailableInterpreters: PropTypes.func.isRequired,
   clearBookingError: PropTypes.func.isRequired,
   clearBookingSuccess: PropTypes.func.isRequired,
   endDate: PropTypes.object,
   getAvailableInterpreters: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
   saveSelectedDates: PropTypes.func.isRequired,
   startDate: PropTypes.object,
 };

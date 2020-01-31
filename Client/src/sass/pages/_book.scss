@@ -2,12 +2,41 @@
     margin-top: 50px;
     color: $white;
 
+  .book__info-text {
+    width: 100%;
+    margin-top: 50px;
+    text-align: center;
+    font-weight: 200;
+  }
+
+  .list-group {
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
+
   .list-group-item {
-    padding: 0.75rem 0;
+    width: 32%;
+    padding: 20px 0;
     background-color: transparent;
+    border: none;
 
     .card {
       background-color: $grey;
     }
+  }
+}
+
+.book__title {
+  text-align: center;
+}
+
+.booking-search__container {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 20px;
+  border-bottom: 1px solid $light_grey;
+
+  button {
+    margin-left: 20px;
   }
 }

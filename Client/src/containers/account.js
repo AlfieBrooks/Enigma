@@ -4,14 +4,27 @@ import { Container } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 import { CompanyAccountDetails } from '../components/company-account-details';
+import { ErrorToast } from '../components/error-toast';
 import { InterpreterAccountDetails } from '../components/interpreter-account-details';
-import { updateCompanyAccount, updateInterpreterAccount } from '../redux/account/account-actions';
+import { SuccessToast } from '../components/success-toast';
+import {
+  clearAccountError,
+  clearAccountHasUpdated,
+  updateCompanyAccount,
+  updateInterpreterAccount,
+} from '../redux/account/account-actions';
 import { ACCOUNT_TYPES } from '../utils/account-type-constants';
 
 export class AccountContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+
+  componentWillUnmount() {
+    if (this.props.account.hasUpdated) {
+      this.props.clearAccountHasUpdated();
+    }
   }
 
   submitHandler = userDetails => {
@@ -62,6 +75,16 @@ export class AccountContainer extends React.Component {
         {this.props.account.details.account_type === ACCOUNT_TYPES.ACCOUNT_TYPE_COMPANY
           ? this.renderCompanyAccountDetails()
           : this.renderInterpreterAccountDetails()}
+        <ErrorToast
+          showToast={Boolean(this.props.account.error)}
+          errorMessage={this.props.account.error}
+          onToastClose={this.props.clearAccountError}
+        />
+        <SuccessToast
+          showToast={this.props.account.hasUpdated}
+          successMessage="Successfully updated your details!"
+          onToastClose={this.props.clearAccountHasUpdated}
+        />
       </Container>
     );
   }
@@ -74,15 +97,19 @@ const mapStateToProps = state => ({
 export const AccountPage = connect(mapStateToProps, {
   updateCompanyAccount,
   updateInterpreterAccount,
+  clearAccountError,
+  clearAccountHasUpdated,
 })(AccountContainer);
 
 AccountContainer.propTypes = {
   account: PropTypes.shape({
-    authenticated: PropTypes.bool,
+    isAuthenticated: PropTypes.bool,
     details: PropTypes.shape({
       email: PropTypes.string,
     }),
   }),
   updateCompanyAccount: PropTypes.func.isRequired,
   updateInterpreterAccount: PropTypes.func.isRequired,
+  clearAccountError: PropTypes.func.isRequired,
+  clearAccountHasUpdated: PropTypes.func.isRequired,
 };
