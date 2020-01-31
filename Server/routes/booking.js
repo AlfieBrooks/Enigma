@@ -20,7 +20,7 @@ router.post('/request-booking', async (req, res) => {
 router.get('/availability', async (req, res) => {
   const { start_date, end_date, postcode } = req.headers;
   try {
-    let bookedInterpreters = await Bookings.find({ start_date: { $gte: start_date}, end_date: { $lte: end_date } }).distinct('interpreter_id');
+    let bookedInterpreters = await Bookings.find({ start_date: { $gte: start_date}, end_date: { $lte: end_date }, status: { $lt: 'declined'} }).distinct('interpreter_id');
     let availableInterpreters = await InterpreterUsers.find({ _id: { $nin: bookedInterpreters } });
 
     res.send(availableInterpreters);
