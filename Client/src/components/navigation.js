@@ -47,7 +47,7 @@ class Navigation extends React.Component {
                   <NavDropdown.Item as={Link} to="/account">
                     Account Details
                   </NavDropdown.Item>
-                  <NavDropdown.Item onClick={this.props.accountSignOut}>Sign Out</NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/" onClick={this.props.accountSignOut}>Sign Out</NavDropdown.Item>
                 </NavDropdown>
               ) : (
                 <Nav.Link as={Link} to="/sign-in">
