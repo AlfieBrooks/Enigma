@@ -41,12 +41,17 @@ router.get('/:id', async (req, res) => {
 
 router.post('/:id/:action', async (req, res) => {
   const { id, action } = req.params;
-  try {
-    await Bookings.updateOne({ _id: id }, { status: action });
-    res.status(200).json({'action': action});
-  } catch(err) {
-    res.status(400).json({ error: `Error updating the booking - ${err}` });
-  }
+
+    try {
+      if (action === 'deleted') {
+        await Bookings.deleteOne({ _id: id });
+      } else {
+        await Bookings.updateOne({ _id: id }, { status: action });
+      }
+      res.status(200).json({'action': action});
+    } catch(err) {
+      res.status(400).json({ error: `Error updating the booking - ${err}` });
+    }
 });
 
 

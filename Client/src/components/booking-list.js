@@ -11,11 +11,20 @@ export class BookingList extends React.Component {
     this.props.getBookingsForId(this.props.accountId);
   }
 
-  actions = bookingId => {
+  interpreterActions = bookingId => {
     return (
       <Fragment>
         <FontAwesomeIcon icon={faTimes} onClick={() => this.props.updateBooking({ action: 'declined', bookingId })} />
         <FontAwesomeIcon icon={faCheck} onClick={() => this.props.updateBooking({ action: 'approved', bookingId })} />
+      </Fragment>
+    );
+  };
+
+
+  companyActions = bookingId => {
+    return (
+      <Fragment>
+        <FontAwesomeIcon icon={faTimes} onClick={() => this.props.updateBooking({ action: 'deleted', bookingId })} />
       </Fragment>
     );
   };
@@ -45,7 +54,7 @@ export class BookingList extends React.Component {
                     <Card.Subtitle className="mb-2 text-muted">{`£${item.total_price}`}</Card.Subtitle>
                   </Card.Body>
                 </Card>
-                {this.props.account_type == ACCOUNT_TYPES.ACCOUNT_TYPE_INTERPRETER && this.actions(item._id)}
+                {this.props.account_type == ACCOUNT_TYPES.ACCOUNT_TYPE_INTERPRETER ? this.interpreterActions(item._id) : this.companyActions(item._id)}
               </ListGroup.Item>
             );
           })}
