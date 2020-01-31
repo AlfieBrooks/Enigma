@@ -136,7 +136,7 @@ InterpreterAccountDetails.propTypes = {
   firstName: PropTypes.string,
   hourlyRate: PropTypes.number,
   lastName: PropTypes.string,
-  maxDistance: PropTypes.string,
+  maxDistance: PropTypes.number,
   membershipExpiry: PropTypes.string,
   membershipId: PropTypes.string,
   postcode: PropTypes.string,

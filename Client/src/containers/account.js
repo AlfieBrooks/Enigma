@@ -1,21 +1,21 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
-import { Container, Tab, Tabs, Row, Col } from 'react-bootstrap';
+import { Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
+import { BookingList } from '../components/booking-list';
 import { CompanyAccountDetails } from '../components/company-account-details';
 import { ErrorToast } from '../components/error-toast';
 import { InterpreterAccountDetails } from '../components/interpreter-account-details';
 import { SuccessToast } from '../components/success-toast';
-import { getBookingsForId, updateBooking } from '../redux/booking/booking-actions';
 import {
-  updateCompanyAccount,
-  updateInterpreterAccount,
   clearAccountError,
   clearAccountHasUpdated,
+  updateCompanyAccount,
+  updateInterpreterAccount,
 } from '../redux/account/account-actions';
+import { getBookingsForId, updateBooking } from '../redux/booking/booking-actions';
 import { ACCOUNT_TYPES } from '../utils/account-type-constants';
-import { BookingList } from '../components/booking-list';
 
 export class AccountContainer extends React.Component {
   constructor(props) {
@@ -74,8 +74,8 @@ export class AccountContainer extends React.Component {
   renderTabs = () => (
     <Row className="justify-content-md-center">
       <Col md="9" className="sign-in__column">
-        <Tabs defaultActiveKey={'Account'} id="uncontrolled-tab-example">
-          <Tab eventKey={'Account'} title={'Account'}>
+        <Tabs defaultActiveKey="Account" id="uncontrolled-tab-example">
+          <Tab eventKey="Account" title="Account">
             {this.props.account.details.account_type === ACCOUNT_TYPES.ACCOUNT_TYPE_COMPANY
               ? this.renderCompanyAccountDetails()
               : this.renderInterpreterAccountDetails()}
@@ -90,7 +90,7 @@ export class AccountContainer extends React.Component {
               onToastClose={this.props.clearAccountHasUpdated}
             />
           </Tab>
-          <Tab eventKey={'Bookings'} title={'Bookings'}>
+          <Tab eventKey="Bookings" title="Bookings">
             <BookingList
               bookings={this.props.bookings}
               updateBooking={this.props.updateBooking}

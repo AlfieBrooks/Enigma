@@ -8,12 +8,12 @@ import {
   FETCH_AVAILABLE_INTERPRETERS_FAILED,
   FETCH_AVAILABLE_INTERPRETERS_STARTED,
   FETCH_AVAILABLE_INTERPRETERS_SUCCESS,
-  SAVE_SELECTED_DATES,
   FETCH_BOOKED_INTERPRETERS,
-  FETCH_BOOKED_INTERPRETERS_SUCCESS,
   FETCH_BOOKED_INTERPRETERS_FAILED,
-  UPDATE_BOOKING_SUCCESS,
+  FETCH_BOOKED_INTERPRETERS_SUCCESS,
+  SAVE_SELECTED_DATES,
   UPDATE_BOOKING_FAILED,
+  UPDATE_BOOKING_SUCCESS,
 } from './booking-action-constants';
 
 const initialState = {
@@ -84,7 +84,7 @@ export function bookingReducer(state = initialState, action) {
       return {
         ...state,
         booking: null,
-      }
+      };
     case FETCH_BOOKED_INTERPRETERS:
       return {
         ...state,
@@ -104,11 +104,11 @@ export function bookingReducer(state = initialState, action) {
         loading: false,
       };
     case UPDATE_BOOKING_SUCCESS:
-      //This is fucking nasty
+      // This is fucking nasty
       state.bookings.find(b => b._id === action.id).status = action.result.action;
       return {
         ...state,
-        bookings: [ ...state.bookings ],
+        bookings: [...state.bookings],
       };
     case UPDATE_BOOKING_FAILED:
       return {
