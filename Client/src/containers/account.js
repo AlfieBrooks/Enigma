@@ -4,9 +4,16 @@ import { Container, Tab, Tabs, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 import { CompanyAccountDetails } from '../components/company-account-details';
+import { ErrorToast } from '../components/error-toast';
 import { InterpreterAccountDetails } from '../components/interpreter-account-details';
-import { updateCompanyAccount, updateInterpreterAccount } from '../redux/account/account-actions';
+import { SuccessToast } from '../components/success-toast';
 import { getBookingsForId, updateBooking } from '../redux/booking/booking-actions';
+import {
+  updateCompanyAccount,
+  updateInterpreterAccount,
+  clearAccountError,
+  clearAccountHasUpdated,
+} from '../redux/account/account-actions';
 import { ACCOUNT_TYPES } from '../utils/account-type-constants';
 import { BookingList } from '../components/booking-list';
 
@@ -14,6 +21,12 @@ export class AccountContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+
+  componentWillUnmount() {
+    if (this.props.account.hasUpdated) {
+      this.props.clearAccountHasUpdated();
+    }
   }
 
   submitHandler = userDetails => {
@@ -66,9 +79,18 @@ export class AccountContainer extends React.Component {
             {this.props.account.details.account_type === ACCOUNT_TYPES.ACCOUNT_TYPE_COMPANY
               ? this.renderCompanyAccountDetails()
               : this.renderInterpreterAccountDetails()}
+            <ErrorToast
+              showToast={Boolean(this.props.account.error)}
+              errorMessage={this.props.account.error}
+              onToastClose={this.props.clearAccountError}
+            />
+            <SuccessToast
+              showToast={this.props.account.hasUpdated}
+              successMessage="Successfully updated your details!"
+              onToastClose={this.props.clearAccountHasUpdated}
+            />
           </Tab>
           <Tab eventKey={'Bookings'} title={'Bookings'}>
-            {this.props.account.authenticated ? (
               <Fragment>
                 <BookingList
                   bookings={this.props.bookings}
@@ -78,9 +100,6 @@ export class AccountContainer extends React.Component {
                   account_type={this.props.account.details.account_type}
                 />
               </Fragment>
-            ) : (
-              <Redirect to="/sign-in" />
-            )}
           </Tab>
         </Tabs>
       </Col>
@@ -102,15 +121,19 @@ export const AccountPage = connect(mapStateToProps, {
   updateInterpreterAccount,
   getBookingsForId,
   updateBooking,
+  clearAccountError,
+  clearAccountHasUpdated,
 })(AccountContainer);
 
 AccountContainer.propTypes = {
   account: PropTypes.shape({
-    authenticated: PropTypes.bool,
+    isAuthenticated: PropTypes.bool,
     details: PropTypes.shape({
       email: PropTypes.string,
     }),
   }),
   updateCompanyAccount: PropTypes.func.isRequired,
   updateInterpreterAccount: PropTypes.func.isRequired,
+  clearAccountError: PropTypes.func.isRequired,
+  clearAccountHasUpdated: PropTypes.func.isRequired,
 };

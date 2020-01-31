@@ -3,6 +3,7 @@ import {
   BOOKING_REQUEST_FAILED,
   BOOKING_REQUEST_STARTED,
   BOOKING_REQUEST_SUCCESS,
+  CLEAR_AVAILABLE_INTERPRETERS,
   CLEAR_BOOKING_ERROR,
   CLEAR_BOOKING_SUCCESS,
   FETCH_AVAILABLE_INTERPRETERS_FAILED,
@@ -33,6 +34,7 @@ const fetchBookedInterpretersSuccess = bookings => ({ type: FETCH_BOOKED_INTERPR
 const fetchBookedInterpretersFailed = error => ({ type: FETCH_BOOKED_INTERPRETERS_FAILED, error });
 const updateBookingSuccess = (id, result) => ({ type: UPDATE_BOOKING_SUCCESS, id, result });
 const updateBookingFailed = error => ({ type: UPDATE_BOOKING_FAILED, error });
+const clearInterpreters = () => ({ type: CLEAR_AVAILABLE_INTERPRETERS });
 
 // Thunk
 export const saveSelectedDates = (startDate, endDate) => dispatch =>
@@ -163,6 +165,12 @@ export const bookingRequest = ({
           bookingRequestFailed(`'${e.message}' - It looks like somethings gone wrong, please try again later.`)
         );
       });
+  };
+};
+
+export const clearAvailableInterpreters = () => {
+  return dispatch => {
+    dispatch(clearInterpreters());
   };
 };
 

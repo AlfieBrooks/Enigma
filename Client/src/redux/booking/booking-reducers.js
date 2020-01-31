@@ -2,6 +2,7 @@ import {
   BOOKING_REQUEST_FAILED,
   BOOKING_REQUEST_STARTED,
   BOOKING_REQUEST_SUCCESS,
+  CLEAR_AVAILABLE_INTERPRETERS,
   CLEAR_BOOKING_ERROR,
   CLEAR_BOOKING_SUCCESS,
   FETCH_AVAILABLE_INTERPRETERS_FAILED,
@@ -18,7 +19,7 @@ import {
 const initialState = {
   loading: false,
   error: null,
-  availableInterpreters: [],
+  availableInterpreters: null,
   booking: null,
   startDate: null,
   endDate: null,
@@ -68,6 +69,11 @@ export function bookingReducer(state = initialState, action) {
         ...state,
         error: action.error,
         loading: false,
+      };
+    case CLEAR_AVAILABLE_INTERPRETERS:
+      return {
+        ...state,
+        availableInterpreters: null,
       };
     case CLEAR_BOOKING_ERROR:
       return {

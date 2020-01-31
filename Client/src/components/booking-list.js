@@ -34,12 +34,15 @@ export class BookingList extends React.Component {
                 <Card>
                   <Card.Body>
                     <Card.Subtitle className="mb-2 text-muted">{`Status: ${item.status}`}</Card.Subtitle>
-                    <Card.Title>{`Interpreter: ${item.interpreter_full_name}`}</Card.Title>
+                    {this.props.account_type === ACCOUNT_TYPES.ACCOUNT_TYPE_COMPANY ? (
+                      <Card.Title>{`Interpreter: ${item.interpreter_full_name}`}</Card.Title>
+                    ) : (
+                      <Card.Title>{`Company: ${item.company_name}`}</Card.Title>
+                    )}
                     <Card.Subtitle className="mb-2 text-muted">{`${formatDate(startDate)} - ${formatDate(
                       endDate
                     )} `}</Card.Subtitle>
                     <Card.Subtitle className="mb-2 text-muted">{`£${item.total_price}`}</Card.Subtitle>
-                    <Card.Subtitle className="mb-2 text-muted">{`Booked by - ${item.company_name}`}</Card.Subtitle>
                   </Card.Body>
                 </Card>
                 {this.props.account_type == ACCOUNT_TYPES.ACCOUNT_TYPE_INTERPRETER && this.actions(item._id)}

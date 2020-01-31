@@ -3,7 +3,7 @@ import { Spinner } from 'react-bootstrap';
 
 export const SpinnerPage = () => (
   <div className="d-flex justify-content-center align-items-center">
-    <Spinner animation="border" role="status">
+    <Spinner animation="border" role="status" variant="light">
       <span className="sr-only">Loading...</span>
     </Spinner>
   </div>

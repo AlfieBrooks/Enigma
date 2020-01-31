@@ -16,7 +16,7 @@ class Navigation extends React.Component {
     return (
       <Container className="navigation__container">
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
-          <Navbar.Brand as={Link} to="/">
+          <Navbar.Brand as={Link} to="/" href="/">
             <img
               src="../../public/signly-logo.png"
               width="40"
@@ -28,29 +28,23 @@ class Navigation extends React.Component {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto">
-              <Nav.Link as={Link} to="/booking">
+              <Nav.Link as={Link} to="/booking" href="/booking">
                 Book
               </Nav.Link>
-              <NavDropdown title="About Us" id="collasible-nav-dropdown">
-                <NavDropdown.Item as={Link} to="/info">
-                  More Information
-                </NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item as={Link} to="/contact">
-                  Contact Us
-                </NavDropdown.Item>
-              </NavDropdown>
+              <Nav.Link as={Link} to="/info" href="/info">
+                More Info
+              </Nav.Link>
             </Nav>
             <Nav>
-              {this.props.account.authenticated ? (
-                <NavDropdown title={this.props.account.details.email} id="collasible-nav-dropdown">
-                  <NavDropdown.Item as={Link} to="/account">
+              {this.props.isAuthenticated ? (
+                <NavDropdown title={this.props.accountDetails.email} id="collasible-nav-dropdown">
+                  <NavDropdown.Item as={Link} to="/account" href="/account">
                     Account Details
                   </NavDropdown.Item>
                   <NavDropdown.Item as={Link} to="/" onClick={this.props.accountSignOut}>Sign Out</NavDropdown.Item>
                 </NavDropdown>
               ) : (
-                <Nav.Link as={Link} to="/sign-in">
+                <Nav.Link as={Link} to="/sign-in" href="/sign-in">
                   Sign In
                 </Nav.Link>
               )}
@@ -62,18 +56,17 @@ class Navigation extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  account: state.account,
+const mapStateToProps = ({ account }) => ({
+  accountDetails: account.details,
+  isAuthenticated: account.isAuthenticated,
 });
 
 export const NavigationComponent = connect(mapStateToProps, { accountSignOut })(Navigation);
 
 Navigation.propTypes = {
-  account: PropTypes.shape({
-    authenticated: PropTypes.bool,
-    details: PropTypes.shape({
-      email: PropTypes.string,
-    }),
+  accountDetails: PropTypes.shape({
+    email: PropTypes.string,
   }),
   accountSignOut: PropTypes.func,
+  isAuthenticated: PropTypes.bool,
 };
