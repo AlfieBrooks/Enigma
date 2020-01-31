@@ -263,7 +263,7 @@ export const updateInterpreterAccount = ({
         if (result.error) {
           return dispatch(updateAccountFailed(result.error));
         }
-        return dispatch(updateAccountSuccess(result.user));
+        return dispatch(updateAccountSuccess(result));
       })
       .catch(e => {
         return dispatch(
