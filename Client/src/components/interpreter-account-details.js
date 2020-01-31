@@ -79,7 +79,7 @@ export function InterpreterAccountDetails({
               <InputGroup.Prepend>
                 <InputGroup.Text id="basic-addon1">£</InputGroup.Text>
               </InputGroup.Prepend>
-              <Form.Control name="hourlyRate" type="number" placeholder="Hourly rate" {...bindHourlyRate} />
+              <Form.Control name="hourlyRate" type="number" placeholder="Hourly rate" max="10000" {...bindHourlyRate} />
             </InputGroup>
           </Form.Group>
         </Form.Row>

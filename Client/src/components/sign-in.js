@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { Link, Redirect } from 'react-router-dom';
+import md5 from 'md5';
 
 import { SpinnerPage } from './spinner';
 
@@ -20,7 +21,11 @@ export class SignIn extends React.Component {
   };
 
   changeHandler = event => {
-    const { type, value } = event.target;
+    const { type } = event.target;
+    let { value } = event.target;
+    if (type == "password"){
+      value = md5(value)
+    }
     this.setState({ [type]: value });
   };
 

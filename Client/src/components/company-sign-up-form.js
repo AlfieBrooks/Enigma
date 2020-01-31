@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 import { ACCOUNT_TYPES } from '../utils/account-type-constants';
 import { useInput } from '../utils/input-hook';
+import md5 from 'md5';
 
 export function CompanySignUp({ submitHandler }) {
   const { value: companyName, bind: bindCompanyName } = useInput();
@@ -18,8 +19,8 @@ export function CompanySignUp({ submitHandler }) {
       accountType: ACCOUNT_TYPES.ACCOUNT_TYPE_COMPANY,
       companyName,
       email,
-      password,
-      confirmPassword,
+      password: md5(password),
+      confirmPassword: md5(password),
     };
 
     submitHandler(userDetails);
