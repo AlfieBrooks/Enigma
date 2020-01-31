@@ -12,11 +12,13 @@
   .list-group {
     flex-direction: row;
     justify-content: space-evenly;
+    flex-wrap: wrap;
+    padding-bottom: 20px;
   }
 
   .list-group-item {
     width: 32%;
-    padding: 20px 0;
+    padding: 20px 0 0;
     background-color: transparent;
     border: none;
 

@@ -120,9 +120,9 @@ export class Booking extends React.Component {
   render() {
     return (
       <Container className="book__container">
+        <h1 className="book__title">Book</h1>
         {this.props.accountDetails.account_type === ACCOUNT_TYPES.ACCOUNT_TYPE_COMPANY ? (
-          <Fragment>
-            <h1 className="book__title">Book</h1>
+          <>
             <BookingSearch saveSelectedDates={this.props.saveSelectedDates} submitHandler={this.submitHandler} />
             <ListGroup variant="flush">{this.renderAvilableInterpreters()}</ListGroup>
             <ErrorToast
@@ -135,9 +135,9 @@ export class Booking extends React.Component {
               successMessage={this.getBookingSuccessMessage()}
               onToastClose={this.props.clearBookingSuccess}
             />
-          </Fragment>
+          </>
         ) : (
-          <h2>Please Sign Into a Company Account To Book</h2>
+          <h4 className="book__info-text">Please Sign into a company account to book</h4>
         )}
       </Container>
     );

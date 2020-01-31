@@ -91,15 +91,13 @@ export class AccountContainer extends React.Component {
             />
           </Tab>
           <Tab eventKey={'Bookings'} title={'Bookings'}>
-              <Fragment>
-                <BookingList
-                  bookings={this.props.bookings}
-                  updateBooking={this.props.updateBooking}
-                  getBookingsForId={this.props.getBookingsForId}
-                  accountId={this.props.account.details._id}
-                  account_type={this.props.account.details.account_type}
-                />
-              </Fragment>
+            <BookingList
+              bookings={this.props.bookings}
+              updateBooking={this.props.updateBooking}
+              getBookingsForId={this.props.getBookingsForId}
+              accountId={this.props.account.details._id}
+              account_type={this.props.account.details.account_type}
+            />
           </Tab>
         </Tabs>
       </Col>
