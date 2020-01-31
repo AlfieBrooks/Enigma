@@ -77,7 +77,7 @@ export const getAvailableInterpreters = (startDate, endDate) => {
 
 export const updateBooking = ({ action, bookingId }) => {
   return dispatch => {
-    fetch(`http://${NODE_SERVER_URI}/booking/${bookingId}/${action}`, {
+    fetch(`${NODE_SERVER_URI}/booking/${bookingId}/${action}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -102,7 +102,7 @@ export const updateBooking = ({ action, bookingId }) => {
 export const getBookingsForId = id => {
   return dispatch => {
     dispatch(fetchBookedInterpretersStarted());
-    fetch(`http://${NODE_SERVER_URI}/booking/${id}`, {
+    fetch(`${NODE_SERVER_URI}/booking/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
