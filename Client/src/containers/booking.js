@@ -30,7 +30,7 @@ export class Booking extends React.Component {
   getTotalPrice = hourlyRate => {
     const HOURS_PER_DAY = 2;
 
-    const { startDate, endDate } = this.props.booking;
+    const { startDate, endDate } = this.props;
     const start = moment(startDate);
     const end = moment(endDate);
     const numberOfDays = Math.abs(start.diff(end, 'days')) + 1;
@@ -53,6 +53,7 @@ export class Booking extends React.Component {
       companyId,
       interpreterFullName,
       interpreterId,
+      status: 'pending'
     };
 
     this.props.bookingRequest(bookingDetails);

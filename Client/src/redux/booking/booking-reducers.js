@@ -8,6 +8,11 @@ import {
   FETCH_AVAILABLE_INTERPRETERS_STARTED,
   FETCH_AVAILABLE_INTERPRETERS_SUCCESS,
   SAVE_SELECTED_DATES,
+  FETCH_BOOKED_INTERPRETERS,
+  FETCH_BOOKED_INTERPRETERS_SUCCESS,
+  FETCH_BOOKED_INTERPRETERS_FAILED,
+  UPDATE_BOOKING_SUCCESS,
+  UPDATE_BOOKING_FAILED,
 } from './booking-action-constants';
 
 const initialState = {
@@ -73,6 +78,36 @@ export function bookingReducer(state = initialState, action) {
       return {
         ...state,
         booking: null,
+      }
+    case FETCH_BOOKED_INTERPRETERS:
+      return {
+        ...state,
+        loading: true,
+      };
+    case FETCH_BOOKED_INTERPRETERS_SUCCESS:
+      return {
+        ...state,
+        bookings: action.bookings,
+        error: null,
+        loading: false,
+      };
+    case FETCH_BOOKED_INTERPRETERS_FAILED:
+      return {
+        ...state,
+        error: action.error,
+        loading: false,
+      };
+    case UPDATE_BOOKING_SUCCESS:
+      //This is fucking nasty
+      state.bookings.find(b => b._id === action.id).status = action.result.action;
+      return {
+        ...state,
+        bookings: [ ...state.bookings ],
+      };
+    case UPDATE_BOOKING_FAILED:
+      return {
+        ...state,
+        error: action.error,
       };
     default:
       return state;

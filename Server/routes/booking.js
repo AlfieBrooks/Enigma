@@ -29,4 +29,25 @@ router.get('/availability', async (req, res) => {
   }
 });
 
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    let bookededInterpreters = await Bookings.find({$or:[{company_id: id},{interpreter_id: id}]});
+    res.send(bookededInterpreters);
+  } catch(err) {
+    res.status(400).json({ error: `Error getting available interpreters - ${err}` });
+  }
+});
+
+router.post('/:id/:action', async (req, res) => {
+  const { id, action } = req.params;
+  try {
+    await Bookings.updateOne({ _id: id }, { status: action });
+    res.status(200).json({'action': action});
+  } catch(err) {
+    res.status(400).json({ error: `Error updating the booking - ${err}` });
+  }
+});
+
+
 export default router;

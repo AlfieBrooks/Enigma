@@ -9,6 +9,11 @@ import {
   FETCH_AVAILABLE_INTERPRETERS_STARTED,
   FETCH_AVAILABLE_INTERPRETERS_SUCCESS,
   SAVE_SELECTED_DATES,
+  FETCH_BOOKED_INTERPRETERS,
+  FETCH_BOOKED_INTERPRETERS_SUCCESS,
+  FETCH_BOOKED_INTERPRETERS_FAILED,
+  UPDATE_BOOKING_SUCCESS,
+  UPDATE_BOOKING_FAILED
 } from './booking-action-constants';
 
 // Action Creators
@@ -23,6 +28,11 @@ const bookingRequestSuccess = booking => ({ type: BOOKING_REQUEST_SUCCESS, booki
 const bookingRequestFailed = error => ({ type: BOOKING_REQUEST_FAILED, error });
 const clearError = () => ({ type: CLEAR_BOOKING_ERROR });
 const clearSuccess = () => ({ type: CLEAR_BOOKING_SUCCESS });
+const fetchBookedInterpretersStarted = () => ({ type: FETCH_BOOKED_INTERPRETERS });
+const fetchBookedInterpretersSuccess = bookings => ({ type: FETCH_BOOKED_INTERPRETERS_SUCCESS, bookings });
+const fetchBookedInterpretersFailed = error => ({ type: FETCH_BOOKED_INTERPRETERS_FAILED, error });
+const updateBookingSuccess = (id, result) => ({ type: UPDATE_BOOKING_SUCCESS, id, result });
+const updateBookingFailed = error => ({ type: UPDATE_BOOKING_FAILED, error });
 
 // Thunk
 export const saveSelectedDates = (startDate, endDate) => dispatch =>
@@ -63,6 +73,55 @@ export const getAvailableInterpreters = (startDate, endDate) => {
   };
 };
 
+export const updateBooking = ({ action, bookingId }) => {
+  return dispatch => {
+    fetch(`http://localhost:443/booking/${bookingId}/${action}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'same-origin',
+    })
+      .then(res => res.json())
+      .then(result => {
+        if (result.error) {
+          return dispatch(updateBookingFailed(result.error));
+        }
+        return dispatch(updateBookingSuccess(bookingId, result));
+      })
+      .catch(e => {
+        return dispatch(
+          updateBookingFailed(`'${e.message}' - It looks like somethings gone wrong, please try again later.`)
+        );
+      });
+  };
+};
+
+export const getBookingsForId = id => {
+  return dispatch => {
+    dispatch(fetchBookedInterpretersStarted());
+    fetch(`http://localhost:443/booking/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'same-origin',
+    })
+      .then(res => res.json())
+      .then(result => {
+        if (result.error) {
+          return dispatch(fetchBookedInterpretersFailed(result.error));
+        }
+        return dispatch(fetchBookedInterpretersSuccess(result));
+      })
+      .catch(e => {
+        return dispatch(
+          fetchBookedInterpretersFailed(`'${e.message}' - It looks like somethings gone wrong, please try again later.`)
+        );
+      });
+  };
+};
+
 export const bookingRequest = ({
   startDate,
   endDate,
@@ -71,6 +130,7 @@ export const bookingRequest = ({
   companyId,
   interpreterFullName,
   interpreterId,
+  status,
 }) => {
   return dispatch => {
     dispatch(bookingRequestStarted());
@@ -87,6 +147,7 @@ export const bookingRequest = ({
         company_id: companyId,
         interpreter_full_name: interpreterFullName,
         interpreter_id: interpreterId,
+        status,
       }),
       credentials: 'same-origin',
     })

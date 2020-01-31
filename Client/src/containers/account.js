@@ -1,12 +1,14 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Container } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 import { CompanyAccountDetails } from '../components/company-account-details';
 import { InterpreterAccountDetails } from '../components/interpreter-account-details';
 import { updateCompanyAccount, updateInterpreterAccount } from '../redux/account/account-actions';
+import { getBookingsForId, updateBooking } from '../redux/booking/booking-actions';
 import { ACCOUNT_TYPES } from '../utils/account-type-constants';
+import { BookingList } from '../components/booking-list';
 
 export class AccountContainer extends React.Component {
   constructor(props) {
@@ -62,6 +64,19 @@ export class AccountContainer extends React.Component {
         {this.props.account.details.account_type === ACCOUNT_TYPES.ACCOUNT_TYPE_COMPANY
           ? this.renderCompanyAccountDetails()
           : this.renderInterpreterAccountDetails()}
+        {this.props.account.authenticated ? (
+          <Fragment>
+            <BookingList
+              bookings={this.props.bookings}
+              updateBooking={this.props.updateBooking}
+              getBookingsForId={this.props.getBookingsForId}
+              accountId={this.props.account.details._id}
+              account_type={this.props.account.details.account_type}
+            />
+          </Fragment>
+        ) : (
+          <Redirect to="/sign-in" />
+        )}
       </Container>
     );
   }
@@ -69,11 +84,14 @@ export class AccountContainer extends React.Component {
 
 const mapStateToProps = state => ({
   account: state.account,
+  bookings: state.booking.bookings,
 });
 
 export const AccountPage = connect(mapStateToProps, {
   updateCompanyAccount,
   updateInterpreterAccount,
+  getBookingsForId,
+  updateBooking,
 })(AccountContainer);
 
 AccountContainer.propTypes = {
