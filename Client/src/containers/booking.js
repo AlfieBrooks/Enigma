@@ -1,6 +1,6 @@
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Container, ListGroup } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
@@ -17,6 +17,7 @@ import {
   getAvailableInterpreters,
   saveSelectedDates,
 } from '../redux/booking/booking-actions';
+import { ACCOUNT_TYPES } from '../utils/account-type-constants';
 
 export class Booking extends React.Component {
   constructor(props) {
@@ -62,6 +63,7 @@ export class Booking extends React.Component {
       companyId,
       interpreterFullName,
       interpreterId,
+      status: 'pending',
     };
 
     this.props.bookingRequest(bookingDetails);
@@ -119,18 +121,24 @@ export class Booking extends React.Component {
     return (
       <Container className="book__container">
         <h1 className="book__title">Book</h1>
-        <BookingSearch saveSelectedDates={this.props.saveSelectedDates} submitHandler={this.submitHandler} />
-        <ListGroup variant="flush">{this.renderAvilableInterpreters()}</ListGroup>
-        <ErrorToast
-          showToast={Boolean(this.props.bookingError)}
-          errorMessage={this.props.bookingError}
-          onToastClose={this.props.clearBookingError}
-        />
-        <SuccessToast
-          showToast={Boolean(this.props.booking)}
-          successMessage={this.getBookingSuccessMessage()}
-          onToastClose={this.props.clearBookingSuccess}
-        />
+        {this.props.accountDetails.account_type === ACCOUNT_TYPES.ACCOUNT_TYPE_COMPANY ? (
+          <>
+            <BookingSearch saveSelectedDates={this.props.saveSelectedDates} submitHandler={this.submitHandler} />
+            <ListGroup variant="flush">{this.renderAvilableInterpreters()}</ListGroup>
+            <ErrorToast
+              showToast={Boolean(this.props.bookingError)}
+              errorMessage={this.props.bookingError}
+              onToastClose={this.props.clearBookingError}
+            />
+            <SuccessToast
+              showToast={Boolean(this.props.booking)}
+              successMessage={this.getBookingSuccessMessage()}
+              onToastClose={this.props.clearBookingSuccess}
+            />
+          </>
+        ) : (
+          <h4 className="book__info-text">Please Sign into a company account to book</h4>
+        )}
       </Container>
     );
   }

@@ -1,3 +1,36 @@
+.sign-in__column {
+  .list-group-item {
+    background-color: transparent;
+  }
+
+  .card-body {
+    display: flex;
+  
+    .card-left {
+      width: 80%;
+    }
+  
+    .card-right {
+      width: 20%;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+    }
+  }
+}
+
+.booking__status {
+  text-transform: capitalize;
+}
+
+.booking__no-bookings {
+  width: 100%;
+  margin: 50px 0;
+  text-align: center;
+  font-weight: 200;
+  color: $super_light_white;
+}
+
 .form-control-plaintext {
   color: $super_light_white;
   font-size: 18px;
