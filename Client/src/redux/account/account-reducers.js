@@ -7,6 +7,7 @@ import {
   ACCOUNT_SIGN_UP_STARTED,
   ACCOUNT_SIGN_UP_SUCCESS,
   CLEAR_ACCOUNT_ERROR,
+  CLEAR_ACCOUNT_HAS_UPDATED,
   UPDATE_ACCOUNT_FAILED,
   UPDATE_ACCOUNT_STARTED,
   UPDATE_ACCOUNT_SUCCESS,
@@ -15,8 +16,9 @@ import {
 const initialState = {
   loading: false,
   details: null,
-  authenticated: false,
+  isAuthenticated: false,
   error: null,
+  hasUpdated: false,
 };
 
 export function accountReducer(state = initialState, action) {
@@ -32,7 +34,7 @@ export function accountReducer(state = initialState, action) {
         loading: false,
         details: action.details,
         error: null,
-        authenticated: true,
+        isAuthenticated: true,
       };
     case ACCOUNT_SIGN_IN_FAILED:
       return {
@@ -68,13 +70,13 @@ export function accountReducer(state = initialState, action) {
         loading: false,
         details: action.details,
         error: null,
+        hasUpdated: true,
       };
     case UPDATE_ACCOUNT_FAILED:
       return {
         ...state,
         loading: false,
         error: action.error,
-        signUpError: true,
       };
     case ACCOUNT_SIGN_OUT:
       return {
@@ -85,6 +87,11 @@ export function accountReducer(state = initialState, action) {
       return {
         ...state,
         error: null,
+      };
+    case CLEAR_ACCOUNT_HAS_UPDATED:
+      return {
+        ...state,
+        hasUpdated: false,
       };
     default:
       return state;

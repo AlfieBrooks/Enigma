@@ -21,7 +21,7 @@ const store = createStore(rootReducer, /* preloadedState, */ composeEnhancers(ap
 
 function AuthRouter(props) {
   return (
-    <Route {...props}>{store.getState().account.authenticated ? props.children : <Redirect to="/sign-in" />}</Route>
+    <Route {...props}>{store.getState().account.isAuthenticated ? props.children : <Redirect to="/sign-in" />}</Route>
   );
 }
 
