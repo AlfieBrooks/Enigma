@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
-import { Container } from 'react-bootstrap';
+import { Container, Tab, Tabs, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 import { CompanyAccountDetails } from '../components/company-account-details';
@@ -58,27 +58,37 @@ export class AccountContainer extends React.Component {
     );
   };
 
+  renderTabs = () => (
+    <Row className="justify-content-md-center">
+      <Col md="9" className="sign-in__column">
+        <Tabs defaultActiveKey={'Account'} id="uncontrolled-tab-example">
+          <Tab eventKey={'Account'} title={'Account'}>
+            {this.props.account.details.account_type === ACCOUNT_TYPES.ACCOUNT_TYPE_COMPANY
+              ? this.renderCompanyAccountDetails()
+              : this.renderInterpreterAccountDetails()}
+          </Tab>
+          <Tab eventKey={'Bookings'} title={'Bookings'}>
+            {this.props.account.authenticated ? (
+              <Fragment>
+                <BookingList
+                  bookings={this.props.bookings}
+                  updateBooking={this.props.updateBooking}
+                  getBookingsForId={this.props.getBookingsForId}
+                  accountId={this.props.account.details._id}
+                  account_type={this.props.account.details.account_type}
+                />
+              </Fragment>
+            ) : (
+              <Redirect to="/sign-in" />
+            )}
+          </Tab>
+        </Tabs>
+      </Col>
+    </Row>
+  );
+
   render() {
-    return (
-      <Container className="sign-in__container">
-        {this.props.account.details.account_type === ACCOUNT_TYPES.ACCOUNT_TYPE_COMPANY
-          ? this.renderCompanyAccountDetails()
-          : this.renderInterpreterAccountDetails()}
-        {this.props.account.authenticated ? (
-          <Fragment>
-            <BookingList
-              bookings={this.props.bookings}
-              updateBooking={this.props.updateBooking}
-              getBookingsForId={this.props.getBookingsForId}
-              accountId={this.props.account.details._id}
-              account_type={this.props.account.details.account_type}
-            />
-          </Fragment>
-        ) : (
-          <Redirect to="/sign-in" />
-        )}
-      </Container>
-    );
+    return <Container className="sign-in__container">{this.renderTabs()}</Container>;
   }
 }
 
