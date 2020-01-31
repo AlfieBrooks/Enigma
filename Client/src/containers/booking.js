@@ -11,6 +11,7 @@ import { SpinnerPage } from '../components/spinner';
 import { SuccessToast } from '../components/success-toast';
 import {
   bookingRequest,
+  clearAvailableInterpreters,
   clearBookingError,
   clearBookingSuccess,
   getAvailableInterpreters,
@@ -21,6 +22,13 @@ export class Booking extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+
+  componentWillUnmount() {
+    if (this.props.availableInterpreters) {
+      this.props.clearAvailableInterpreters();
+      this.props.clearBookingSuccess();
+    }
   }
 
   submitHandler = () => {
@@ -142,6 +150,7 @@ export const BookingPage = connect(mapStateToProps, {
   saveSelectedDates,
   getAvailableInterpreters,
   bookingRequest,
+  clearAvailableInterpreters,
   clearBookingError,
   clearBookingSuccess,
 })(Booking);
@@ -152,6 +161,7 @@ Booking.propTypes = {
   booking: PropTypes.object,
   bookingError: PropTypes.string,
   bookingRequest: PropTypes.func.isRequired,
+  clearAvailableInterpreters: PropTypes.func.isRequired,
   clearBookingError: PropTypes.func.isRequired,
   clearBookingSuccess: PropTypes.func.isRequired,
   endDate: PropTypes.object,
