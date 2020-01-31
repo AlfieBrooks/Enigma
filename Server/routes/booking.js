@@ -20,7 +20,7 @@ router.post('/request-booking', async (req, res) => {
 router.get('/availability', async (req, res) => {
   const { start_date, end_date, postcode } = req.headers;
   try {
-    let bookedInterpreters = await Bookings.find({ start_date: { $gte: start_date}, end_date: { $lte: end_date } }).distinct('interpreter_id');
+    let bookedInterpreters = await Bookings.find({ start_date: { $gte: start_date}, end_date: { $lte: end_date }, status: { $lt: 'declined'} }).distinct('interpreter_id');
     let availableInterpreters = await InterpreterUsers.find({ _id: { $nin: bookedInterpreters } });
 
     res.send(availableInterpreters);
@@ -41,12 +41,17 @@ router.get('/:id', async (req, res) => {
 
 router.post('/:id/:action', async (req, res) => {
   const { id, action } = req.params;
-  try {
-    await Bookings.updateOne({ _id: id }, { status: action });
-    res.status(200).json({'action': action});
-  } catch(err) {
-    res.status(400).json({ error: `Error updating the booking - ${err}` });
-  }
+
+    try {
+      if (action === 'deleted') {
+        await Bookings.deleteOne({ _id: id });
+      } else {
+        await Bookings.updateOne({ _id: id }, { status: action });
+      }
+      res.status(200).json({'action': action});
+    } catch(err) {
+      res.status(400).json({ error: `Error updating the booking - ${err}` });
+    }
 });
 
 

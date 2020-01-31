@@ -11,14 +11,18 @@ export class BookingList extends React.Component {
     this.props.getBookingsForId(this.props.accountId);
   }
 
-  actions = bookingId => {
-    return (
-      <div className="card-right">
-        <Button variant="danger" onClick={() => this.props.updateBooking({ action: 'declined', bookingId })}><FontAwesomeIcon icon={faTimes} /></Button>
-        <Button variant="success" onClick={() => this.props.updateBooking({ action: 'approved', bookingId })}><FontAwesomeIcon icon={faCheck} /></Button>
-      </div>
-    );
-  };
+  interpreterActions = bookingId => (
+    <div className="card-right">
+      <Button variant="danger" onClick={() => this.props.updateBooking({ action: 'declined', bookingId })}><FontAwesomeIcon icon={faTimes} /></Button>
+      <Button variant="success" onClick={() => this.props.updateBooking({ action: 'approved', bookingId })}><FontAwesomeIcon icon={faCheck} /></Button>
+    </div>
+  );
+
+  companyActions = bookingId => (
+    <div className="card-right">
+      <Button variant="danger" onClick={() => this.props.updateBooking({ action: 'deleted', bookingId })}><FontAwesomeIcon icon={faTimes} /></Button>
+    </div>
+  );
 
   renderBookings = () => {
     const { bookings } = this.props;
@@ -41,7 +45,7 @@ export class BookingList extends React.Component {
                 <Card.Subtitle className="mb-2 text-muted">{`${startDate} - ${endDate} `}</Card.Subtitle>
                 <Card.Subtitle className="mb-2 text-muted">{`£${item.total_price}`}</Card.Subtitle>
               </div>
-              { this.props.account_type == ACCOUNT_TYPES.ACCOUNT_TYPE_INTERPRETER && this.actions(item._id) }
+              { this.props.account_type == ACCOUNT_TYPES.ACCOUNT_TYPE_INTERPRETER ? this.interpreterActions(item._id) : this.companyActions(item._id) }
             </Card.Body>
           </Card>
         </ListGroup.Item>
