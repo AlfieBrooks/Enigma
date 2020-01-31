@@ -1,12 +1,13 @@
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Button, Container, ListGroup } from 'react-bootstrap';
+import { Container, ListGroup } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 import { BookingItem } from '../components/booking-item';
 import { BookingSearch } from '../components/booking-search';
 import { ErrorToast } from '../components/error-toast';
+import { SpinnerPage } from '../components/spinner';
 import { SuccessToast } from '../components/success-toast';
 import {
   bookingRequest,
@@ -15,7 +16,6 @@ import {
   getAvailableInterpreters,
   saveSelectedDates,
 } from '../redux/booking/booking-actions';
-import { SpinnerPage } from '../components/spinner';
 
 export class Booking extends React.Component {
   constructor(props) {
@@ -78,33 +78,33 @@ export class Booking extends React.Component {
   renderAvilableInterpreters = () => {
     if (this.props.loading) {
       return <SpinnerPage />;
-    };
+    }
 
     const { availableInterpreters } = this.props;
     if (!Array.isArray(availableInterpreters)) {
       return <h4 className="book__info-text">Enter the dates to start your search</h4>;
-    } 
-    
+    }
+
     if (!availableInterpreters.length) {
       const { startDate, endDate } = this.props;
       const formattedStartDate = moment(startDate).format('Do MMM');
       const formattedEndDate = moment(endDate).format('Do MMM');
-      return <h4 className="book__info-text">{`Sorry, No interpreters are available on ${formattedStartDate} - ${formattedEndDate}`}</h4>
+      return (
+        <h4 className="book__info-text">{`Sorry, No interpreters are available on ${formattedStartDate} - ${formattedEndDate}`}</h4>
+      );
     }
 
-    return (
-      this.props.availableInterpreters.map(item => (
-        <ListGroup.Item key={item._id}>
-          <BookingItem
-            firstName={item.first_name}
-            lastName={item.last_name}
-            hourlyRate={item.hourly_rate}
-            interpreterId={item._id}
-            makeBooking={this.makeBooking}
-          />
-        </ListGroup.Item>
-      ))
-    )
+    return this.props.availableInterpreters.map(item => (
+      <ListGroup.Item key={item._id}>
+        <BookingItem
+          firstName={item.first_name}
+          lastName={item.last_name}
+          hourlyRate={item.hourly_rate}
+          interpreterId={item._id}
+          makeBooking={this.makeBooking}
+        />
+      </ListGroup.Item>
+    ));
   };
 
   render() {
@@ -112,9 +112,7 @@ export class Booking extends React.Component {
       <Container className="book__container">
         <h1 className="book__title">Book</h1>
         <BookingSearch saveSelectedDates={this.props.saveSelectedDates} submitHandler={this.submitHandler} />
-        <ListGroup variant="flush">
-          {this.renderAvilableInterpreters()}
-        </ListGroup>
+        <ListGroup variant="flush">{this.renderAvilableInterpreters()}</ListGroup>
         <ErrorToast
           showToast={Boolean(this.props.bookingError)}
           errorMessage={this.props.bookingError}
@@ -158,6 +156,7 @@ Booking.propTypes = {
   clearBookingSuccess: PropTypes.func.isRequired,
   endDate: PropTypes.object,
   getAvailableInterpreters: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
   saveSelectedDates: PropTypes.func.isRequired,
   startDate: PropTypes.object,
 };

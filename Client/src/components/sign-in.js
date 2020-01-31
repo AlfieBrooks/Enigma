@@ -62,8 +62,8 @@ export class SignIn extends React.Component {
 
 SignIn.propTypes = {
   account: PropTypes.shape({
-    isAuthenticated: PropTypes.bool,
     error: PropTypes.string,
+    isAuthenticated: PropTypes.bool,
     loading: PropTypes.bool,
   }),
   accountSignIn: PropTypes.func.isRequired,

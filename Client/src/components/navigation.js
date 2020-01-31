@@ -15,7 +15,7 @@ class Navigation extends React.Component {
   render() {
     return (
       <Container className="navigation__container">
-        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top" >
+        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" fixed="top">
           <Navbar.Brand as={Link} to="/" href="/">
             <img
               src="../../public/signly-logo.png"
@@ -65,7 +65,7 @@ export const NavigationComponent = connect(mapStateToProps, { accountSignOut })(
 
 Navigation.propTypes = {
   accountDetails: PropTypes.shape({
-      email: PropTypes.string,
+    email: PropTypes.string,
   }),
   accountSignOut: PropTypes.func,
   isisAuthenticated: PropTypes.bool,

@@ -8,10 +8,10 @@ import {
   ACCOUNT_SIGN_UP_STARTED,
   ACCOUNT_SIGN_UP_SUCCESS,
   CLEAR_ACCOUNT_ERROR,
+  CLEAR_ACCOUNT_HAS_UPDATED,
   UPDATE_ACCOUNT_FAILED,
   UPDATE_ACCOUNT_STARTED,
   UPDATE_ACCOUNT_SUCCESS,
-  CLEAR_ACCOUNT_HAS_UPDATED,
 } from './account-action-constants';
 
 // Action Creators
@@ -71,7 +71,6 @@ export const clearAccountHasUpdated = () => {
     dispatch(clearHasUpdated());
   };
 };
-
 
 export const accountCompanySignUp = ({ accountType, companyName, email, password, confirmPassword }) => {
   return dispatch => {
@@ -203,10 +202,8 @@ export const updateCompanyAccount = ({ _id, accountType, updatedCompanyName }) =
       .then(res => res.json())
       .then(result => {
         if (result.error) {
-          console.log('ERRORRR', result.error);
           return dispatch(updateAccountFailed(result.error));
         }
-        console.log("TCL: updateCompanyAccount -> result", result)
         return dispatch(updateAccountSuccess(result));
       })
       .catch(e => {

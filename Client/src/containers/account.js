@@ -4,11 +4,16 @@ import { Container } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 import { CompanyAccountDetails } from '../components/company-account-details';
-import { InterpreterAccountDetails } from '../components/interpreter-account-details';
-import { updateCompanyAccount, updateInterpreterAccount, clearAccountError, clearAccountHasUpdated } from '../redux/account/account-actions';
-import { ACCOUNT_TYPES } from '../utils/account-type-constants';
 import { ErrorToast } from '../components/error-toast';
+import { InterpreterAccountDetails } from '../components/interpreter-account-details';
 import { SuccessToast } from '../components/success-toast';
+import {
+  clearAccountError,
+  clearAccountHasUpdated,
+  updateCompanyAccount,
+  updateInterpreterAccount,
+} from '../redux/account/account-actions';
+import { ACCOUNT_TYPES } from '../utils/account-type-constants';
 
 export class AccountContainer extends React.Component {
   constructor(props) {

@@ -7,10 +7,13 @@ import { DateRangeSelector } from './date-range-selector';
 export const BookingSearch = ({ saveSelectedDates, submitHandler }) => (
   <div className="booking-search__container">
     <DateRangeSelector saveSelectedDates={saveSelectedDates} />
-    <Button onClick={submitHandler} size="lg">Search</Button>
+    <Button onClick={submitHandler} size="lg">
+      Search
+    </Button>
   </div>
 );
 
 BookingSearch.propTypes = {
   saveSelectedDates: PropTypes.func,
+  submitHandler: PropTypes.func.isRequired,
 };

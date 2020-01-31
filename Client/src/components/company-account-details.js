@@ -41,7 +41,7 @@ export function CompanyAccountDetails({ submitHandler, companyName, email }) {
 }
 
 CompanyAccountDetails.propTypes = {
-  submitHandler: PropTypes.func.isRequired,
   companyName: PropTypes.string,
   email: PropTypes.string,
+  submitHandler: PropTypes.func.isRequired,
 };
